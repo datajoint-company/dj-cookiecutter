@@ -5,8 +5,9 @@ import sys
 
 ## Description
 description = '' # TODO - description
-long_description = """""" # TODO - long description
 keywords = '' # TODO - modalities
+with open(path.join(here, 'README.md'), 'r') as f:
+    long_description = f.read()
 
 here = path.abspath(path.dirname(__file__))
 

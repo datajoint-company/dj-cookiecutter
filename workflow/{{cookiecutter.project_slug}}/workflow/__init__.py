@@ -1,8 +1,3 @@
-try:
-    import matlab.engine
-except Exception:
-    pass
-
 import os
 import datajoint as dj
 
