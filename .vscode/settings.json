@@ -2,6 +2,7 @@
     "files.associations": {
         "*.*": "jinja",
         "*.json": "json",
-        "*.md": "markdown"
+        "*.md": "markdown",
+        ".gitignore": "gitignore"  
     }
 }
