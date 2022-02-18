@@ -1,0 +1,29 @@
+# docker-compose up --build
+version: '2.4'
+services:
+  standard_worker:
+    build: # only necessary if rebuilding image
+      context: .
+      dockerfile: standard_worker.Dockerfile
+      args:
+        - DEPLOY_KEY
+    image: registry.vathes.com/sciops/standard-{{ cookiecutter.project_slug }}:v0.0.0
+    environment:
+      - USER
+      - DJ_HOST
+      - DJ_USER
+      - DJ_PASS
+      - DATABASE_PREFIX
+      - EPHYS_ROOT_DATA_DIR=/home/${USER}/workflow_root_data
+      - EPHYS_PROCESSED_DATA_DIR=/home/${USER}/workflow_processed_data
+    volumes:
+      - ${ROOT_DATA_DIR}:/home/${USER}/workflow_root_data
+      - ${PROCESSED_DATA_DIR}:/home/${USER}/workflow_processed_data
+      - ./apt_requirements.txt:/tmp/apt_requirements.txt
+    scale: ${WORKER_COUNT:-1}
+    command:
+      - /bin/bash
+      - -c
+      - |
+        run_workflow standard_worker &
+        tail -f /dev/null
