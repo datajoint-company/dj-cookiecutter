@@ -11,36 +11,35 @@ This is a customized Cookiecutter python project template that you can generate 
 ---
 
 ## Generate a python project
-**Refer template from github**
+**Prerequisite**
 ```
 pip install cookiecutter
-cd ~/Projects
-cookiecutter git@github.com:Yambottle/dj-workflow-template.git
+```
+
+**Refer template from github repo or local directory**
+```
+cookiecutter git@github.com:Yambottle/dj-cookiecutter.git --directory workflow
 # set value to each variable, or skip to use default value
 # a python project will be generated at ~/Project/project_name/
 
-# if you have already created your project on github and cloned to your local ~/Project/project_name/,
-# run this instead:
-cookiecutter git@github.com:Yambottle/dj-workflow-template.git -f # overwrite if exists
-cookiecutter git@github.com:Yambottle/dj-workflow-template.git -s # skip if exists
 
-# cookiecutter will cache/clone this specified template repo to your user directory's ~/.cookiecutters
+# or if there is an existing cookiecutter template: ./existing_cookiecutter
+cookiecutter ./existing_cookiecutter --directory workflow
+
+# generate a project to a specific directory: ./Projects
+cookiecutter git@github.com:Yambottle/dj-cookiecutter.git --directory workflow -o ./Project
+# files will be in ./Projects/project_name
+
+# this repo supports multiple cookiecutter templates
+cookiecutter git@github.com:Yambottle/dj-cookiecutter.git --directory element
+
+# if you have already started working on your project and there are existing files
+cookiecutter git@github.com:Yambottle/dj-cookiecutter.git --directory workflow --overwrite-if-exists
+# or
+cookiecutter git@github.com:Yambottle/dj-cookiecutter.git --directory workflow --skip-if-file-exists
 ```
 
-**Refer template from local**
-```
-pip install cookiecutter
-cd ~/Projects
-# assume the template exists and it's called ./dj-workflow-template
-cookiecutter ./dj-workflow-template
-# set value to each variable, or skip to use default value
-# a python project will be generated at ~/Project/project_name/
-
-# if you have already created your project on github and cloned to your local ~/Project/project_name/,
-# run this instead:
-cookiecutter ./dj-workflow-template -f # overwrite if exists
-cookiecutter ./dj-workflow-template -s # skip if exists
-```
+> Note: cookiecutter will cache/clone this specified template repo to your user directory's ~/.cookiecutters
 
 **context of cookiecutter.json**
 ```
@@ -48,8 +47,8 @@ cookiecutter ./dj-workflow-template -s # skip if exists
     "author_name":  # author name in setup.py and LICENSE
     "author_email": # author email in setup.py
     "project_name": # uncleaned project name, might contain space or dash
-    "project_slug": # please skip, by default automatically replace space or dash in 'project_name' by underscore
-    "license": # license options that predefined under ~/dj-workflow-template/{{cookiecutter.project_slug}}/LICENSE
+    "project_slug": # please skip, by default automatically replace space in 'project_name' by underscore
+    "license": # license options that predefined under ~/dj-cookiecutter/{{cookiecutter.project_slug}}/LICENSE
 }
 ```
 ## Roughly explain
@@ -57,3 +56,7 @@ cookiecutter ./dj-workflow-template -s # skip if exists
 
 
 If you want to know more details, read this [page](https://cookiecutter.readthedocs.io/en/1.7.2/first_steps.html), it explains the basic logic about how cookiecutter works.
+
+---
+## License
+© Datajoint, 2022. Licensed under an MIT license.
