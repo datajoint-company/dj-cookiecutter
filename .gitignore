@@ -129,5 +129,7 @@ dmypy.json
 .pyre/
 
 .DS_Store
-*.code-workspace
-.build/
+/.build/
+/*.code-workspace
+/o-science-institute_w-neuro-lab
+/build/

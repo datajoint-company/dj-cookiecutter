@@ -10,7 +10,7 @@ inputs:
   build_branch:
     description: "Branch name that holds the generated content"
     required: false
-    default: build
+    default: build_test
 
   folder:
     description: "Subdirectory for a specific template"

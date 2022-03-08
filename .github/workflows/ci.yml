@@ -2,7 +2,7 @@ name: run-ci-jobs
 
 on:
   push:
-    branches: ["main", "flit"]
+    branches: ["main"]
 
 jobs:
   get_tag:
@@ -19,35 +19,13 @@ jobs:
         id: tag_version
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          release_branches: main,flit
+          release_branches: main
           create_annotated_tag: false
           fetch_all_tags: true
 
-  generate_flit_content:
-    runs-on: ubuntu-latest
-    needs: get_tag
-    if: |
-      always() &&
-      (needs.get_tag.result == 'success') &&
-      (github.ref_name == 'flit') &&
-      (github.ref_type == 'branch')
-    steps:
-      - name: Checkout Repository for Local Action
-        uses: actions/checkout@v3
-
-      - name: Generate Content from 'flit' Template
-        id: bake-cookies
-        uses: ./.github/actions/bake-cookies
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          folder: o-science-institute_w-neuro-lab
-          cookiecutter_pkg: git+https://github.com/cookiecutter/cookiecutter
-          cookiecutter_args: -f --no-input
-          new_tag: ${{ needs.get_tag.outputs.new_tag }}
-
   generate_workflow_content:
     runs-on: ubuntu-latest
-    needs: [get_tag]
+    needs: get_tag
     if: |
       always() &&
       (needs.get_tag.result == 'success') &&
@@ -66,13 +44,36 @@ jobs:
           cookiecutter_args: -f --no-input --directory workflow
           new_tag: ${{ needs.get_tag.outputs.new_tag }}
 
-  generate_element_content:
+  generate_flit_content:
     runs-on: ubuntu-latest
     needs: [get_tag, generate_workflow_content]
     if: |
       always() &&
       (needs.get_tag.result == 'success') &&
       (needs.generate_workflow_content.result == 'success') &&
+      (github.ref_name == 'main') &&
+      (github.ref_type == 'branch')
+    steps:
+      - name: Checkout Repository for Local Action
+        uses: actions/checkout@v3
+
+      - name: Generate Content from 'flit' Template
+        id: bake-cookies
+        uses: ./.github/actions/bake-cookies
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          folder: o-science-institute_w-neuro-lab
+          cookiecutter_pkg: git+https://github.com/cookiecutter/cookiecutter
+          cookiecutter_args: -f --no-input --directory flit
+          new_tag: ${{ needs.get_tag.outputs.new_tag }}
+
+  generate_element_content:
+    runs-on: ubuntu-latest
+    needs: [get_tag, generate_flit_content]
+    if: |
+      always() &&
+      (needs.get_tag.result == 'success') &&
+      (needs.generate_flit_content.result == 'success') &&
       (github.ref_name == 'main') &&
       (github.ref_type == 'branch')
     steps:

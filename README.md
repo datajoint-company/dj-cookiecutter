@@ -18,7 +18,7 @@ pip install cookiecutter
 
 **Refer template from github repo or local directory**
 ```
-cookiecutter git@github.com:Yambottle/dj-cookiecutter.git --directory workflow
+cookiecutter git@github.com:datajoint-company/dj-cookiecutter.git --directory workflow
 # set value to each variable, or skip to use default value
 # a python project will be generated at ~/Project/project_name/
 
@@ -27,19 +27,21 @@ cookiecutter git@github.com:Yambottle/dj-cookiecutter.git --directory workflow
 cookiecutter ./existing_cookiecutter --directory workflow
 
 # generate a project to a specific directory: ./Projects
-cookiecutter git@github.com:Yambottle/dj-cookiecutter.git --directory workflow -o ./Project
+cookiecutter git@github.com:datajoint-company/dj-cookiecutter.git --directory workflow -o ./Project
 # files will be in ./Projects/project_name
 
 # this repo supports multiple cookiecutter templates
-cookiecutter git@github.com:Yambottle/dj-cookiecutter.git --directory element
+cookiecutter git@github.com:datajoint-company/dj-cookiecutter.git --directory element
 
 # if you have already started working on your project and there are existing files
-cookiecutter git@github.com:Yambottle/dj-cookiecutter.git --directory workflow --overwrite-if-exists
+cookiecutter git@github.com:datajoint-company/dj-cookiecutter.git --directory workflow --overwrite-if-exists
 # or
-cookiecutter git@github.com:Yambottle/dj-cookiecutter.git --directory workflow --skip-if-file-exists
+cookiecutter git@github.com:datajoint-company/dj-cookiecutter.git --directory workflow --skip-if-file-exists
 ```
 
 > Note: cookiecutter will cache/clone this specified template repo to your user directory's ~/.cookiecutters
+
+> Note: the [`flit`](flit/README.md) template requires _cookiecutter>=2.0.0_
 
 **context of cookiecutter.json**
 ```

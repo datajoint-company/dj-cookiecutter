@@ -1,0 +1,28 @@
+# mamba env create -yf environment.yml
+name: {{cookiecutter.__pkg_import_name}}
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  - python>=3.9,<4
+  - pip>=21.1
+  - flit>=3.2,<4
+  - mamba
+  - cryptography # .......... datajoint
+  - ipython # ............... datajoint
+  - matplotlib # ............ datajoint
+  - minio>=7.0.0 # .......... datajoint
+  - networkx # .............. datajoint
+  - numpy # ................. datajoint
+  - otumat # ................ datajoint
+  - pandas # ................ datajoint
+  - pydot # ................. datajoint
+  - pymysql>=0.7.2 # ........ datajoint
+  - pyparsing # ............. datajoint
+  - tqdm # .................. datajoint
+  - urllib3 # ............... datajoint
+  - jupyterlab
+  - scipy
+  - pip:
+     # add here only pip-packages that are not available in conda/conda-forge!
+     - datajoint>=0.13.3

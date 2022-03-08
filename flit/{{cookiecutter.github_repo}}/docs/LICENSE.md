@@ -1,0 +1,4 @@
+{% raw %}
+{%
+   include "../LICENSE*"
+%}{% endraw %}

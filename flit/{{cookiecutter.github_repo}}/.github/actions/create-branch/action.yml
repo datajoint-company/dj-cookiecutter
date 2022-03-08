@@ -1,0 +1,39 @@
+# Create a Branch Action{% raw %}
+name: create-branch
+author: Joseph Burling
+description: "Create the specified branch if it doesn't already exist."
+
+inputs:
+  branch_name:
+    description: "New branch name"
+    required: true
+
+  github_token:
+    description: "GitHub token"
+    required: true
+
+runs:
+  using: composite
+  steps:
+    - id: create-new-branch-step
+      shell: bash
+      run: |
+        branch_exists=$(git ls-remote --heads origin ${{ inputs.branch_name }})
+
+        if [[ -z ${branch_exists} ]]; then
+          echo "Creating the branch '${{ inputs.branch_name }}'"
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git checkout --orphan ${{ inputs.branch_name }}
+          git reset --hard
+          git commit --allow-empty -m "ci(bot): initializing branch"
+          git push origin ${{ inputs.branch_name }}
+          echo "Finished creating the branch '${{ inputs.branch_name }}'"
+        else
+          echo "Branch '${{ inputs.branch_name }}' already exists"
+        fi
+
+branding:
+  icon: "aperture"
+  color: "blue"
+#{% endraw %}
