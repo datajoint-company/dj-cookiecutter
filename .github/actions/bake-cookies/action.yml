@@ -1,0 +1,119 @@
+name: bake-cookies
+author: Joseph Burling
+description: "Build cookiecutter content and push to branch."
+
+inputs:
+  github_token:
+    description: "GitHub token"
+    required: true
+
+  build_branch:
+    description: "Branch name that holds the generated content"
+    required: false
+    default: build
+
+  folder:
+    description: "Subdirectory for a specific template"
+    required: true
+
+  cookiecutter_pkg:
+    description: "Cookiecutter package string for pip install"
+    required: false
+    default: "cookiecutter"
+
+  cookiecutter_args:
+    description: "Arguments passed to cookiecutter"
+    required: false
+    default: "-vf --no-input"
+
+  new_tag:
+    description: "Tag used during commit"
+    required: false
+    default: ""
+
+runs:
+  using: composite
+  steps:
+    - name: "Configure git"
+      run: |
+        echo "${{ github.action_path }}" >> $GITHUB_PATH
+        git config --global user.email "github-actions[bot]@users.noreply.github.com"
+        git config --global user.name "github-actions[bot]"
+      shell: bash
+
+    - name: "Setup Python"
+      uses: actions/setup-python@v2
+      with:
+        python-version: "3.10"
+
+    - name: Generate Default 'cookiecutter' Content
+      run: |
+        pip install -U ${{ inputs.cookiecutter_pkg }}
+        rm -rf ./.build
+        cookiecutter ${{ inputs.cookiecutter_args }} -o ./.build/ .
+      shell: bash
+
+    - name: Upload Artifact Content
+      uses: actions/upload-artifact@v3
+      with:
+        name: cookiecutter_content_${{ inputs.new_tag }}
+        path: .build/${{ inputs.folder }}
+
+    - name: Create 'build' Branch
+      id: create-new-branch-step
+      run: |
+        branch_exists=$(git ls-remote --heads origin ${{ inputs.build_branch }})
+        last_ref=${{ github.ref_name }}
+        if [[ -z ${branch_exists} ]]; then
+          echo "Creating the branch '${{ inputs.build_branch }}' from '$last_ref'"
+          (
+            git switch --orphan ${{ inputs.build_branch }}
+            git commit --allow-empty -m "ci(bot): initializing orphaned branch"
+            git push -u origin ${{ inputs.build_branch }}
+          )
+          git switch $last_ref
+          echo "::debug::Finished creating the branch '${{ inputs.build_branch }}'"
+        else
+          echo "Branch '${{ inputs.build_branch }}' already exists"
+        fi
+      shell: bash
+
+    - name: Checkout 'build' Branch
+      uses: actions/checkout@v3
+      with:
+        path: ${{ inputs.build_branch }}
+        ref: ${{ inputs.build_branch }}
+        fetch-depth: 0
+
+    - name: Cleaning Previous Output Folder
+      run: rm -rf "${{ inputs.folder }}"
+      working-directory: ${{ inputs.build_branch }}
+      shell: bash
+
+    - name: Downloading Artifact Content
+      uses: actions/download-artifact@v3
+      with:
+        name: cookiecutter_content_${{ inputs.new_tag }}
+        path: ${{ inputs.build_branch }}/${{ inputs.folder }}
+
+    - name: Copying Built Content to Branch
+      run: |
+        (
+          cd "${{ inputs.folder }}"
+          git add . --force
+        )
+        echo "Checking if there's something to commit."
+        if [ -z "$(git status --porcelain)" ]; then
+          echo "Nothing to commit."
+          exit 0
+        fi
+        echo "Committing and pushing:"
+        git status --porcelain
+        git commit -m "ci(generate-defaults): copying cookiecutter content ${{ inputs.new_tag }}"
+        git push origin HEAD:${{ inputs.build_branch }} --force --follow-tags
+      working-directory: ${{ inputs.build_branch }}
+      shell: bash
+
+branding:
+  icon: "aperture"
+  color: "blue"
