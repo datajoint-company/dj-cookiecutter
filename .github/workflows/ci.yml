@@ -2,7 +2,7 @@ name: run-ci-jobs
 
 on:
   push:
-    branches: ["main", "flit"]
+    branches: ["main"]
 
 jobs:
   get_tag:
@@ -19,35 +19,13 @@ jobs:
         id: tag_version
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          release_branches: main,flit
+          release_branches: main
           create_annotated_tag: false
           fetch_all_tags: true
 
-  generate_flit_content:
-    runs-on: ubuntu-latest
-    needs: get_tag
-    if: |
-      always() &&
-      (needs.get_tag.result == 'success') &&
-      (github.ref_name == 'flit') &&
-      (github.ref_type == 'branch')
-    steps:
-      - name: Checkout Repository for Local Action
-        uses: actions/checkout@v3
-
-      - name: Generate Content from 'flit' Template
-        id: bake-cookies
-        uses: ./.github/actions/bake-cookies
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          folder: o-science-institute_w-neuro-lab
-          cookiecutter_pkg: git+https://github.com/cookiecutter/cookiecutter
-          cookiecutter_args: -f --no-input
-          new_tag: ${{ needs.get_tag.outputs.new_tag }}
-
   generate_workflow_content:
     runs-on: ubuntu-latest
-    needs: [get_tag]
+    needs: get_tag
     if: |
       always() &&
       (needs.get_tag.result == 'success') &&
@@ -65,8 +43,10 @@ jobs:
           folder: workflow_name
           cookiecutter_args: -f --no-input --directory workflow
           new_tag: ${{ needs.get_tag.outputs.new_tag }}
+    outputs:
+      artifact: ${{ steps.bake-cookies.outputs.artifact }}
 
-  generate_element_content:
+  generate_flit_content:
     runs-on: ubuntu-latest
     needs: [get_tag, generate_workflow_content]
     if: |
@@ -76,40 +56,78 @@ jobs:
       (github.ref_name == 'main') &&
       (github.ref_type == 'branch')
     steps:
-      - run: echo "Element template not yet available"
-      # - name: Checkout Repository for Local Action
-      #   uses: actions/checkout@v3
+      - name: Checkout Repository for Local Action
+        uses: actions/checkout@v3
 
-      # - name: Generate Content from 'element' Template
-      #   id: bake-cookies
-      #   uses: ./.github/actions/bake-cookies
-      #   with:
-      #     github_token: ${{ secrets.GITHUB_TOKEN }}
-      #     folder: element_name
-      #     cookiecutter_args: -f --no-input --directory element
-      #     new_tag: ${{ needs.get_tag.outputs.new_tag }}
+      - name: Generate Content from 'flit' Template
+        id: bake-cookies
+        uses: ./.github/actions/bake-cookies
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          folder: o-science-institute_w-neuro-lab
+          cookiecutter_pkg: git+https://github.com/cookiecutter/cookiecutter
+          cookiecutter_args: -f --no-input --directory flit
+          new_tag: ${{ needs.get_tag.outputs.new_tag }}
+    outputs:
+      artifact: ${{ steps.bake-cookies.outputs.artifact }}
 
-  make_release:
+  generate_element_content:
     runs-on: ubuntu-latest
-    needs: [get_tag, generate_flit_content, generate_element_content]
+    needs: [get_tag, generate_flit_content]
     if: |
       always() &&
       (needs.get_tag.result == 'success') &&
-      (
-        needs.generate_flit_content.result == 'success' ||
-        needs.generate_element_content.result == 'success'
-      )
+      (needs.generate_flit_content.result == 'success') &&
+      (github.ref_name == 'main') &&
+      (github.ref_type == 'branch')
+    steps:
+      - run: echo "Element template not yet available"
+    #   - name: Checkout Repository for Local Action
+    #     uses: actions/checkout@v3
+
+    #   - name: Generate Content from 'element' Template
+    #     id: bake-cookies
+    #     uses: ./.github/actions/bake-cookies
+    #     with:
+    #       github_token: ${{ secrets.GITHUB_TOKEN }}
+    #       folder: element_name
+    #       cookiecutter_args: -f --no-input --directory element
+    #       new_tag: ${{ needs.get_tag.outputs.new_tag }}
+    # outputs:
+    #   artifact: ${{ steps.bake-cookies.outputs.artifact }}
+
+  make_release:
+    runs-on: ubuntu-latest
+    needs:
+      [
+        get_tag,
+        generate_flit_content,
+        generate_workflow_content,
+        generate_element_content,
+      ]
+    if: |
+      always() &&
+      (needs.get_tag.result == 'success') &&
+      (needs.generate_element_content.result == 'success')
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v3
 
-      - name: Downloading Artifact Content
+      - name: Downloading 'flit' Artifact Content
         uses: actions/download-artifact@v3
         with:
-          name: cookiecutter_content_${{ needs.get_tag.outputs.new_tag }}
-          path: cookiecutter_content
+          name: ${{ needs.generate_flit_content.outputs.artifact }}
+          path: ${{ needs.generate_flit_content.outputs.artifact }}
 
-      - run: tar -zcf cookiecutter_content_${{ github.ref_name }}_${{ needs.get_tag.outputs.new_tag }}.tar.gz cookiecutter_content
+      - name: Downloading 'workflow' Artifact Content
+        uses: actions/download-artifact@v3
+        with:
+          name: ${{ needs.generate_workflow_content.outputs.artifact }}
+          path: ${{ needs.generate_workflow_content.outputs.artifact }}
+
+      - run: |
+          tar -zcf ${{ needs.generate_flit_content.outputs.artifact }}.tar.gz ${{ needs.generate_flit_content.outputs.artifact }}
+          tar -zcf ${{ needs.generate_workflow_content.outputs.artifact }}.tar.gz ${{ needs.generate_workflow_content.outputs.artifact }}
 
       - name: Create a Release
         uses: ncipollo/release-action@v1
@@ -120,4 +138,6 @@ jobs:
           body: ${{ needs.get_tag.outputs.changelog }}
           allowUpdates: true
           generateReleaseNotes: true
-          artifacts: "cookiecutter_content_${{ github.ref_name }}_${{ needs.get_tag.outputs.new_tag }}.tar.gz"
+          artifacts: |
+            ${{ needs.generate_flit_content.outputs.artifact }}.tar.gz
+            ${{ needs.generate_workflow_content.outputs.artifact }}.tar.gz

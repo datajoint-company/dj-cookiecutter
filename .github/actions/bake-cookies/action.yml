@@ -10,7 +10,7 @@ inputs:
   build_branch:
     description: "Branch name that holds the generated content"
     required: false
-    default: build
+    default: build_test
 
   folder:
     description: "Subdirectory for a specific template"
@@ -56,7 +56,7 @@ runs:
     - name: Upload Artifact Content
       uses: actions/upload-artifact@v3
       with:
-        name: cookiecutter_content_${{ inputs.new_tag }}
+        name: ${{ inputs.folder }}_${{ inputs.new_tag }}
         path: .build/${{ inputs.folder }}
 
     - name: Create 'build' Branch
@@ -93,7 +93,7 @@ runs:
     - name: Downloading Artifact Content
       uses: actions/download-artifact@v3
       with:
-        name: cookiecutter_content_${{ inputs.new_tag }}
+        name: ${{ inputs.folder }}_${{ inputs.new_tag }}
         path: ${{ inputs.build_branch }}/${{ inputs.folder }}
 
     - name: Copying Built Content to Branch
@@ -113,6 +113,11 @@ runs:
         git push origin HEAD:${{ inputs.build_branch }} --force --follow-tags
       working-directory: ${{ inputs.build_branch }}
       shell: bash
+
+outputs:
+  artifact:
+    description: "Name of the uploaded artifact"
+    value: ${{ inputs.folder }}_${{ inputs.new_tag }}
 
 branding:
   icon: "aperture"

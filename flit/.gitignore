@@ -1,0 +1,9 @@
+__pycache__
+.DS_Store
+.nox
+*.egg-info
+.ipynb_checkpoints
+/*.code-workspace
+build/
+.build/
+/o-science-institute_w-neuro-lab
