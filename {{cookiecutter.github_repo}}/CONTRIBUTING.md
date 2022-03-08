@@ -204,7 +204,7 @@ _Documentation Resources_:
 The GitHub actions and workflows are located under the `.github` folder and automate many of the tasks previously outlined. The following actions are used:
 
 - Checking out repo content: [actions/checkout@v3](https://github.com/actions/checkout)
-- Caching python envs: [actions/cache@v3](https://github.com/actions/cache)
+- Caching python envs: [actions/cache@v2](https://github.com/actions/cache)
 - Version tagging from commits: [mathieudutour/github-tag-action@v6.0](https://github.com/mathieudutour/github-tag-action)
 - Create a release: [ncipollo/release-action@v1](https://github.com/ncipollo/release-action)
 - Using `nox`: [excitedleigh/setup-nox@v2](https://github.com/excitedleigh/setup-nox)

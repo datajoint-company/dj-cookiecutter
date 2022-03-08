@@ -57,7 +57,7 @@ jobs:
 
       - name: 🗄️  Nox venv cache
         id: cache_nox
-        uses: actions/cache@v3
+        uses: actions/cache@v2
         with:
           path: .nox
           key: ${{ runner.os }}-nox-pythons
