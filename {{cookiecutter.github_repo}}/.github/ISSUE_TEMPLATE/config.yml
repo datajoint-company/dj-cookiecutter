@@ -1,0 +1,8 @@
+blank_issues_enabled: true
+contact_links:
+  - name: DataJoint StackOverflow
+    url: https://stackoverflow.com/questions/tagged/datajoint
+    about: General how-to or error questions
+  - name: DataJoint Slack
+    url: https://join.slack.com/t/datajoint/shared_invite/zt-3pioa7mu-R_G_z07arbgLelDuDxotdg
+    about: Participate in open-ended discussions

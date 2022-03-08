@@ -1,0 +1,204 @@
+{
+	"extensions": {
+		"recommendations": [
+			"aaron-bond.better-comments",
+			"analytic-signal.snippets-plotly",
+			"bierner.github-markdown-preview",
+			"christian-kohler.path-intellisense",
+			"eamodio.gitlens",
+			"foxundermoon.shell-format",
+			"GitHub.vscode-pull-request-github",
+			"Gruntfuggly.todo-tree",
+			"johnpapa.vscode-peacock",
+			"mechatroner.rainbow-csv",
+			"mikestead.dotenv",
+			"ms-azuretools.vscode-docker",
+			"ms-python.python",
+			"ms-python.vscode-pylance",
+			"ms-toolsai.jupyter",
+			"ms-vscode-remote.remote-ssh-edit",
+			"ms-vscode-remote.vscode-remote-extensionpack",
+			"ms-vscode.live-server",
+			"ms-vscode.vscode-typescript-tslint-plugin",
+			"njpwerner.autodocstring",
+			"redhat.vscode-yaml",
+			"tamasfe.even-better-toml",
+			"timonwong.shellcheck",
+			"VisualStudioExptTeam.intellicode-api-usage-examples",
+			"VisualStudioExptTeam.vscodeintellicode",
+			"yzhang.markdown-all-in-one"
+		]
+	},
+	"folders": [
+		{
+			"name": "{{cookiecutter.__project_name}}",
+			"path": "."
+		}
+	],
+	"launch": {
+		"version": "0.2.0",
+		"configurations": [
+			{
+				"name": "Python: Current File",
+				"type": "python",
+				"program": "${file}",
+				"console": "integratedTerminal",
+				"request": "launch"
+			},
+			{
+				"name": "Python: Debug entrypoint.py",
+				"type": "python",
+				"program": "${workspaceFolder}/src/{{cookiecutter.__pkg_import_name}}/entrypoint.py",
+				"args": [
+					"task1",
+					"-d",
+					"1.5",
+					"-s",
+					"1",
+					"-b",
+					"30"
+				],
+				"console": "integratedTerminal",
+				"request": "launch"
+			}
+		]
+	},
+	"settings": {
+		"autoDocstring.docstringFormat": "google",
+		"autoDocstring.generateDocstringOnEnter": true,
+		"autoDocstring.guessTypes": true,
+		"autoDocstring.startOnNewLine": false,
+		"conventionalCommits.scopes": [
+			"pipeline",
+			"actions",
+			"loaders"
+		],
+		"files.exclude": {
+			"**/.DS_Store": true,
+			"**/.git": true,
+			"**/.hg": true,
+			"**/.svn": true,
+			"**/CVS": true,
+			"**/Thumbs.db": true,
+			"*.command": true
+		},
+		"python.defaultInterpreterPath": "${env:CONDA_ENV_ROOT}/{{cookiecutter.__pkg_import_name}}"
+	},
+	"tasks": {
+		// See https://go.microsoft.com/fwlink/?LinkId=733558
+		// for the documentation about the tasks.json format
+		"version": "2.0.0",
+		"options": {
+			"cwd": "${workspaceFolder}"
+		},
+		"presentation": {
+			"clear": false,
+			"echo": true,
+			"focus": true,
+			"panel": "shared",
+			"reveal": "always",
+			"showReuseMessage": true
+		},
+		"tasks": [
+			{
+				"label": "mamba install: environment.yml",
+				"type": "shell",
+				"command": "mamba",
+				"args": [
+					"env",
+					"create",
+					"-vq",
+					"--file",
+					"environment.yml"
+				]
+			},
+			{
+				"label": "mamba update: environment.yml",
+				"type": "shell",
+				"command": "mamba",
+				"args": [
+					"env",
+					"update",
+					"-vq",
+					"--file",
+					"environment.yml"
+				]
+			},
+			{
+				"label": "mamba update packages",
+				"type": "shell",
+				"command": "${config:python.condaPath}",
+				"args": [
+					"run",
+					"--no-capture-output",
+					"-n",
+					"{{cookiecutter.__pkg_import_name}}",
+					"mamba",
+					"update",
+					"-qy",
+					"--all"
+				]
+			},
+			{
+				"label": "mamba list",
+				"type": "shell",
+				"command": "${config:python.condaPath}",
+				"args": [
+					"run",
+					"--no-capture-output",
+					"-n",
+					"{{cookiecutter.__pkg_import_name}}",
+					"mamba",
+					"list"
+				],
+				"presentation": {
+					"group": "conda"
+				}
+			},
+			{
+				"label": "flit install {{cookiecutter.__project_name}}",
+				"type": "shell",
+				"command": "${config:python.condaPath}",
+				"args": [
+					"run",
+					"--no-capture-output",
+					"-n",
+					"{{cookiecutter.__pkg_import_name}}",
+					"flit",
+					"install",
+					"--symlink",
+					"--deps=production",
+					"--extras=all"
+				],
+				"windows": {
+					"args": [
+						"run",
+						"--no-capture-output",
+						"-n",
+						"{{cookiecutter.__pkg_import_name}}",
+						"flit",
+						"install",
+						"--pth-file",
+						"--deps=production",
+						"--extras=all"
+					]
+				}
+			},
+			{
+				"label": "pip uninstall {{cookiecutter.__project_name}}",
+				"type": "shell",
+				"command": "${config:python.condaPath}",
+				"args": [
+					"run",
+					"--no-capture-output",
+					"-n",
+					"{{cookiecutter.__project_name}}",
+					"pip",
+					"uninstall",
+					"-y",
+					"{{cookiecutter.__project_name}}"
+				]
+			}
+		]
+	}
+}

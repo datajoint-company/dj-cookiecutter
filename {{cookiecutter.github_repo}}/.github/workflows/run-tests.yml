@@ -1,0 +1,29 @@
+# Run various tests{% raw %}
+name: run-tests
+on:
+  push:
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  run_tests:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 🛎️  Checkout repository
+        id: check-repo
+        uses: actions/checkout@v3
+
+      - name: 🗄️  Nox venv cache
+        id: cache_nox
+        uses: actions/cache@v3
+        with:
+          path: .nox
+          key: ${{ runner.os }}-nox-pythons
+
+      - name: 🐍  Setup nox
+        uses: excitedleigh/setup-nox@v2
+
+      - name: 🐍  Run pytest
+        run: nox --non-interactive -v -s pytest
+#{% endraw %}

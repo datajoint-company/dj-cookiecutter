@@ -1,0 +1,77 @@
+# Build Docs for GitHub Pages{% raw %}
+name: mkdocs-build
+on:
+  workflow_run:
+    workflows: [semantic-versioning]
+    types: [completed]
+    branches: [main]
+
+jobs:
+  get_last_pushed_tag:
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: 🛎️  Checkout repository
+        id: check-repo
+        uses: actions/checkout@v3
+      - run: |
+          git fetch --prune --unshallow
+          echo "LAST_TAG="$(git describe --tags --abbrev=0 2>/dev/null)"" >> $GITHUB_ENV
+    outputs:
+      tag: ${{ env.LAST_TAG }}
+
+  build_gh_pages:
+    needs: [get_last_pushed_tag]
+    if: always() && needs.get_last_pushed_tag.result == 'success'
+    runs-on: ubuntu-latest
+    steps:
+      - name: 🛎️  Checkout repository
+        id: check-repo
+        uses: actions/checkout@v3
+
+      - name: 🌳  Create 'gh-pages' branch
+        id: create-new-branch
+        uses: ./.github/actions/create-branch
+        with:
+          branch_name: gh-pages
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: 🛎️  Checkout 'gh-pages'
+        uses: actions/checkout@v3
+        with:
+          ref: gh-pages
+
+      - name: Check if 'index.html' exists
+        run: |
+          if [ -f "index.html" ]; then
+            echo "DOCS_ARG=" >> $GITHUB_ENV
+          else
+            echo "DOCS_ARG=--index_html" >> $GITHUB_ENV
+          fi
+
+      - name: 🛎️  Checkout repository
+        id: check-repo-again
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: 🗄️  Nox venv cache
+        id: cache_nox
+        uses: actions/cache@v3
+        with:
+          path: .nox
+          key: ${{ runner.os }}-nox-pythons
+
+      - name: 🐍  Setup nox
+        uses: excitedleigh/setup-nox@v2
+
+      - name: 📖  Build docs and deploy to gh-pages
+        run: nox --non-interactive -v -s docs -- --version ${{ needs.get_last_pushed_tag.outputs.tag }} ${{ env.DOCS_ARG }}
+
+  if_semantic_versioning_failed:
+    if: ${{ github.event.workflow_run.conclusion == 'failure' }}
+    runs-on: ubuntu-latest
+    steps:
+      - run: |
+          echo "The 'semantic-versioning' workflow failed or did not run. Skipping 'mkdocs-build' workflow."
+#{% endraw %}

@@ -1,0 +1,10 @@
+/* Indentation. */
+div.doc-contents:not(.first) {
+  padding-left: 25px;
+  border-left: 0.03rem solid var(--md-default-fg-color--lightest);
+  margin-bottom: 15px;
+}
+
+div.doc-contents:not(.first) > div.md-typeset__scrollwrap > div > table > thead {
+  background-color: var(--md-accent-fg-color--transparent);
+}
