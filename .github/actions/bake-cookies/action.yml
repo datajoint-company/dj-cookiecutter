@@ -24,7 +24,7 @@ inputs:
   cookiecutter_args:
     description: "Arguments passed to cookiecutter"
     required: false
-    default: "cookiecutter -vf --no-input ."
+    default: "-vf --no-input"
 
   new_tag:
     description: "Tag used during commit"
