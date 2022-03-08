@@ -4,7 +4,7 @@ mamba env remove -n cookies
 mamba create -yn cookies "python>=3.10" pip ipykernel
 conda activate cookies
 pip install -U "git+https://github.com/cookiecutter/cookiecutter"
-pip install -U --force-reinstall nox pre-commit black flake8 
+pip install -U --force-reinstall nox pre-commit black flake8 retrocookie
 mamba update -c defaults -y --all
 
 cookiecutter -vf --directory flit -o .build --no-input .
