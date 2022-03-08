@@ -139,5 +139,5 @@ jobs:
           allowUpdates: true
           generateReleaseNotes: true
           artifacts: |
-            ${{ needs.generate_flit_content.outputs.artifact }}
-            ${{ needs.generate_workflow_content.outputs.artifact }}
+            ${{ needs.generate_flit_content.outputs.artifact }}.tar.gz
+            ${{ needs.generate_workflow_content.outputs.artifact }}.tar.gz
