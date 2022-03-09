@@ -59,6 +59,12 @@ cookiecutter git@github.com:datajoint-company/dj-cookiecutter.git --directory wo
 
 If you want to know more details, read this [page](https://cookiecutter.readthedocs.io/en/1.7.2/first_steps.html), it explains the basic logic about how cookiecutter works.
 
+## Existing template
+- [flit](https://github.com/datajoint-company/dj-cookiecutter/tree/main/flit) by @iamamutt
+- [cicd](#) by @Yambottle
+- `workflow/element` created as initial examples for science-team, welcome changes or new templates for your own requirements
+
+
 ---
 ## License
 © Datajoint, 2022. Licensed under an MIT license.
