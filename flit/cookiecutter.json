@@ -2,19 +2,18 @@
     "author_name": "FirstName LastName",
     "author_email": "firstname@datajoint.com",
     "organization": "Science Institute",
-    "__org": "{{cookiecutter.organization|lower|replace('_', '-')|replace(' ', '-')}}",
     "lab": "Neuro Lab",
-    "__lab": "{{cookiecutter.lab|lower|replace('_', '-')|replace(' ', '-')}}",
     "github_user": [
         "dj-sciops",
         "datajoint",
         "datajoint-company"
     ],
+    "__org": "{{cookiecutter.organization|lower|replace('_', '-')|replace(' ', '-')}}",
+    "__lab": "{{cookiecutter.lab|lower|replace('_', '-')|replace(' ', '-')}}",
     "github_repo": "o-{{cookiecutter.__org}}_w-{{cookiecutter.__lab}}",
     "pkg_version": "0.0.0a0.dev1",
     "__project_name": "datajoint-workflow-{{cookiecutter.__lab|replace('-lab', '')}}",
-    "__pkg_import_name": "workflow_{{cookiecutter.__lab|replace('-lab', '')|replace('-', '_')}}",
-    "__short_description": "A DataJoint SciOps Workflow for the {{cookiecutter.organization}}, {{cookiecutter.lab}}",
+    "__pkg_import_name": "{{cookiecutter.__lab|replace('-lab', '')|replace('-', '')}}wf",
     "__github_url": "https://github.com/{{cookiecutter.github_user}}/{{cookiecutter.github_repo}}",
     "url_homepage": "https://github.com/{{cookiecutter.github_user}}",
     "__url_documentation": "https://{{cookiecutter.github_user}}.github.io/{{cookiecutter.github_repo}}",
@@ -24,6 +23,5 @@
         "docs/assets/*",
         "docs/css/*",
         "docs/overrides/*"
-    ],
-    "_new_lines": "\n"
+    ]
 }

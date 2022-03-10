@@ -199,6 +199,20 @@ _Documentation Resources_:
 - markdown extensions: [`python-markdown`](https://python-markdown.github.io/extensions/md_in_html/)
 - plugin: [`mkdocstrings`](https://mkdocstrings.github.io/usage/)
 
+### Environment maintenance 
+
+Exporting python packages:
+
+```
+mamba env export -n {{cookiecutter.__pkg_import_name}} -f environment.lock.yml --no-builds
+```
+
+Resetting environment to locked state:
+
+```
+mamba env update -f environment.lock.yml --prune
+```
+
 ### GitHub Actions
 
 The GitHub actions and workflows are located under the `.github` folder and automate many of the tasks previously outlined. The following actions are used:

@@ -7,7 +7,8 @@ import logging
 
 import pytest
 
-from {{cookiecutter.__pkg_import_name}}.entrypoint import setup_logging # noqa, isort: skip
+from {{cookiecutter.__pkg_import_name}}.entrypoint import setup_logging  # noqa, isort: skip
+
 
 @pytest.mark.parametrize(
     "loglevelint,loglevelstr",

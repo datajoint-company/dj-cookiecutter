@@ -92,10 +92,7 @@ def write_version(session: nox.Session) -> None:
     with open("src/{{cookiecutter.__pkg_import_name}}/version.py", "w") as out:
         session.run("echo", f'__version__ = "{version}"', stdout=out, external=True)
 
-    git_action_bot(
-        session,
-        add=["src/{{cookiecutter.__pkg_import_name}}/version.py"]
-    )
+    git_action_bot(session, add=["src/{{cookiecutter.__pkg_import_name}}/version.py"])
 
 
 @nox.session(python=nox.options.pythons[0])

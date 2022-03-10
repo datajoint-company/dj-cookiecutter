@@ -72,7 +72,8 @@
 			"pipeline",
 			"actions",
 			"loaders",
-			"package"
+			"package",
+			"module"
 		],
 		"files.exclude": {
 			"**/.DS_Store": true,
@@ -193,7 +194,7 @@
 					"run",
 					"--no-capture-output",
 					"-n",
-					"{{cookiecutter.__project_name}}",
+					"{{cookiecutter.__pkg_import_name}}",
 					"pip",
 					"uninstall",
 					"-y",
@@ -208,7 +209,7 @@
 					"run",
 					"--no-capture-output",
 					"-n",
-					"{{cookiecutter.__project_name}}",
+					"{{cookiecutter.__pkg_import_name}}",
 					"pre-commit",
 					"install",
 					"--install-hooks"

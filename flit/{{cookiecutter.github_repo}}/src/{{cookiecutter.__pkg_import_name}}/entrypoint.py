@@ -1,19 +1,17 @@
 """_Entrypoint for ingestion routines_
 
-This serves as an example entrypoint command line interface for running different
-DataJoint populate functions for data ingestion. Requires a valid connection to a
-database. The script will run the function:
-[`run`][{{cookiecutter.__pkg_import_name}}.entrypoint.run]
-and requires content from the `{{cookiecutter.__pkg_import_name}}` package.
-
+This serves as an example command-line entrypoint for running different DataJoint
+populate functions for data ingestion. Requires a valid connection to a database. The
+script will run the [`run()`][{{cookiecutter.__pkg_import_name}}.entrypoint.run] function in this module and
+requires content from the `{{cookiecutter.__pkg_import_name}}` package.
 
 Example:
     Usage as a console entrypoint:
 
-        mymodule --help
-        mymodule task1
-        mymodule task2 -d 600 -s 60
-        mymodule -vvv task1
+        {{cookiecutter.__pkg_import_name}} --help
+        {{cookiecutter.__pkg_import_name}} task1
+        {{cookiecutter.__pkg_import_name}} task2 -d 600 -s 60
+        {{cookiecutter.__pkg_import_name}} -vvv task1
 
     Usage as a script:
 
@@ -22,7 +20,7 @@ Example:
 
     Usage from python:
 
-        from mymodule import run; run(task='task1', duration=20, sleep=5)
+        from {{cookiecutter.__pkg_import_name}} import run; run(task='task1', duration=20, sleep=5)
 
 Attributes:
     LOGGER (logging.Logger): Module level logger when specifying verbosity.

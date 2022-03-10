@@ -1,6 +1,9 @@
 default_context:
   author_name: "Joseph Burling"
   author_email: "joseph@datajoint.com"
-  github_user: "iamamutt"
+  github_user: "dj-sciops"
+  organization: "Causality In Motion"
+  lab: "Template"
+  github_repo: "wt-causality-in-motion"
 abbreviations:
   wf: https://github.com/datajoint-company/dj-cookiecutter.git

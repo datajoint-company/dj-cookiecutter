@@ -4,7 +4,7 @@ _View the latest documentation site here:_ [{{cookiecutter.__url_documentation}}
 
 # `{{cookiecutter.__project_name}}`
 
-_{{cookiecutter.__short_description}}_
+_A DataJoint SciOps Workflow for {{cookiecutter.organization}}, {{cookiecutter.lab}}_
 
 ## Description
 
@@ -105,21 +105,6 @@ rm -rf src/{{cookiecutter.__project_name}}.egg*
 #### Setup for local development
 
 See the [_Development setup_](./CONTRIBUTING.md#setting-up-a-local-development-environment) documentation for information on how to install additional packages and tools.
-
-## Dependency Management & Reproducibility
-
-1. Always keep your abstract (unpinned) dependencies updated in `environment.yml` and eventually
-   in `setup.cfg` if you want to ship and install your package via `pip` later on.
-2. Create concrete dependencies as `environment.lock.yml` for the exact reproduction of your
-   environment with:
-   ```bash
-   conda env export -n {{cookiecutter.__pkg_import_name}} -f environment.lock.yml
-   ```
-   For multi-OS development, consider using `--no-builds` during the export.
-3. Update your current environment with respect to a new `environment.lock.yml` using:
-   ```bash
-   conda env update -f environment.lock.yml --prune
-   ```
 
 <!--install-end-->
 <!--rest-of-doc-start-->

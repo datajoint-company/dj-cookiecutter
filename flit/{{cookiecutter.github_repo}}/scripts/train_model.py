@@ -5,7 +5,7 @@ from pathlib import Path
 import click
 from IPython.core import ultratb
 
-import {{cookiecutter.__pkg_import_name}} # isort: skip
+import {{cookiecutter.__pkg_import_name}}  # isort: skip
 
 
 # fallback to debugger on error
