@@ -21,8 +21,10 @@ dependencies:
   - pyparsing # ............. datajoint
   - tqdm # .................. datajoint
   - urllib3 # ............... datajoint
-  - jupyterlab
-  - scipy
+  - jupyterlab # ............ scientific
+  - scipy # ................. scientific
+  - seaborn # ............... scientific
+  - plotly # ................ scientific
   - pip:
      # add here only pip-packages that are not available in conda/conda-forge!
      - datajoint>=0.13.3

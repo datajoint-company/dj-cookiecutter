@@ -4,7 +4,7 @@ build-backend = "flit_core.buildapi"
 
 [project]
 name = "{{cookiecutter.__project_name}}"
-description = "_{{cookiecutter.__short_description}}_"
+description = "A DataJoint SciOps Workflow for {{cookiecutter.organization}}, {{cookiecutter.lab}}"
 readme = "README.md"
 requires-python = ">=3.9"
 license = { file = "LICENSE" }

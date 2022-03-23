@@ -71,7 +71,9 @@
 		"conventionalCommits.scopes": [
 			"pipeline",
 			"actions",
-			"loaders"
+			"loaders",
+			"package",
+			"module"
 		],
 		"files.exclude": {
 			"**/.DS_Store": true,
@@ -127,7 +129,7 @@
 			{
 				"label": "mamba update packages",
 				"type": "shell",
-				"command": "${config:python.condaPath}",
+				"command": "conda",
 				"args": [
 					"run",
 					"--no-capture-output",
@@ -142,7 +144,7 @@
 			{
 				"label": "mamba list",
 				"type": "shell",
-				"command": "${config:python.condaPath}",
+				"command": "conda",
 				"args": [
 					"run",
 					"--no-capture-output",
@@ -158,7 +160,7 @@
 			{
 				"label": "flit install {{cookiecutter.__project_name}}",
 				"type": "shell",
-				"command": "${config:python.condaPath}",
+				"command": "conda",
 				"args": [
 					"run",
 					"--no-capture-output",
@@ -187,16 +189,30 @@
 			{
 				"label": "pip uninstall {{cookiecutter.__project_name}}",
 				"type": "shell",
-				"command": "${config:python.condaPath}",
+				"command": "conda",
 				"args": [
 					"run",
 					"--no-capture-output",
 					"-n",
-					"{{cookiecutter.__project_name}}",
+					"{{cookiecutter.__pkg_import_name}}",
 					"pip",
 					"uninstall",
 					"-y",
 					"{{cookiecutter.__project_name}}"
+				]
+			},
+			{
+				"label": "pre-commit install",
+				"type": "shell",
+				"command": "conda",
+				"args": [
+					"run",
+					"--no-capture-output",
+					"-n",
+					"{{cookiecutter.__pkg_import_name}}",
+					"pre-commit",
+					"install",
+					"--install-hooks"
 				]
 			}
 		]

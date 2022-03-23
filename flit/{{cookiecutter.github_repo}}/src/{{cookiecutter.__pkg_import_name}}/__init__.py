@@ -1,5 +1,6 @@
-"""
-`{{cookiecutter.__project_name}}`: _{{cookiecutter.__short_description}}_
+"""`{{cookiecutter.__project_name}}`:
+_A DataJoint SciOps Workflow for {{cookiecutter.organization}}, {{cookiecutter.lab}}_
+
 """
 
 import logging
@@ -31,6 +32,4 @@ version: str = __version__
 
 
 # Root level logger for the '{{cookiecutter.__pkg_import_name}}' namespace
-logging.getLogger("{{cookiecutter.__pkg_import_name}}").addHandler(
-    logging.NullHandler()
-)
+logging.getLogger("{{cookiecutter.__pkg_import_name}}").addHandler(logging.NullHandler())
