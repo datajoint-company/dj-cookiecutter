@@ -1,14 +1,22 @@
 # Tasks that require semantic versioning info{% raw %}
 name: semantic-versioning
 on:
-  workflow_run:
-    workflows: [run-tests]
-    types: [completed]
-    branches: [main]
+  workflow_call:
+    outputs:
+      new_tag: ${{ jobs.get_version.outputs.new_tag }}
+      new_version: ${{ jobs.get_version.outputs.new_version }}
+      previous_tag: ${{ jobs.get_version.outputs.previous_tag }}
+      previous_version: ${{ jobs.get_version.outputs.previous_version }}
+      release_type: ${{ jobs.get_version.outputs.release_type }}
+      changelog: ${{ jobs.get_version.outputs.changelog }}
+      repo_lower: ${{ jobs.get_version.outputs.repo_lower }}
+      datetime: ${{ jobs.get_version.outputs.datetime }}
+      id: ${{ jobs.create_tag_and_release.outputs.id }}
+      html_url: ${{ jobs.create_tag_and_release.outputs.html_url }}
+      upload_url: ${{ jobs.create_tag_and_release.outputs.upload_url }}
 
 jobs:
   get_version:
-    if: ${{ github.event.workflow_run.conclusion == 'success' }}
     runs-on: ubuntu-latest
     steps:
       - name: 🛎️  Checkout repository
@@ -81,6 +89,10 @@ jobs:
           release_type: ${{ needs.get_version.outputs.release_type }}
           changelog: ${{ needs.get_version.outputs.changelog }}
           release_only: "['major','minor']"
+    outputs:
+      id: ${{ steps.semver_tag.outputs.id }}
+      html_url: ${{ steps.semver_tag.outputs.html_url }}
+      upload_url: ${{ steps.semver_tag.outputs.upload_url }}
 
   if_run_tests_failed:
     if: ${{ github.event.workflow_run.conclusion == 'failure' }}
@@ -88,4 +100,5 @@ jobs:
     steps:
       - run: |
           echo "The 'run-tests' workflow failed or did not run. Skipping 'semantic-versioning' workflow."
+
 #{% endraw %}

@@ -1,4 +1,4 @@
-_View the latest documentation site here:_ [{{cookiecutter.__url_documentation}}]({{cookiecutter.__url_documentation}}).
+_View the latest documentation site here:_ [{{cookiecutter.docs_url}}]({{cookiecutter.docs_url}}).
 
 <!--intro-start-->
 
@@ -12,7 +12,7 @@ Welcome to the [_modality type_] SciOps service!
 
 This service is designed for a user to upload their raw [_modality type_] data acquired with [_description_], which will then be automatically processed with [_..._]. The service also provides online Jupyter notebooks to visualize the results.
 
-This [workflow]({{cookiecutter.__github_url}}) uses components from open-source packages, including the DataJoint Elements: 
+This [workflow](https://github.com/{{cookiecutter.github_user}}/{{cookiecutter.github_repo}}) uses components from open-source packages, including the DataJoint Elements: 
 
 - element and url
 - element and url
@@ -54,20 +54,20 @@ Thank you for using the DataJoint SciOps cloud-based platform.
 !!! note
     The following is intended for developers and is not required for users of the SciOps services. 
 
-### Clone the repository
+### 1. Clone the repository
 
-First, clone a copy of the [project repository]({{cookiecutter.__github_url}}) to your local disk and switch to that directory:
+First, clone a local copy of the [project repository](https://github.com/{{cookiecutter.github_user}}/{{cookiecutter.github_repo}}) and change to the location of that directory:
 
 ```bash
-git clone {{cookiecutter.__github_url}}.git
+git clone https://github.com/{{cookiecutter.github_user}}/{{cookiecutter.github_repo}}.git
 cd "{{cookiecutter.__project_name}}"
 ```
 
-### Create a new python environment
+### 2. Create a new python environment
 
-We recommend creating an isolated [virtual environment](https://realpython.com/python-virtual-environments-a-primer/) to avoid any problems with your existing Python packages and interpreter. This can be done via [Conda/Mamba](https://github.com/conda-forge/miniforge#mambaforge):
+We recommend creating an isolated [virtual environment](https://realpython.com/python-virtual-environments-a-primer/) to avoid any conflicts with your existing Python packages or interpreter. You can create a virtual environment by first installing [`conda`/`mamba`](https://github.com/conda-forge/miniforge#mambaforge):
 
-1. Create the environment using the packages specified in `environment.yml`:
+1. Create an environment using the packages listed in `environment.yml`:
 
 ```bash
 mamba env create -f environment.yml --force
@@ -79,18 +79,18 @@ mamba env create -f environment.yml --force
 conda activate {{cookiecutter.__pkg_import_name}}
 ```
 
-### Install the package `{{cookiecutter.__project_name}}`
+### 3. Install the package `{{cookiecutter.__project_name}}`
 
-After the new virtual environment has been created and activate, install the package using `flit` (`flit` was already in the requirements from the `environment.yml` file).
+After the new virtual environment has been created and activated, install this python package using `flit` (`flit` is already in the list of requirements from the `environment.yml` file).
 
-Install only the necessary packages in _develop_ mode (see [_contrib_](./CONTRIBUTING.md#setting-up-a-local-development-environment) for extra packages):
+To avoid installing other additional packages, use the following command (see [_contrib_](./CONTRIBUTING.md#setting-up-a-local-development-environment) for extra installing packages):
 
 ```bash
 flit install -s --deps=production
 ```
 
 !!! note "Develop Mode Installs"
-    The conda environment will have `{{cookiecutter.__pkg_import_name}}` installed in editable/develop mode. This means that changes will be immediately reflected when the module is reloaded.
+    The command `conda list` will show `{{cookiecutter.__project_name}}`, but it will be installed in _editable/develop mode_ due to using the `-s` option during installation. This means that changes will be immediately reflected when the module is reloaded.
 
 !!! tip "Windows Links"
     This command may work better on Windows machines instead of symlinks for _develop_ mode: `flit install --pth-file --deps=production`.
@@ -99,12 +99,11 @@ If you need to uninstall the package, do so with `pip`:
 
 ```bash
 pip uninstall {{cookiecutter.__project_name}}
-rm -rf src/{{cookiecutter.__project_name}}.egg*
 ```
 
-#### Setup for local development
+#### Additional setup for local development and testing
 
-See the [_Development setup_](./CONTRIBUTING.md#setting-up-a-local-development-environment) documentation for information on how to install additional packages and tools.
+See the [_Development setup_](./CONTRIBUTING.md#setting-up-a-local-development-environment) documentation for information on how to install additional packages and tools for local development and testing environments.
 
 <!--install-end-->
 <!--rest-of-doc-start-->
@@ -127,13 +126,16 @@ See the [_Development setup_](./CONTRIBUTING.md#setting-up-a-local-development-e
 ├── scripts                 <- Analysis examples or production scripts which import the
 │                              actual Python package, e.g. running queries.
 ├── src
-│   └── {{cookiecutter.__pkg_import_name}}      <- Actual Python package where the main functionality goes.
+│   └── {{cookiecutter.__pkg_import_name}}          <- Actual Python package where the main functionality goes.
 ├── tests                   <- Unit tests which can be run with `pytest` or `nox`.
+├── .cookiecutter.json      <- Options specified during template generation.
+├── .gitignore              <- Files and folders to ignore for git.
 ├── .pre-commit-config.yaml <- Configuration of pre-commit git hooks.
 ├── CHANGELOG.md            <- Changelog to keep track of new features and fixes.
 ├── CONTRIBUTING.md         <- Documentation on how to contribute to the project.
-├── dj_local_conf.json      <- DataJoint configuration file.
-├── environment.yml         <- The conda environment file for reproducibility.
+├── *.code-workspace        <- Visual Studio Code workspace file.
+├── {{cookiecutter._djconfig}}      <- DataJoint configuration file.
+├── environment.yml         <- The conda environment file for new virtual environments.
 ├── LICENSE                 <- Open source license.
 ├── mkdocs.yml              <- Configuration for building the documentation with MkDocs.
 ├── noxfile.py              <- `nox` automation file for continuous integration steps.

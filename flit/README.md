@@ -4,7 +4,7 @@ mamba env remove -n cookies
 mamba create -yn cookies "python>=3.10" pip ipykernel
 conda activate cookies
 pip install -U "git+https://github.com/cookiecutter/cookiecutter"
-pip install -U --force-reinstall nox pre-commit black flake8 retrocookie
+pip install -U --force-reinstall nox pre-commit black flake8
 mamba update -c defaults -y --all
 
 cookiecutter -vf --directory flit -o .build --no-input .
@@ -75,13 +75,13 @@ or to skip files that already exist,
 cookiecutter --directory flit --skip-if-file-exists gh:datajoint-company/dj-cookiecutter
 ```
 
-If you want to regenerate the most recent version of the cookiecutter template without having to re-type the values you already specified during setup, run the script `make.sh` located here: [./{{cookiecutter.github_repo}}/scripts/cookiecutter/](./{{cookiecutter.github_repo}}/scripts/cookiecutter/make.sh). It will write the new template to a folder called `build`. 
+If you want to regenerate the most recent version of the cookiecutter template without having to re-type the values you already specified during setup, run the script `replay.sh` located here: [./{{cookiecutter.github_repo}}/scripts/cookiecutter/](./{{cookiecutter.github_repo}}/scripts/cookiecutter/replay.sh). It will write the new template to a folder called `build`. 
 
 ```
 cd my-template-folder/scripts/cookiecutter 
-chmod +x make.sh 
-# make.sh --help
-./make.sh -d flit -n cookies
+chmod +x replay.sh 
+# replay.sh --help
+./replay.sh -d flit -n cookies
 ```
 
 ## Editing the template (optional)
@@ -119,19 +119,4 @@ cookiecutter -vf --no-input .
 
 ### Adding back to a template
 
-You can add changes back to a template folder using the [`retrocookie`](https://retrocookie.readthedocs.io/en/latest/) python package. Example:
-
-```
-git clone https://github.com/iamamutt/dj-cookiecutter.git
-conda activate cookies
-cookiecutter -f --no-input --config-file dj-cookiecutter/flit/cookiecutterc.yml --directory flit dj-cookiecutter
-cd wt-causality-in-motion
-git init
-git add . 
-git commit -m "chore(git): initial commit"
-git switch --create reverse-template
-# ... makes changes ... 
-# ... add and commit changes ...
-cd ../dj-cookiecutter
-retrocookie --branch reverse-template --create --directory flit ../wt-causality-in-motion 
-```
+See [`retrocookie.sh`](retrocookie/README.md) for more information.

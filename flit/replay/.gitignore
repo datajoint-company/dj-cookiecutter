@@ -2,5 +2,5 @@
 *
 # Except this file and .gitignore in sub directories
 !.gitignore
-!cookiecutterc.yml
-!make.sh
+!replay.sh
+!README.md

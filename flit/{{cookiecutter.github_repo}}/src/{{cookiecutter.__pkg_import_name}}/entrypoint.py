@@ -29,13 +29,14 @@ Attributes:
 import argparse
 import logging
 import sys
+from typing import Any, Sequence
 
 import datajoint as dj
 
-LOGGER = logging.getLogger(__name__)
+LOGGER: logging.Logger = logging.getLogger(__name__)
 
 
-def parse_args(args: list[str]) -> argparse.Namespace:
+def parse_args(args: Sequence[str]) -> argparse.Namespace:
     """_Parse command line parameters_
 
     Args:
@@ -174,13 +175,13 @@ def setup_logging(loglevel: int, base_level: str = "WARNING") -> logging.Logger:
     return LOGGER
 
 
-def run(**kwargs):
+def run(**kwargs: Any) -> None:
     """_Run ingestion routine depending on the configured task/job_
 
     See [Example][{{cookiecutter.__pkg_import_name}}.entrypoint] for a list of args.
     """
 
-    setup_logging(kwargs.get("loglevel"))
+    setup_logging(kwargs.get("loglevel", 0))
     LOGGER.info("Starting ingestion process.")
 
     try:
@@ -192,7 +193,7 @@ def run(**kwargs):
     LOGGER.info("Ingestion process ended.")
 
 
-def cli():
+def cli() -> None:
     """_Calls [`entrypoint.run`][{{cookiecutter.__pkg_import_name}}.entrypoint.run], passing the cli
     arguments extracted from `sys.argv`_.
 

@@ -13,7 +13,7 @@ If you are new to using [git](https://git-scm.com) or have never collaborated in
 
 ## Issue Reports
 
-If you experience bugs or general issues with `{{cookiecutter.__project_name}}`, please have a look at the [issue tracker]({{cookiecutter.__github_url}}/issues). If you don't see anything useful there, please feel free to fill out a new issue report.
+If you experience bugs or general issues with `{{cookiecutter.__project_name}}`, please have a look at the [issue tracker](https://github.com/{{cookiecutter.github_user}}/{{cookiecutter.github_repo}}/issues). If you don't see anything useful there, please feel free to fill out a new issue report.
 
 New issue reports should include information about your programming environment (e.g., operating system, Python version) and steps to reproduce the problem. Please also try to simplify the reproduction steps to a very minimal example that still illustrates the problem you're facing. By removing other factors, you help us to identify the root cause of the issue.
 
@@ -45,11 +45,11 @@ There are several ways to contribute code to the project, but first, create a us
 
 ### Submit an Issue
 
-Before you work on any non-trivial code contribution, it's best to first create a report in the [issue tracker]({{cookiecutter.__github_url}}/issues) to start a discussion on the subject. This often provides additional considerations and avoids unnecessary work.
+Before you work on any non-trivial code contribution, it's best to first create a report in the [issue tracker](https://github.com/{{cookiecutter.github_user}}/{{cookiecutter.github_repo}}/issues) to start a discussion on the subject. This often provides additional considerations and avoids unnecessary work.
 
 ### Submit Your Contribution
 
-You can contribute code by cloning the repository content from your fork, then creating a new branch, [setting up a local development environment](#setting-up-a-local-development-environment), making changes, then submitting a [pull request]({{cookiecutter.__github_url}}/pull) to review and accept those changes.
+You can contribute code by cloning the repository content from your fork, then creating a new branch, [setting up a local development environment](#setting-up-a-local-development-environment), making changes, then submitting a [pull request](https://github.com/{{cookiecutter.github_user}}/{{cookiecutter.github_repo}}/pull) to review and accept those changes.
 
 #### Implement your changes on a new branch
 
@@ -103,7 +103,7 @@ conda activate {{cookiecutter.__pkg_import_name}}
 flit install --symlink --deps=develop
 ```
 
-### Extra dev packages
+### Extra `dev` packages
 
 The list of `dev` packages are specified in `pyproject.toml` under `[project.optional-dependencies.dev]`
 
@@ -132,9 +132,9 @@ pre-commit run --all-files
 ```
 
 !!! tip
-    The `-n, --no-verify` flag of `git commit` can be used to deactivate pre-commit hooks temporarily.
+    The `-n, --no-verify` flag of `git commit` can be used to deactivate pre-commit hooks temporarily. Run `pre-commit uninstall` to permanently stop pre-commit.
 
-### Extra test packages
+### Extra `test` packages
 
 The list of `test` packages are specified in `pyproject.toml` under `[project.optional-dependencies.test]`
 
@@ -159,7 +159,7 @@ nox -s pytest
 
         nox -s pytest
 
-### Extra docs packages
+### Extra `docs` packages
 
 The list of `docs` packages are specified in `pyproject.toml` under `[project.optional-dependencies.doc]`
 
@@ -189,14 +189,14 @@ mike deploy --help
 ```
 
 !!! note "GitHub Pages Settings"
-    If your [pages url](${{cookiecutter.__url_documentation}}) is not loading, make sure you set the **Source** in your [pages settings](${{cookiecutter.__github_url}}/settings/pages) to `gh-pages` and use the _root_ directory. Pages will then be built and deployed with the pages url as the default.
+    If your [pages url](${{cookiecutter.docs_url}}) is not loading, make sure you set the **Source** in your [pages settings](https://github.com/{{cookiecutter.github_user}}/{{cookiecutter.github_repo}}/settings/pages) to `gh-pages` and use the _root_ directory. Pages will then be built and deployed with the pages url as the default.
 
 _Documentation Resources_:
 
 - builder: [`mkdocs`](https://www.mkdocs.org/user-guide)
 - builder: [`mike`](https://github.com/jimporter/mike)
-- theme: [`mkdocs-material`](https://squidfunk.github.io/mkdocs-material/setup/)
-- markdown extensions: [`python-markdown`](https://python-markdown.github.io/extensions/md_in_html/)
+- theme: [`mkdocs-material`](https://squidfunk.github.io/mkdocs-material/setup/changing-the-colors/)
+- markdown extensions: [`python-markdown`](https://python-markdown.github.io/), [`pymdown-extensions`](https://facelessuser.github.io/pymdown-extensions/)
 - plugin: [`mkdocstrings`](https://mkdocstrings.github.io/usage/)
 
 ### Environment maintenance 
@@ -223,12 +223,21 @@ The GitHub actions and workflows are located under the `.github` folder and auto
 - Create a release: [ncipollo/release-action@v1](https://github.com/ncipollo/release-action)
 - Using `nox`: [excitedleigh/setup-nox@v2](https://github.com/excitedleigh/setup-nox)
 
+!!! tip "Reset Tags and Releases"
+    GitHub actions will automatically create tags and releases on the main branch. To reset these, run:
+    ```bash
+    git tag -d $(git tag -l)
+    git fetch
+    git push origin --delete $(git tag -l)
+    git tag -d $(git tag -l)
+    ```
+
 ### Troubleshooting
 
 The following tips can be used when facing problems to build or test the
 package:
 
-Make sure to fetch all the tags from the upstream [repository]({{cookiecutter.__github_url}}). The command `git describe --abbrev=0 --tags` should return the version you are expecting. If you are trying to run CI scripts in a forked repository, make sure to push all the tags. You can also try to remove all the egg files or the complete egg folder, i.e., `.eggs`, as well as the `*.egg-info` folders in the `src` folder or potentially in the root of your project.
+Make sure to fetch all the tags from the upstream [repository](https://github.com/{{cookiecutter.github_user}}/{{cookiecutter.github_repo}}). The command `git describe --abbrev=0 --tags` should return the version you are expecting. If you are trying to run CI scripts in a forked repository, make sure to push all the tags. You can also try to remove all the egg files or the complete egg folder, i.e., `.eggs`, as well as the `*.egg-info` folders in the `src` folder or potentially in the root of your project.
 
 [Pytest can drop you](https://docs.pytest.org/en/stable/usage.html#dropping-to-pdb-python-debugger-at-the-start-of-a-test) in an interactive session in the case an error occurs. In order to do that you need to pass a `--pdb` option (for example by running `pytest <NAME OF THE FALLING TEST> --pdb`). You can also setup breakpoints manually instead of using the `--pdb` option.
 

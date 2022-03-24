@@ -1,0 +1,203 @@
+# For running in Github Action{% raw %}
+#  Need to manually add deploy private key to
+#  Settings->Secrets->Actions: REGISTRY_USERNAME REGISTRY_PASSWORD
+name: sciops-docker-images
+on:
+  workflow_call:
+    inputs:
+      jhub_ver:
+        required: true
+        type: string
+      py_ver:
+        required: true
+        type: string
+      dist:
+        required: true
+        type: string
+      workflow_version:
+        required: true
+        type: string
+      release_upload_url:
+        required: true
+        type: string
+    secrets:
+      RAW_DEPLOY_KEY:
+        required: true
+      REGISTRY_USERNAME:
+        required: true
+      REGISTRY_PASSWORD:
+        required: true
+jobs:
+  ## Build/Publish codebook env image
+  build_env_image:
+    runs-on: ubuntu-latest
+    env:
+      JHUB_VER: ${{inputs.jhub_ver}}
+      PY_VER: ${{inputs.py_ver}}
+      DIST: ${{inputs.dist}}
+      WORKFLOW_VERSION: ${{inputs.workflow_version}}
+    steps:
+      - uses: actions/checkout@v2
+      - id: compile_env
+        name: Compile codebook env image
+        run: |
+          ## Get build info
+          cd ./docker
+          export REPO_NAME=$(echo ${{github.repository}} | awk -F\/ '{print $2}')
+          echo "::set-output name=repo_name::${REPO_NAME}"
+          export REPO_OWNER=${{github.repository_owner}}
+
+          echo ${{secrets.RAW_DEPLOY_KEY}} | base64 -di >> ${REPO_NAME}-deploy.pem
+          chmod 400 ${REPO_NAME}-deploy.pem
+          export DEPLOY_KEY=${REPO_NAME}-deploy.pem
+
+          ## Build image
+          docker-compose -f docker-compose-codebook_env.yaml build
+
+          cd ../
+          docker save \
+            -o image-codebook-${REPO_NAME}-jhub${JHUB_VER}-py${PY_VER}-${DIST}-${WORKFLOW_VERSION}.tar \
+            "registry.vathes.com/sciops/codebook-${REPO_NAME}:jhub${JHUB_VER}-py${PY_VER}-${DIST}-${WORKFLOW_VERSION}"
+          gzip -S ".gz" image-codebook-${REPO_NAME}-jhub${JHUB_VER}-py${PY_VER}-${DIST}-${WORKFLOW_VERSION}.tar
+      - name: Add codebook env image archive to Artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: "image-codebook-${{steps.compile_env.outputs.repo_name}}-jhub${{env.JHUB_VER}}-py${{env.PY_VER}}-${{env.DIST}}-${{env.WORKFLOW_VERSION}}"
+          path: "image-codebook-${{steps.compile_env.outputs.repo_name}}-jhub${{env.JHUB_VER}}-py${{env.PY_VER}}-${{env.DIST}}-${{env.WORKFLOW_VERSION}}.tar.gz"
+          retention-days: 1
+    outputs:
+      repo_name: ${{steps.compile_env.outputs.repo_name}}
+  publish_env_image:
+    if: |
+      github.event_name == 'push' &&
+      startsWith(github.ref, 'refs/tags') &&
+      github.repository_owner == 'dj-sciops'
+    needs: [build_env_image]
+    runs-on: ubuntu-latest
+    env:
+      JHUB_VER: ${{inputs.jhub_ver}}
+      PY_VER: ${{inputs.py_ver}}
+      DIST: ${{inputs.dist}}
+      WORKFLOW_VERSION: ${{inputs.workflow_version}}
+    steps:
+      - name: Fetch image archive from Artifact
+        uses: actions/download-artifact@v2
+        with:
+          name: "image-codebook-${{needs.build_env_image.outputs.repo_name}}-jhub${{env.JHUB_VER}}-py${{env.PY_VER}}-${{env.DIST}}-${{env.WORKFLOW_VERSION}}"
+      - name: Upload image archive to Release
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+        with:
+          upload_url: ${{inputs.release_upload_url}}
+          asset_path: "image-codebook-${{needs.build_env_image.outputs.repo_name}}-jhub${{env.JHUB_VER}}-py${{env.PY_VER}}-${{env.DIST}}-${{env.WORKFLOW_VERSION}}.tar.gz"
+          asset_name: "image-codebook-${{needs.build_env_image.outputs.repo_name}}-jhub${{env.JHUB_VER}}-py${{env.PY_VER}}-${{env.DIST}}-${{env.WORKFLOW_VERSION}}.tar.gz"
+          asset_content_type: application/gzip
+      - name: Load image archive to docker
+        run: |
+          ## If you local machine is not the same as the "runs-on", this step would fail: invalid tar header
+          docker load \
+            -i "image-codebook-${{needs.build_env_image.outputs.repo_name}}-jhub${{env.JHUB_VER}}-py${{env.PY_VER}}-${{env.DIST}}-${{env.WORKFLOW_VERSION}}.tar.gz"
+      - name: Login to vathes Registry
+        uses: docker/login-action@v1
+        with:
+          registry: registry.vathes.com
+          username: ${{ secrets.REGISTRY_USERNAME }}
+          password: ${{ secrets.REGISTRY_PASSWORD }}
+      - name: Push image
+        run: |
+          export IMAGE=registry.vathes.com/sciops/codebook-${{needs.build_env_image.outputs.repo_name}}
+          export TAG=jhub${{env.JHUB_VER}}-py${{env.PY_VER}}-${{env.DIST}}-${{env.WORKFLOW_VERSION}}
+          docker push "${IMAGE}:${TAG}"
+          docker tag "${IMAGE}:${TAG}" "${IMAGE}:${TAG}--${GITHUB_SHA:0:7}"
+          docker push "${IMAGE}:${TAG}-${GITHUB_SHA:0:7}"
+          [ "$PY_VER" == "3.8" ] && [ "$DISTRO" == "alpine" ] \
+                  && docker tag "${IMAGE}:${TAG}" "${IMAGE}:latest" \
+                  && docker push "${IMAGE}:latest" \
+              || echo "skipping 'latest' tag..."
+  ## Build/Publish standard worker
+  build_worker_image:
+    runs-on: ubuntu-latest
+    env:
+      PY_VER: ${{inputs.py_ver}}
+      DIST: ${{inputs.dist}}
+      WORKFLOW_VERSION: ${{inputs.workflow_version}}
+    steps:
+      - uses: actions/checkout@v2
+      - id: compile_worker
+        name: Compile codebook worker image
+        run: |
+          ## Get build info
+          cd ./docker
+          export REPO_NAME=$(echo ${{github.repository}} | awk -F\/ '{print $2}')
+          echo "::set-output name=repo_name::${REPO_NAME}"
+          export REPO_OWNER=${{github.repository_owner}}
+
+          echo ${{secrets.RAW_DEPLOY_KEY}} | base64 -di >> ${REPO_NAME}-deploy.pem
+          chmod 400 ${REPO_NAME}-deploy.pem
+          export DEPLOY_KEY=${REPO_NAME}-deploy.pem
+
+          ## Build image
+          docker-compose -f docker-compose-standard_worker.yaml build
+
+          cd ../
+          docker save \
+            -o image-standard-${REPO_NAME}-py${PY_VER}-${DIST}-${WORKFLOW_VERSION}.tar \
+            "registry.vathes.com/sciops/standard-${REPO_NAME}:py${PY_VER}-${DIST}-${WORKFLOW_VERSION}"
+          gzip -S ".gz" image-standard-${REPO_NAME}-py${PY_VER}-${DIST}-${WORKFLOW_VERSION}.tar
+      - name: Add standard worker image archive to Artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: "image-standard-${{steps.compile_worker.outputs.repo_name}}-py${{env.PY_VER}}-${{env.DIST}}-${{env.WORKFLOW_VERSION}}"
+          path: "image-standard-${{steps.compile_worker.outputs.repo_name}}-py${{env.PY_VER}}-${{env.DIST}}-${{env.WORKFLOW_VERSION}}.tar.gz"
+          retention-days: 1
+    outputs:
+      repo_name: ${{steps.compile_worker.outputs.repo_name}}
+  publish_worker_image:
+    if: |
+      github.event_name == 'push' &&
+      startsWith(github.ref, 'refs/tags') &&
+      github.repository_owner == 'dj-sciops'
+    needs: [build_worker_image]
+    runs-on: ubuntu-latest
+    env:
+      PY_VER: ${{inputs.py_ver}}
+      DIST: ${{inputs.dist}}
+      WORKFLOW_VERSION: ${{inputs.workflow_version}}
+    steps:
+      - name: Fetch image archive from Artifact
+        uses: actions/download-artifact@v2
+        with:
+          name: "image-standard-${{needs.build_worker_image.outputs.repo_name}}-py${{env.PY_VER}}-${{env.DIST}}-${{env.WORKFLOW_VERSION}}"
+      - name: Upload image archive to Release
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+        with:
+          upload_url: ${{inputs.release_upload_url}}
+          asset_path: "image-standard-${{needs.build_worker_image.outputs.repo_name}}-py${{env.PY_VER}}-${{env.DIST}}-${{env.WORKFLOW_VERSION}}.tar.gz"
+          asset_name: "image-standard-${{needs.build_worker_image.outputs.repo_name}}-py${{env.PY_VER}}-${{env.DIST}}-${{env.WORKFLOW_VERSION}}.tar.gz"
+          asset_content_type: application/gzip
+      - name: Load image archive to docker
+        run: |
+          ## If you local machine is not the same as the "runs-on", this step would fail: invalid tar header
+          docker load \
+            -i "image-standard-${{needs.build_worker_image.outputs.repo_name}}-py${{env.PY_VER}}-${{env.DIST}}-${{env.WORKFLOW_VERSION}}.tar.gz"
+      - name: Login to vathes Registry
+        uses: docker/login-action@v1
+        with:
+          registry: registry.vathes.com
+          username: ${{ secrets.REGISTRY_USERNAME }}
+          password: ${{ secrets.REGISTRY_PASSWORD }}
+      - name: Push image
+        run: |
+          export IMAGE=registry.vathes.com/sciops/standard-${{needs.build_worker_image.outputs.repo_name}}
+          export TAG=py${{env.PY_VER}}-${{env.DIST}}-${{env.WORKFLOW_VERSION}}
+          docker push "${IMAGE}:${TAG}"
+          docker tag "${IMAGE}:${TAG}" "${IMAGE}:${TAG}--${GITHUB_SHA:0:7}"
+          docker push "${IMAGE}:${TAG}-${GITHUB_SHA:0:7}"
+          [ "$PY_VER" == "3.8" ] && [ "$DISTRO" == "alpine" ] \
+                  && docker tag "${IMAGE}:${TAG}" "${IMAGE}:latest" \
+                  && docker push "${IMAGE}:latest" \
+              || echo "skipping 'latest' tag..."
+# {% endraw %}

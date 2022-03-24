@@ -1,6 +1,5 @@
 """`{{cookiecutter.__project_name}}`:
 _A DataJoint SciOps Workflow for {{cookiecutter.organization}}, {{cookiecutter.lab}}_
-
 """
 
 import logging

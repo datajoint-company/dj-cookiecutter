@@ -1,7 +1,7 @@
 site_name: "Datajoint Workflow {{cookiecutter.lab}}"
 site_description: "A DataJoint SciOps Workflow for {{cookiecutter.organization}}, {{cookiecutter.lab}}"
 site_author: "{{cookiecutter.author_name}}"
-repo_url: "{{cookiecutter.__url_source}}"
+repo_url: "https://github.com/{{cookiecutter.github_user}}/{{cookiecutter.github_repo}}"
 edit_uri: ""
 remote_branch: gh-pages
 site_dir: site
@@ -63,6 +63,8 @@ markdown_extensions:
   - pymdownx.betterem
   - pymdownx.tasklist
   - pymdownx.superfences
+  - pymdownx.highlight
+  - pymdownx.inlinehilite
 
 plugins:
   - include-markdown

@@ -73,6 +73,17 @@ runs:
         allowUpdates: true
         generateReleaseNotes: true
 
+outputs:
+  id:
+    description: "The identifier of the created release"
+    value: ${{ steps.release-version.outputs.id }}
+  html_url:
+    description: "The HTML URL of the release"
+    value: ${{ steps.release-version.outputs.html_url }}
+  upload_url:
+    description: "The URL for uploading assets to the release"
+    value: ${{ steps.release-version.outputs.upload_url }}
+
 branding:
   icon: "aperture"
   color: "blue"

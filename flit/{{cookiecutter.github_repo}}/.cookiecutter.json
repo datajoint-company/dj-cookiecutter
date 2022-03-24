@@ -1,23 +1,17 @@
 {
-    "author_email": "{{cookiecutter.author_email}}",
-    "author_name": "{{cookiecutter.author_name}}",
-    "organization": "{{cookiecutter.organization}}",
-    "lab": "{{cookiecutter.lab}}",
-    "github_user": "{{cookiecutter.github_user}}",
-    "__org": "{{cookiecutter.__org}}",
-    "__lab": "{{cookiecutter.__lab}}",
-    "github_repo": "{{cookiecutter.github_repo}}",
-    "pkg_version": "{{cookiecutter.pkg_version}}",
     "__project_name": "{{cookiecutter.__project_name}}",
     "__pkg_import_name": "{{cookiecutter.__pkg_import_name}}",
-    "__github_url": "{{cookiecutter.__github_url}}",
-    "url_homepage": "{{cookiecutter.url_homepage}}",
-    "__url_documentation": "{{cookiecutter.__url_documentation}}",
-    "__url_source": "{{cookiecutter.__url_source}}",
-    "_djconfig": "{{cookiecutter._djconfig}}",
-    "_copy_without_render": [
-        "docs/assets/*",
-        "docs/css/*",
-        "docs/overrides/*"
-    ]
+    "github_repo": "{{cookiecutter.github_repo}}",
+    "github_user": "{{cookiecutter.github_user}}",
+    "author_name": "{{cookiecutter.author_name}}",
+    "author_email": "{{cookiecutter.author_email}}",
+    "organization": "{{cookiecutter.organization}}",
+    "lab": "{{cookiecutter.lab}}",
+    "__user": "{{cookiecutter.__user}}",
+    "__org": "{{cookiecutter.__org}}",
+    "__lab": "{{cookiecutter.__lab}}",
+    "pkg_version": "{{cookiecutter.pkg_version}}",
+    "homepage_url": "{{cookiecutter.homepage_url}}",
+    "docs_url": "{{cookiecutter.docs_url}}",
+    "_djconfig": "{{cookiecutter._djconfig}}"
 }
