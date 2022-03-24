@@ -24,9 +24,7 @@ anchor-prod-if: &prod-if
   if: |
     github.event_name == 'push' &&
     startsWith(github.ref, 'refs/tags') &&
-    (github.repository_owner == 'dj-sciops' ||
-     github.repository_owner == 'datajoint' ||
-     github.repository_owner == 'datajoint-company')
+    github.repository_owner == 'dj-sciops'
 anchor-prod-workflow: &prod-workflow
   uses: dj-sciops/djsciops-cicd/.github/workflows/sciops_docker_images.yaml@main
 ### Common anchor
