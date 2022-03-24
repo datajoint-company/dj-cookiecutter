@@ -134,3 +134,4 @@ dmypy.json
 /o-science-institute_w-neuro-lab
 /build/
 /{{cookiecutter.github_repo}}
+# github actions
