@@ -31,7 +31,7 @@ jobs:
     outputs:
       workflow_version: ${{steps.get_version.outputs.workflow_version}}
       release_upload_url: ${{steps.create_release.outputs.upload_url}}
-  call_sciops_docker_image_py39:
+  call_u24_docker_image_py39:
     needs: [get_meta]
     uses: dj-sciops/djsciops-cicd/.github/workflows/u24_docker_images.yaml@main
     with:
@@ -44,7 +44,7 @@ jobs:
       RAW_DEPLOY_KEY: ${{secrets.RAW_DEPLOY_KEY}}
       REGISTRY_USERNAME: ${{secrets.REGISTRY_USERNAME}}
       REGISTRY_PASSWORD: ${{secrets.REGISTRY_PASSWORD}}
-  call_sciops_docker_image_py38:
+  call_u24_docker_image_py38:
     needs: [get_meta]
     uses: dj-sciops/djsciops-cicd/.github/workflows/u24_docker_images.yaml@main
     with:

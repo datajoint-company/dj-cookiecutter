@@ -62,7 +62,7 @@ jobs:
       workflow_version: ${{steps.get_version.outputs.workflow_version}}
       release_upload_url: ${{steps.create_release.outputs.upload_url}}
   
-  call_sciops_docker_image_py39:
+  call_u24_docker_image_py39:
     needs: [get_meta]
     !!merge <<: *$STAGE-workflow
     with:
@@ -72,7 +72,7 @@ jobs:
       workflow_version: ${{needs.get_meta.outputs.workflow_version}}
       release_upload_url: ${{needs.get_meta.outputs.release_upload_url}}
     !!merge <<: *workflow-secrets
-  call_sciops_docker_image_py38:
+  call_u24_docker_image_py38:
     needs: [get_meta]
     !!merge <<: *$STAGE-workflow
     with:
