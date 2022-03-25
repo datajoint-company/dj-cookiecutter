@@ -1,10 +1,11 @@
 # Build Docs for GitHub Pages{% raw %}
 name: mkdocs-build
 on:
-  workflow_run:
-    workflows: [semantic-versioning]
-    types: [completed]
-    branches: [main]
+  workflow_call:
+    inputs:
+      new_tag:
+        required: true
+        type: string
 
 jobs:
   get_last_pushed_tag:
@@ -66,12 +67,5 @@ jobs:
         uses: excitedleigh/setup-nox@v2
 
       - name: 📖  Build docs and deploy to gh-pages
-        run: nox --non-interactive -v -s docs -- --version ${{ needs.get_last_pushed_tag.outputs.tag }} ${{ env.DOCS_ARG }}
-
-  if_semantic_versioning_failed:
-    if: ${{ github.event.workflow_run.conclusion == 'failure' }}
-    runs-on: ubuntu-latest
-    steps:
-      - run: |
-          echo "The 'semantic-versioning' workflow failed or did not run. Skipping 'mkdocs-build' workflow."
+        run: nox --non-interactive -v -s docs -- --version ${{ inputs.new_tag }} ${{ env.DOCS_ARG }}
 #{% endraw %}

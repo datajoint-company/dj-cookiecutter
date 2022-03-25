@@ -43,6 +43,10 @@
 				"type": "python",
 				"program": "${file}",
 				"console": "integratedTerminal",
+				"cwd": "${fileDirname}",
+				"env": {
+					"PYTHONPATH": "${workspaceFolder}/src"
+				},
 				"request": "launch"
 			},
 			{
@@ -73,7 +77,8 @@
 			"actions",
 			"loaders",
 			"package",
-			"module"
+			"module",
+			"docker"
 		],
 		"files.exclude": {
 			"**/.DS_Store": true,
@@ -84,7 +89,8 @@
 			"**/Thumbs.db": true,
 			"*.command": true
 		},
-		"python.defaultInterpreterPath": "${env:CONDA_ENV_ROOT}/{{cookiecutter.__pkg_import_name}}"
+		"python.defaultInterpreterPath": "${env:CONDA_ENV_ROOT}/{{cookiecutter.__pkg_import_name}}",
+		"python.linting.mypyEnabled": true
 	},
 	"tasks": {
 		// See https://go.microsoft.com/fwlink/?LinkId=733558
@@ -123,11 +129,12 @@
 					"update",
 					"-vq",
 					"--file",
-					"environment.yml"
+					"environment.yml",
+					"--prune"
 				]
 			},
 			{
-				"label": "mamba update packages",
+				"label": "mamba update: all packages",
 				"type": "shell",
 				"command": "conda",
 				"args": [
@@ -214,6 +221,85 @@
 					"install",
 					"--install-hooks"
 				]
+			},
+			{
+				"label": "pre-commit autoupdate",
+				"type": "shell",
+				"command": "conda",
+				"args": [
+					"run",
+					"--no-capture-output",
+					"-n",
+					"{{cookiecutter.__pkg_import_name}}",
+					"pre-commit",
+					"autoupdate"
+				]
+			},
+			{
+				"label": "pre-commit run all",
+				"type": "shell",
+				"command": "conda",
+				"args": [
+					"run",
+					"--no-capture-output",
+					"-n",
+					"{{cookiecutter.__pkg_import_name}}",
+					"pre-commit",
+					"run",
+					"--all-files"
+				]
+			},
+			{
+				"label": "docker-compose up codebook",
+				"type": "shell",
+				"command": "docker-compose",
+				"args": [
+					"-f",
+					"docker-compose-codebook_env.yaml",
+					"up",
+					"--build",
+					"--remove-orphans",
+					"-d"
+				],
+				"options": {
+					"cwd": "${workspaceFolder}/docker"
+				}
+			},
+			{
+				"label": "docker-compose down codebook",
+				"type": "shell",
+				"command": "docker-compose",
+				"args": [
+					"-f",
+					"docker-compose-codebook_env.yaml",
+					"down",
+					"--volumes",
+					"--remove-orphans"
+				],
+				"options": {
+					"cwd": "${workspaceFolder}/docker"
+				}
+			},
+			{
+				"label": "generate stubs",
+				"type": "shell",
+				"command": "stubgen",
+				"args": [
+					"src",
+					"-o",
+					"typings"
+				],
+				"options": {
+					"cwd": "${workspaceFolder}/docker"
+				}
+			},
+			{
+				"label": "clean junk files",
+				"type": "shell",
+				"command": "find . -name '*.DS_Store' -type f -delete && find . -name '.ipynb_checkpoints' -type d -exec rm -rf {} + && find . -name '__pycache__' -type d -exec rm -rf {} +",
+				"options": {
+					"cwd": "${workspaceFolder}"
+				}
 			}
 		]
 	}

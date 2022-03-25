@@ -3,25 +3,25 @@
     "author_email": "firstname@datajoint.com",
     "organization": "Science Institute",
     "lab": "Neuro Lab",
+    "__org": "{{cookiecutter.organization|slugify}}",
+    "__lab": "{{cookiecutter.lab|slugify}}",
+    "__user": "{{cookiecutter.author_name|slugify}}",
     "github_user": [
         "dj-sciops",
         "datajoint",
         "datajoint-company"
     ],
-    "__org": "{{cookiecutter.organization|lower|replace('_', '-')|replace(' ', '-')}}",
-    "__lab": "{{cookiecutter.lab|lower|replace('_', '-')|replace(' ', '-')}}",
     "github_repo": "o-{{cookiecutter.__org}}_w-{{cookiecutter.__lab}}",
-    "pkg_version": "0.0.0a0.dev1",
+    "pkg_version": "0.0.1",
+    "homepage_url": "https://github.com/{{cookiecutter.github_user}}",
+    "docs_url": "https://{{cookiecutter.github_user}}.github.io/{{cookiecutter.github_repo}}",
     "__project_name": "datajoint-workflow-{{cookiecutter.__lab|replace('-lab', '')}}",
-    "__pkg_import_name": "{{cookiecutter.__lab|replace('-lab', '')|replace('-', '')}}wf",
-    "__github_url": "https://github.com/{{cookiecutter.github_user}}/{{cookiecutter.github_repo}}",
-    "url_homepage": "https://github.com/{{cookiecutter.github_user}}",
-    "__url_documentation": "https://{{cookiecutter.github_user}}.github.io/{{cookiecutter.github_repo}}",
-    "__url_source": "{{cookiecutter.__github_url}}",
+    "__pkg_import_name": "{{cookiecutter.__lab|slugify(separator='')|replace('lab', '')}}wf",
     "_djconfig": "dj_local_conf.json",
     "_copy_without_render": [
         "docs/assets/*",
         "docs/css/*",
         "docs/overrides/*"
-    ]
+    ],
+    "_new_lines": "\n"
 }

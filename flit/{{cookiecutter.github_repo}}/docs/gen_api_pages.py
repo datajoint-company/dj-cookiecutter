@@ -34,7 +34,8 @@ def generate_api_docs(
             ident: str = ".".join(parts)
             file_txt: str = "::: " + ident
             if show_source_list and ident in show_source_list:
-                file_txt += "\n\tshow_source: true"
+                file_txt += "\n\trendering:"
+                file_txt += "\n\t  show_source: true"
             print(file_txt, file=fd)
 
         mkgen.set_edit_path(full_doc_path, path)

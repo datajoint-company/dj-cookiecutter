@@ -1,5 +1,5 @@
 default_language_version:
-  python: python3.10
+  python: python3.9
 # files: "^(tests|src\/{{cookiecutter.__pkg_import_name}})\/.*$"
 exclude: "^$"
 default_stages: [commit, push]
@@ -7,11 +7,15 @@ repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v4.1.0
     hooks:
-      - id: check-added-large-files
-      - id: check-json
+      - id: check-case-conflict
       - id: detect-private-key
-      - id: check-merge-conflict
+      - id: check-json
+      - id: check-toml
       - id: check-yaml
+      - id: name-tests-test
+        args: ['--django']
+      - id: check-added-large-files
+        args: ["--maxkb=5000"]
       - id: end-of-file-fixer
         exclude: LICENSE
       - id: mixed-line-ending

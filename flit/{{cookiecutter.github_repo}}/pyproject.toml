@@ -20,13 +20,37 @@ classifiers = [
     "Topic :: Software Development :: Libraries :: Python Modules",
     "License :: OSI Approved :: MIT License",
     "Programming Language :: Python :: 3",
-    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.9"
 ]
-dependencies = ["datajoint>=0.13.3"]
+dependencies = [
+    "cryptography", # datajoint
+    "ipython",      # datajoint
+    "matplotlib",   # datajoint
+    "minio",        # datajoint
+    "networkx",     # datajoint
+    "numpy",        # datajoint
+    "otumat",       # datajoint
+    "pandas",       # datajoint
+    "pydot",        # datajoint
+    "pymysql",      # datajoint
+    "pyparsing",    # datajoint
+    "tqdm",         # datajoint
+    "urllib3",      # datajoint
+    "click",        # {{cookiecutter.__pkg_import_name}}
+    "h5py",         # {{cookiecutter.__pkg_import_name}}
+    "plotly",       # {{cookiecutter.__pkg_import_name}}
+    "pyyaml",       # {{cookiecutter.__pkg_import_name}}
+    "scipy",        # {{cookiecutter.__pkg_import_name}}
+    "seaborn",      # {{cookiecutter.__pkg_import_name}}
+    "tomli",        # {{cookiecutter.__pkg_import_name}}
+    "appdirs",      # djsciops-axon
+    "boto3",        # djsciops-axon
+    "flask",        # djsciops-axon
+]
 dynamic = ["version"]
 
 [project.optional-dependencies]
-dev = ["black", "flake8", "pre-commit", "nox"]
+dev = ["black", "flake8", "pre-commit", "nox", "mypy"]
 doc = [
     "mkdocs",
     "mkdocstrings-python",
@@ -36,17 +60,18 @@ doc = [
     "mkdocs-section-index",
     "mkdocs-include-markdown-plugin",
     "pymdown-extensions",
-    "mike"
+    "mike",
 ]
 test = ["pytest"]
+sciops = ["ipykernel", "djsciops", "datajoint>=0.13.3"]
 
 [project.scripts]
 ingestion_entrypoint = "{{cookiecutter.__pkg_import_name}}.entrypoint:cli"
 
 [project.urls]
-Homepage = "{{cookiecutter.url_homepage}}"
-Source = "{{cookiecutter.__url_source}}"
-Documentation = "{{cookiecutter.__url_documentation}}"
+Homepage = "{{cookiecutter.homepage_url}}"
+Source = "https://github.com/{{cookiecutter.github_user}}/{{cookiecutter.github_repo}}"
+Documentation = "{{cookiecutter.docs_url}}"
 DataJoint = "https://docs.datajoint.org/"
 
 [tool.flit.module]
@@ -72,4 +97,10 @@ exclude = '''
 
 [tool.isort]
 profile = "black"
-color_output = false
+
+[tool.pyright]
+include = ["src"]
+exclude = ["**/.ipynb_checkpoints", "**/__pycache__", "src/experimental"]
+stubPath = "typings"
+reportMissingImports = true
+reportMissingTypeStubs = false

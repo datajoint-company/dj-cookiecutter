@@ -5,6 +5,14 @@ div.doc-contents:not(.first) {
   margin-bottom: 15px;
 }
 
-div.doc-contents:not(.first) > div.md-typeset__scrollwrap > div > table > thead {
+div.doc-contents:not(.first)
+  > div.md-typeset__scrollwrap
+  > div
+  > table
+  > thead {
   background-color: var(--md-accent-fg-color--transparent);
+}
+
+.md-grid {
+  max-width: 1440px;
 }

@@ -1,0 +1,33 @@
+version: "2.4"
+services:
+  codebook_env:
+    build:
+      context: .
+      dockerfile: codebook.Dockerfile
+      args:
+        JHUB_VER:
+        PY_VER:
+        DIST:
+        DEPLOY_KEY:
+        REPO_OWNER:
+        REPO_NAME:
+        WORKFLOW_VERSION:
+    image: registry.vathes.com/sciops/codebook-${REPO_NAME}:jhub${JHUB_VER}-py${PY_VER}-${DIST}-${WORKFLOW_VERSION}
+    environment:
+      DISPLAY: # Necessary to allow GUI to route to Docker host
+      NEW_USER: {{cookiecutter.github_user}} # Rename user and adjust HOME directory
+      DJ_HOST: host.docker.internal # Specify DataJoint database host
+      DJ_USER: root # Specify DataJoint database user
+      DJ_PASS: simple # Specify DataJoint database password
+      Djlab_JupyterServer_Password: datajoint # Jupyter login password
+    ports:
+      - 8888:8888
+    volumes:
+      - /tmp/.X11-unix:/tmp/.X11-unix:rw # Necessary to allow GUI to route to Docker host
+    user: ${HOST_UID:-1000}:anaconda # Necessary to allow GUI to route to Docker host
+    command: jupyter lab
+    # user: root:anaconda
+    # init: true
+    # tty: true
+    # entrypoint: ["/bin/sh", "-c"]
+    # command: tail -f /dev/null
