@@ -12,6 +12,10 @@ inputs:
     required: false
     default: build_test
 
+  directory:
+    description: "Template directory passed to cookiecutter cli"
+    required: true
+
   folder:
     description: "Subdirectory for a specific template"
     required: true
@@ -24,7 +28,7 @@ inputs:
   cookiecutter_args:
     description: "Arguments passed to cookiecutter"
     required: false
-    default: "-vf --no-input"
+    default: "-v"
 
   new_tag:
     description: "Tag used during commit"
@@ -50,14 +54,14 @@ runs:
       run: |
         pip install -U ${{ inputs.cookiecutter_pkg }}
         rm -rf ./.build
-        cookiecutter ${{ inputs.cookiecutter_args }} -o ./.build/ .
+        cookiecutter ${{ inputs.cookiecutter_args }} -f --no-input --directory=${{ inputs.directory }} -o ./.build/${{ inputs.directory }} .
       shell: bash
 
     - name: Upload Artifact Content
       uses: actions/upload-artifact@v3
       with:
-        name: ${{ inputs.folder }}_${{ inputs.new_tag }}
-        path: .build/${{ inputs.folder }}
+        name: ${{ inputs.directory }}_${{ inputs.folder }}_${{ inputs.new_tag }}
+        path: .build/${{ inputs.directory }}/${{ inputs.folder }}
 
     - name: Create 'build' Branch
       id: create-new-branch-step
@@ -86,21 +90,21 @@ runs:
         fetch-depth: 0
 
     - name: Cleaning Previous Output Folder
-      run: rm -rf "${{ inputs.folder }}"
+      run: rm -rf "${{ inputs.directory }}/${{ inputs.folder }}"
       working-directory: ${{ inputs.build_branch }}
       shell: bash
 
     - name: Downloading Artifact Content
       uses: actions/download-artifact@v3
       with:
-        name: ${{ inputs.folder }}_${{ inputs.new_tag }}
-        path: ${{ inputs.build_branch }}/${{ inputs.folder }}
+        name: ${{ inputs.directory }}_${{ inputs.folder }}_${{ inputs.new_tag }}
+        path: ${{ inputs.build_branch }}/${{ inputs.directory }}/${{ inputs.folder }}
 
     - name: Copying Built Content to Branch
       run: |
         (
-          cd "${{ inputs.folder }}"
-          git add . --force
+          cd "${{ inputs.directory }}"
+          git add ${{ inputs.folder }} --force
         )
         echo "Checking if there's something to commit."
         if [ -z "$(git status --porcelain)" ]; then
@@ -117,7 +121,7 @@ runs:
 outputs:
   artifact:
     description: "Name of the uploaded artifact"
-    value: ${{ inputs.folder }}_${{ inputs.new_tag }}
+    value: ${{ inputs.directory }}_${{ inputs.folder }}_${{ inputs.new_tag }}
 
 branding:
   icon: "aperture"
