@@ -41,7 +41,7 @@ jobs:
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           directory: datajoint-workflow
-          folder: science-institute_neuro-lab
+          folder: science-institute_brain-lab
           cookiecutter_pkg: git+https://github.com/cookiecutter/cookiecutter tomli pyyaml
           new_tag: ${{ needs.get_tag.outputs.new_tag }}
     outputs:
