@@ -1,0 +1,18 @@
+# Initial install:
+#   > mamba env create -qvf environment.yml
+# Update env:
+#   > mamba env update -qvf environment.yml --prune
+# Package install:
+#   > pip install -e ".[dev,doc,test,sciops]"
+# Remove env:
+#   > mamba env remove -n {{cookiecutter.__pkg_import_name}}
+
+name: {{cookiecutter.__pkg_import_name}}
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  # Core environment dependencies
+  - python=={{cookiecutter.python_version}}.*
+  - pip>=22.0
+  - mamba>0.21

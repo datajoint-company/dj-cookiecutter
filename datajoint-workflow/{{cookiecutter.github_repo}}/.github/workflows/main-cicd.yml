@@ -1,0 +1,50 @@
+# Run workflows that require semantic versioning info
+name: main-cicd
+on:
+  workflow_run:
+    workflows: [run-tests]
+    types: [completed]
+    branches: [main]
+
+jobs:
+  call_semantic_versioning:
+    uses: dj-sciops/djsciops-cicd/.github/workflows/semantic-versioning.yml@main
+    with:
+      py_ver: "{{cookiecutter.python_version}}"
+      create_release: true
+      release_only: "['major','minor','patch']"
+
+  call_mkdocs_build:
+    needs: [call_semantic_versioning]
+    if: always() && needs.call_semantic_versioning.result == 'success'
+    uses: dj-sciops/djsciops-cicd/.github/workflows/mkdocs-build.yml@main
+    with:
+      new_tag: ${{"{{"}} needs.call_semantic_versioning.outputs.new_tag {{"}}"}}
+      branch_name: gh-pages
+      py_ver: "{{cookiecutter.python_version}}"
+
+  call_sciops_docker_images:
+    needs: [call_semantic_versioning]
+    if: |
+      always() &&
+      (needs.call_semantic_versioning.result == 'success')
+    uses: dj-sciops/djsciops-cicd/.github/workflows/sciops_docker_images.yaml@main
+    with:
+      jhub_ver: "1.4.2"
+      py_ver: "{{cookiecutter.python_version}}{% raw %}"
+      dist: debian
+      env_base_hash: 44c5f19
+      worker_base_hash: fcd8909
+      workflow_version: ${{ needs.call_semantic_versioning.outputs.new_tag }}
+      release_upload_url: ${{ needs.call_semantic_versioning.outputs.upload_url }}
+    secrets:
+      RAW_DEPLOY_KEY: ${{ secrets.RAW_DEPLOY_KEY }}
+      REGISTRY_USERNAME: ${{ secrets.REGISTRY_USERNAME }}
+      REGISTRY_PASSWORD: ${{ secrets.REGISTRY_PASSWORD }}
+
+  if_run_tests_failed:
+    if: ${{ github.event.workflow_run.conclusion == 'failure' }}
+    runs-on: ubuntu-latest
+    steps:
+      - run: |
+          echo "The 'run-tests' workflow failed or did not run. Skipping 'semantic-versioning' workflow."{% endraw %}

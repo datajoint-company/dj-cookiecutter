@@ -1,49 +1,83 @@
 # dj-cookiecutter
-***Drew Yang @ DataJoint*** | ***2022.02.18***
+
+**_Drew Yang @ DataJoint_** | **_2022.02.18_**
+
+**_Joseph Burling @ DataJoint_** | **_2022.04.08_**
 
 ---
 
 This is a customized Cookiecutter python project template that you can generate an inital python project directory structure and common-used files
 
-- Cookiecutter: [Cookiecutter Github](https://github.com/cookiecutter/cookiecutter/tree/1.7.2)
-- Reference: [cookiecutter-pypackage](https://github.com/audreyfeldroy/cookiecutter-pypackage), a python Cookiecutter template that managed by Cookiecutter team
+- [**Cookiecutter Github**](https://github.com/cookiecutter/cookiecutter)
+- [**Cookiecutter Docs**](https://cookiecutter.readthedocs.io/en/2.0.2/)
 
 ---
 
-## Generate a python project
-**Prerequisite**
+## Cookiecutter usage and installation
+
+### Installation
+
 ```
-pip install cookiecutter
+pip install -U "git+https://github.com/cookiecutter/cookiecutter" tomli pyyaml
 ```
 
-**Refer template from github repo or local directory**
+### Basic usage
+
+Use `cookiecutter` to reference the template folder from a github repo or a local directory, then set a value to each variable, or skip/enter to use the default values.
+
 ```
-cookiecutter git@github.com:datajoint-company/dj-cookiecutter.git --directory workflow
-# set value to each variable, or skip to use default value
-# a python project will be generated at ~/Project/project_name/
+cookiecutter --directory template-name git@github.com:datajoint-company/dj-cookiecutter.git
+```
 
+A python project will be generated at `~/my-current-dir/project-name/`, where `project-name` is determined based on your input to the questions asked.
 
-# or if there is an existing cookiecutter template: ./existing_cookiecutter
-cookiecutter ./existing_cookiecutter --directory workflow
+If there is an existing, local cookiecutter template, e.g., at `./local_cookiecutter_template`, use that path instead of the GitHub repo url.
 
-# generate a project to a specific directory: ./Projects
-cookiecutter git@github.com:datajoint-company/dj-cookiecutter.git --directory workflow -o ./Project
-# files will be in ./Projects/project_name
+```
+cookiecutter --directory template-name ./local_cookiecutter_template
+```
 
-# this repo supports multiple cookiecutter templates
-cookiecutter git@github.com:datajoint-company/dj-cookiecutter.git --directory element
+To generate a project to a specific directory: `./Projects`
 
-# if you have already started working on your project and there are existing files
-cookiecutter git@github.com:datajoint-company/dj-cookiecutter.git --directory workflow --overwrite-if-exists
-# or
-cookiecutter git@github.com:datajoint-company/dj-cookiecutter.git --directory workflow --skip-if-file-exists
+```
+cookiecutter --directory template-name -o ./Project git@github.com:datajoint-company/dj-cookiecutter.git
+```
+
+Files will be in `./Projects/project_name`.
+
+This repo supports multiple cookiecutter templates
+
+```
+cookiecutter git@github.com:datajoint-company/dj-cookiecutter.git --directory another-template
+```
+
+If you have already started working on your project and there are existing files.
+
+```
+cookiecutter git@github.com:datajoint-company/dj-cookiecutter.git --directory template-name --overwrite-if-exists
+```
+
+or ...
+
+```
+cookiecutter git@github.com:datajoint-company/dj-cookiecutter.git --directory template-name --skip-if-file-exists
 ```
 
 > Note: cookiecutter will cache/clone this specified template repo to your user directory's ~/.cookiecutters
 
-> Note: the [`flit`](flit/README.md) template requires _cookiecutter>=2.0.0_
+## DataJoint Templates
 
-**context of cookiecutter.json**
+- [`datajoint-workflow`](datajoint-workflow/README.md) by @Yambottle, @iamamutt
+- [`element-example`](element-example/README.md) created as initial examples for science-team, welcome changes or new templates for your own requirements
+
+> Note: the [`datajoint-workflow`](datajoint-workflow/README.md) template requires _cookiecutter>=2.0.0_
+
+## General `cookiecutter` Overview
+
+The `cookiecutter` cmd will find the `cookiecutter.json` file under the specified template directory whether it's on local or on github, and take each key-value pair as `{variable : default value}`. It will ask you to input a value for each variable to replace the default value. Then, it will use `Jinja` to embed each variable to each file name, folder name or file content that refered it.
+
+_Example context of cookiecutter.json._
+
 ```
 {
     "author_name":  # author name in setup.py and LICENSE
@@ -53,18 +87,11 @@ cookiecutter git@github.com:datajoint-company/dj-cookiecutter.git --directory wo
     "license": # license options that predefined under ~/dj-cookiecutter/{{cookiecutter.project_slug}}/LICENSE
 }
 ```
-## Roughly explain
-`cookiecutter` cmd will find the `cookiecutter.json` file under the specified template directory whether it's on local or on github, and take each key-value pair as `{variable : default value}`. It will ask you to input a value for each variable to replace the default value. Then, it will use `Jinja` to embed each variable to each file name, folder name or file content that refered it.
 
-
-If you want to know more details, read this [page](https://cookiecutter.readthedocs.io/en/1.7.2/first_steps.html), it explains the basic logic about how cookiecutter works.
-
-## Existing template
-- [flit](https://github.com/datajoint-company/dj-cookiecutter/tree/main/flit) by @iamamutt
-- [cicd](#) by @Yambottle
-- `workflow/element` created as initial examples for science-team, welcome changes or new templates for your own requirements
-
+If you want to know more details, read this [page](https://cookiecutter.readthedocs.io/en/2.0.2/tutorial1.html), it explains the basic logic about how cookiecutter works.
 
 ---
+
 ## License
+
 © Datajoint, 2022. Licensed under an MIT license.
