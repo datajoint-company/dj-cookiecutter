@@ -1,0 +1,355 @@
+{
+	"extensions": {
+		"recommendations": [
+			"aaron-bond.better-comments",
+			"analytic-signal.snippets-plotly",
+			"bierner.github-markdown-preview",
+			"christian-kohler.path-intellisense",
+			"eamodio.gitlens",
+			"foxundermoon.shell-format",
+			"GitHub.vscode-pull-request-github",
+			"Gruntfuggly.todo-tree",
+			"johnpapa.vscode-peacock",
+			"mechatroner.rainbow-csv",
+			"mikestead.dotenv",
+			"ms-azuretools.vscode-docker",
+			"ms-python.python",
+			"ms-python.vscode-pylance",
+			"ms-toolsai.jupyter",
+			"ms-vscode-remote.remote-ssh-edit",
+			"ms-vscode-remote.vscode-remote-extensionpack",
+			"ms-vscode.live-server",
+			"ms-vscode.vscode-typescript-tslint-plugin",
+			"njpwerner.autodocstring",
+			"redhat.vscode-yaml",
+			"tamasfe.even-better-toml",
+			"timonwong.shellcheck",
+			"VisualStudioExptTeam.intellicode-api-usage-examples",
+			"VisualStudioExptTeam.vscodeintellicode",
+			"vivaxy.vscode-conventional-commits",
+			"yzhang.markdown-all-in-one"
+		]
+	},
+	"folders": [
+		{
+			"name": "datajoint-workflow-brain",
+			"path": "."
+		}
+	],
+	"launch": {
+		"version": "0.2.0",
+		"configurations": [
+			{
+				"name": "Python: Current File",
+				"type": "python",
+				"program": "${file}",
+				"console": "integratedTerminal",
+				"cwd": "${fileDirname}",
+				"env": {
+					"PYTHONPATH": "${workspaceFolder}/src"
+				},
+				"request": "launch"
+			},
+			{
+				"name": "Python: Debug entrypoint.py",
+				"type": "python",
+				"program": "${workspaceFolder}/src/brainwf/entrypoint.py",
+				"args": [
+					"task1",
+					"-d",
+					"1.5",
+					"-s",
+					"1",
+					"-b",
+					"30"
+				],
+				"console": "integratedTerminal",
+				"request": "launch"
+			}
+		]
+	},
+	"settings": {
+		"autoDocstring.customTemplatePath": "configs/docstrings.mustache",
+		"autoDocstring.docstringFormat": "google",
+		"autoDocstring.generateDocstringOnEnter": true,
+		"autoDocstring.guessTypes": true,
+		"autoDocstring.startOnNewLine": false,
+		"conventionalCommits.scopes": [
+			"pipeline",
+			"actions",
+			"loaders",
+			"package",
+			"module",
+			"docker"
+		],
+		"files.exclude": {
+			"**/.DS_Store": true,
+			"**/.git": true,
+			"**/.hg": true,
+			"**/.svn": true,
+			"**/CVS": true,
+			"**/Thumbs.db": true,
+			"*.command": true
+		},
+		"python.defaultInterpreterPath": "${env:CONDA_ENV_ROOT}/brainwf",
+		"python.linting.mypyEnabled": true,
+		"djcookiecutter.localPath": "${env:HOME}/Documents/datajoint/dj-cookiecutter"
+	},
+	"tasks": {
+		// See https://go.microsoft.com/fwlink/?LinkId=733558
+		// for the documentation about the tasks.json format
+		"version": "2.0.0",
+		"inputs": [
+			{
+				"type": "promptString",
+				"default": "~/path/to/dj-cookiecutter",
+				"description": "Path to root of local cookiecutter repo.",
+				"id": "cookiepath"
+			}
+		],
+		"options": {
+			"cwd": "${workspaceFolder}"
+		},
+		"presentation": {
+			"clear": false,
+			"echo": true,
+			"focus": true,
+			"panel": "shared",
+			"reveal": "always",
+			"showReuseMessage": true
+		},
+		"tasks": [
+			{
+				"label": "mamba install: environment.yml",
+				"type": "shell",
+				"command": "mamba",
+				"args": [
+					"env",
+					"create",
+					"-vq",
+					"--file",
+					"environment.yml"
+				]
+			},
+			{
+				"label": "mamba update: environment.yml",
+				"type": "shell",
+				"command": "mamba",
+				"args": [
+					"env",
+					"update",
+					"-vq",
+					"--file",
+					"environment.yml",
+					"--prune"
+				]
+			},
+			{
+				"label": "mamba update: all packages",
+				"type": "shell",
+				"command": "conda",
+				"args": [
+					"run",
+					"--no-capture-output",
+					"-n",
+					"brainwf",
+					"mamba",
+					"update",
+					"-qy",
+					"--all"
+				]
+			},
+			{
+				"label": "mamba list",
+				"type": "shell",
+				"command": "conda",
+				"args": [
+					"run",
+					"--no-capture-output",
+					"-n",
+					"brainwf",
+					"mamba",
+					"list"
+				],
+				"presentation": {
+					"group": "conda"
+				}
+			},
+			{
+				"label": "pip install datajoint-workflow-brain",
+				"type": "shell",
+				"command": "conda",
+				"args": [
+					"run",
+					"--no-capture-output",
+					"-n",
+					"brainwf",
+					"pip",
+					"install",
+					"-e",
+					"'.[dev,doc,test,sciops]'"
+				]
+			},
+			{
+				"label": "uninstall pkg",
+				"type": "shell",
+				"command": "conda",
+				"args": [
+					"run",
+					"--no-capture-output",
+					"-n",
+					"brainwf",
+					"pip",
+					"uninstall",
+					"-y",
+					"datajoint-workflow-brain"
+				]
+			},
+			{
+				"label": "pip uninstall datajoint-workflow-brain",
+				"type": "shell",
+				"command": "find . -name '*.egg-info' -type d -exec rm -rf {} +",
+				"dependsOn": [
+					"uninstall pkg"
+				],
+				"options": {
+					"cwd": "${workspaceFolder}"
+				}
+			},
+			{
+				"label": "pre-commit install",
+				"type": "shell",
+				"command": "conda",
+				"args": [
+					"run",
+					"--no-capture-output",
+					"-n",
+					"brainwf",
+					"pre-commit",
+					"install",
+					"--install-hooks"
+				]
+			},
+			{
+				"label": "pre-commit autoupdate",
+				"type": "shell",
+				"command": "conda",
+				"args": [
+					"run",
+					"--no-capture-output",
+					"-n",
+					"brainwf",
+					"pre-commit",
+					"autoupdate"
+				]
+			},
+			{
+				"label": "pre-commit run all",
+				"type": "shell",
+				"command": "conda",
+				"args": [
+					"run",
+					"--no-capture-output",
+					"-n",
+					"brainwf",
+					"pre-commit",
+					"run",
+					"--all-files"
+				]
+			},
+			{
+				"label": "docker-compose up codebook",
+				"type": "shell",
+				"command": "docker-compose",
+				"args": [
+					"-f",
+					"docker-compose-codebook_env.yaml",
+					"up",
+					"--build",
+					"--remove-orphans",
+					"-d"
+				],
+				"options": {
+					"cwd": "${workspaceFolder}/docker"
+				}
+			},
+			{
+				"label": "docker-compose down codebook",
+				"type": "shell",
+				"command": "docker-compose",
+				"args": [
+					"-f",
+					"docker-compose-codebook_env.yaml",
+					"down",
+					"--volumes",
+					"--remove-orphans"
+				],
+				"options": {
+					"cwd": "${workspaceFolder}/docker"
+				}
+			},
+			{
+				"label": "generate stubs",
+				"type": "shell",
+				"command": "stubgen",
+				"args": [
+					"src",
+					"-o",
+					"typings"
+				],
+				"options": {
+					"cwd": "${workspaceFolder}/docker"
+				}
+			},
+			{
+				"label": "clean junk files",
+				"type": "shell",
+				"command": "find . -name '*.DS_Store' -type f -delete && find . -name '.ipynb_checkpoints' -type d -exec rm -rf {} + && find . -name '__pycache__' -type d -exec rm -rf {} +"
+			},
+			{
+				"label": "cookiecutter retrocookie",
+				"type": "shell",
+				"command": "code",
+				"args": [
+					"*.code-workspace",
+					"&&",
+					"**/*/retrocookie.sh",
+					"-i",
+					"'datajoint-workflow-brain.code-workspace'",
+					"-i",
+					"typings",
+					"-i",
+					"'docs/assets/*'",
+					"-i",
+					"'src/brainwf/*'",
+					"-i",
+					"'!src/brainwf/__init__.py'",
+					"-i",
+					"'!src/brainwf/entrypoint.py'",
+					"${workspaceFolder}"
+				],
+				"options": {
+					"cwd": "${config:djcookiecutter.localPath}"
+				}
+			},
+			{
+				"label": "cookiecutter replay",
+				"type": "shell",
+				"command": "**/*/replay.sh",
+				"args": [
+					"-r",
+					".",
+					"'${workspaceFolder}'"
+				],
+				"options": {
+					"cwd": "${config:djcookiecutter.localPath}"
+				}
+			},
+			{
+				"label": "open devcontainer",
+				"type": "shell",
+				"command": "${workspaceFolder}/docker/.devcontainer/vscode-open-dev-container",
+			}
+		]
+	}
+}

@@ -1,0 +1,27 @@
+# docker-compose up --build
+version: "2.4"
+services:
+  standard_workflow:
+    build: # only necessary if rebuilding image
+      context: .
+      dockerfile: standard_worker.Dockerfile
+      args:
+        - DEPLOY_KEY
+    image: registry.vathes.com/${REPO_OWNER}/standard-${REPO_NAME}:py${PY_VER}-${DIST}-${WORKFLOW_VERSION}
+    environment:
+      NEW_USER: ${REPO_OWNER:-dj-sciops} # Rename user and adjust HOME directory
+      DJ_HOST: ${DJ_HOST:-host.docker.internal} # Specify DataJoint database host
+      DJ_USER: ${DJ_USER:-root} # Specify DataJoint database user
+      DJ_PASS: ${DJ_PASS:-simple} # Specify DataJoint database password
+      DATABASE_PREFIX: brainwf # Speicify DataJoint database prefix
+    volumes:
+      - ${ROOT_DATA_DIR:-../data/raw}:/home/${REPO_OWNER:-dj-sciops}/workflow_root_data
+      - ${PROCESSED_DATA_DIR:-../data/preprocessed}:/home/${REPO_OWNER:-dj-sciops}/workflow_processed_data
+      - ./apt_requirements.txt:/tmp/apt_requirements.txt
+    scale: ${WORKER_COUNT:-1}
+    command:
+      - /bin/bash
+      - -c
+      - |
+        wf_entrypoint --help &
+        tail -f /dev/null

@@ -1,0 +1,47 @@
+# Initial install:
+#   > mamba env create -qvf environment.yml
+# Update env:
+#   > mamba env update -qvf environment.yml --prune
+# Package install:
+#   > pip install -e ".[dev,doc,test,sciops]"
+# Remove env:
+#   > mamba env remove -n brainwf
+
+name: brainwf
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  # Core environment dependencies
+  - python==3.9.*
+  - pip>=22.0
+  - mamba>0.21
+  # Added from 'pyproject.toml' > '.project.dependencies'
+  - cryptography
+  - ipython
+  - matplotlib
+  - minio
+  - networkx
+  - numpy
+  - otumat
+  - pandas
+  - pydot
+  - pymysql
+  - pyparsing
+  - tqdm
+  - urllib3
+  - appdirs
+  - boto3
+  - flask
+  - click
+  - h5py
+  - plotly
+  - pyyaml
+  - scipy
+  - seaborn
+  - tomli
+  # Added from 'pyproject.toml' > '.project.optional-dependencies.sciops'
+  - pip:
+      - ipykernel
+      - djsciops
+      - datajoint>=0.13.4

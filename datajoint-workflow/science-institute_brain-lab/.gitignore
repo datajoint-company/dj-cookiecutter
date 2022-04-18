@@ -1,0 +1,68 @@
+# Temporary and binary files
+*~
+*.py[cod]
+*.so
+*.cfg
+!.isort.cfg
+!setup.cfg
+*.orig
+*.log
+*.pot
+__pycache__/*
+.cache/*
+.*.swp
+*/.ipynb_checkpoints/*
+.DS_Store
+
+# Project files
+.ropeproject
+.project
+.pydevproject
+.settings
+.idea
+.vscode
+tags
+profile_default/
+ipython_config.py
+
+# Package files
+*.egg
+*.eggs/
+.installed.cfg
+*.egg-info
+environment.lock.yml
+
+# Unittest and coverage
+htmlcov/*
+.coverage
+.coverage.*
+.tox
+.nox
+junit*.xml
+coverage.xml
+.pytest_cache/
+
+# Build and docs folder/files
+build/*
+site/*
+dist/*
+sdist/*
+docs/api/*
+docs/_rst/*
+docs/_build/*
+cover/*
+MANIFEST
+
+# Per-project virtualenvs
+.venv*/
+.conda*/
+
+# Configuration files
+/.env
+
+# DataJoint files
+dj_local_conf.json
+.datajoint_config.json
+
+# Misc files/folders
+scratch/*

@@ -1,0 +1,12 @@
+abbreviations:
+  djcc: https://github.com/datajoint-company/dj-cookiecutter.git
+default_context:
+  author_email: firstname@datajoint.com
+  author_name: FirstName LastName
+  docs_url: https://dj-sciops.github.io/science-institute_brain-lab
+  github_repo: science-institute_brain-lab
+  github_user: dj-sciops
+  homepage_url: https://github.com/dj-sciops
+  organization: Science Institute
+  python_version: '3.9'
+  workflow: Brain Lab

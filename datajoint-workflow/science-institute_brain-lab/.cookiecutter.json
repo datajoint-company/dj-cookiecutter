@@ -1,0 +1,23 @@
+{
+    "__org": "science-institute",
+    "__pkg_import_name": "brainwf",
+    "__project_name": "datajoint-workflow-brain",
+    "__wf": "brain-lab",
+    "_copy_without_render": [
+        "docs/assets/*.svg",
+        "docs/assets/setup/*.png",
+        "docs/css/*",
+        "docs/overrides/*"
+    ],
+    "_djconfig": "dj_local_conf.json",
+    "_pkg_version": "0.0.1",
+    "author_email": "firstname@datajoint.com",
+    "author_name": "FirstName LastName",
+    "docs_url": "https://dj-sciops.github.io/science-institute_brain-lab",
+    "github_repo": "science-institute_brain-lab",
+    "github_user": "dj-sciops",
+    "homepage_url": "https://github.com/dj-sciops",
+    "organization": "Science Institute",
+    "python_version": "3.9",
+    "workflow": "Brain Lab"
+}

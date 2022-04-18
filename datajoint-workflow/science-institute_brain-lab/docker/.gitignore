@@ -1,0 +1,3 @@
+*.pem
+.env
+!.datajoint_config.json

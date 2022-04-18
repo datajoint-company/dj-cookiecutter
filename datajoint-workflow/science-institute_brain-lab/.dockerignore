@@ -1,0 +1,16 @@
+.git
+.mypy_cache
+.nox
+**/__pycache__/
+**/.DS_Store
+**/.env
+**/.pytest_cache/
+**/*.egg-info
+**/*.ipynb_checkpoints/
+**/*.pem
+**/*cookiecutter*
+build/*
+dj_local_conf.json
+docs/api/*
+environment.lock.yml
+site/*
