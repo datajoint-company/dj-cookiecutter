@@ -1,0 +1,12 @@
+abbreviations:
+  djcc: https://github.com/datajoint-company/dj-cookiecutter.git
+default_context:
+  author_email: joseph@datajoint.com
+  author_name: Joseph Burling
+  docs_url: https://iamamutt.github.io/science-institute_brain-lab
+  github_repo: science-institute_brain-lab
+  github_user: iamamutt
+  homepage_url: https://github.com/iamamutt
+  organization: Science Institute
+  python_version: '3.9'
+  workflow: Brain Lab

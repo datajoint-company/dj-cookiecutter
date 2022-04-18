@@ -1,7 +1,0 @@
-bzip2
-curl
-git
-net-tools
-openssh-client
-procps
-wget

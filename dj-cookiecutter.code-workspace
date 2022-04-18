@@ -1,0 +1,129 @@
+{
+	"folders": [
+		{
+			"name": "Cookiecutter Templates",
+			"path": "."
+		}
+	],
+	"settings": {
+		"conventionalCommits.scopes": [
+			"workflow",
+			"template",
+			"folders",
+			"docker"
+		],
+		"files.exclude": {
+			"**/.DS_Store": true,
+			"**/.git": true,
+			"**/.hg": true,
+			"**/.svn": true,
+			"**/CVS": true,
+			"**/Thumbs.db": true,
+			"*.command": true,
+			"build/": true
+		},
+		"python.defaultInterpreterPath": "${env:CONDA_ENV_ROOT}/cookies/bin/python"
+	},
+	"launch": {
+		"version": "0.2.0",
+		"configurations": [
+			{
+				"name": "Cookiecutter WF Defaults",
+				"type": "python",
+				"module": "tests.integration.test_datajoint_workflow",
+				"cwd": "${workspaceFolder}",
+				"env": {
+					"PYTHONPATH": "${workspaceFolder}"
+				},
+				"justMyCode": false,
+				"request": "launch"
+			}
+		]
+	},
+	"tasks": {
+		// See https://go.microsoft.com/fwlink/?LinkId=733558
+		// for the documentation about the tasks.json format
+		"version": "2.0.0",
+		"options": {
+			"cwd": "${workspaceFolder}"
+		},
+		"presentation": {
+			"clear": false,
+			"echo": true,
+			"focus": true,
+			"panel": "shared",
+			"reveal": "always",
+			"showReuseMessage": true
+		},
+		"tasks": [
+			{
+				"label": "Cookiecutter replay",
+				"type": "shell",
+				"command": "conda",
+				"args": [
+					"run",
+					"--no-capture-output",
+					"-n",
+					"cookies",
+					"cookiecutter",
+					"-f",
+					"-o",
+					"build",
+					"--replay",
+					"."
+				]
+			},
+			{
+				"label": "Cookiecutter interactive",
+				"type": "shell",
+				"command": "conda",
+				"args": [
+					"run",
+					"--no-capture-output",
+					"-n",
+					"cookies",
+					"cookiecutter",
+					"-f",
+					"-o",
+					"build",
+					"--directory",
+					"datajoint-workflow",
+					"."
+				],
+				"options": {
+					"cwd": "${workspaceFolder}"
+				}
+			},
+			{
+				"label": "Cookiecutter defaults",
+				"type": "shell",
+				"command": "conda",
+				"args": [
+					"run",
+					"--no-capture-output",
+					"-n",
+					"cookies",
+					"cookiecutter",
+					"-fv",
+					"-o",
+					"build",
+					"--no-input",
+					"--directory",
+					"datajoint-workflow",
+					"."
+				],
+				"options": {
+					"cwd": "${workspaceFolder}"
+				}
+			},
+			{
+				"label": "clean junk files",
+				"type": "shell",
+				"command": "find . -name '*.DS_Store' -type f -delete && find . -name '.ipynb_checkpoints' -type d -exec rm -rf {} + && find . -name '__pycache__' -type d -exec rm -rf {} +",
+				"options": {
+					"cwd": "${workspaceFolder}"
+				}
+			}
+		]
+	}
+}

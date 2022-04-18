@@ -1,0 +1,76 @@
+#  > docker-compose -f docker/docker-compose-devcontainer_env.yaml up --detach --force-recreate --remove-orphans --build
+#  > docker-compose -f docker/docker-compose-devcontainer_env.yaml down --volumes
+
+version: "2.4"
+services:
+  mysql_db:
+    environment:
+      MYSQL_ROOT_PASSWORD: ${DJ_PASS:-simple}
+    image: datajoint/mysql:5.7
+    networks:
+      {{cookiecutter.__pkg_import_name}}:
+    platform: linux/amd64
+    ports:
+      - 6603:3306
+    restart: always
+    volumes:
+      - sqldata:/var/lib/mysql
+
+  devcontainer_env:
+    build:
+      context: ../.
+      dockerfile: docker/devcontainer.Dockerfile
+      args:
+        REPO_OWNER:
+        REPO_NAME:
+    image: registry.vathes.com/${REPO_OWNER}/devcontainer-${REPO_NAME}:py${PY_VER}-${DIST}-${WORKFLOW_VERSION}
+    depends_on:
+      mysql_db:
+        condition: service_healthy
+    environment:
+      DJ_HOST: mysql_db
+      DJ_PASS: ${DJ_PASS:-simple}
+      DJ_USER: ${DJ_USER:-root}
+    init: true
+    tty: true
+    networks:
+      {{cookiecutter.__pkg_import_name}}:
+    ports:
+      - 18888:8888
+    volumes:
+      - ..:/home/${REPO_OWNER}/${REPO_NAME}
+      - vscode:/home/${REPO_OWNER}/.vscode-server/extensions
+      - vscode-insiders:/home/${REPO_OWNER}/.vscode-server-insiders/extensions
+
+  # MySQL GUI --------------
+  # http://localhost:8087/
+  # System: PostgreSQL
+  # Server: mysql_db
+  # Username: root
+  # Password: simple
+  adminer:
+    environment:
+      ADMINER_DEFAULT_SERVER: mysql_db
+      ADMINER_DESIGN: nette
+    image: adminer
+    networks:
+      {{cookiecutter.__pkg_import_name}}:
+    ports:
+      - target: 8080
+        published: 8087
+    restart: always
+    depends_on:
+      mysql_db:
+        condition: service_started
+
+networks:
+  {{cookiecutter.__pkg_import_name}}:
+    name: {{cookiecutter.__project_name}}-network
+
+volumes:
+  sqldata:
+    name: {{cookiecutter.__project_name}}-vol-sqldata
+  vscode:
+    name: {{cookiecutter.__project_name}}-vol-vscode
+  vscode-insiders:
+    name: {{cookiecutter.__project_name}}-vol-vscode-insiders

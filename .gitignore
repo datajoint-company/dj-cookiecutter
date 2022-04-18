@@ -128,8 +128,8 @@ dmypy.json
 # Pyre type checker
 .pyre/
 
+# Misc
+.build/
 .DS_Store
-/.build/
-/*.code-workspace
-/o-science-institute_w-neuro-lab
-/build/
+/build
+/science-institute_neuro-lab

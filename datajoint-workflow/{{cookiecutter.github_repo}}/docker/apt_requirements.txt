@@ -1,0 +1,10 @@
+apt-utils
+build-essential
+bzip2
+curl
+git
+net-tools
+nvi
+openssh-client
+procps
+wget

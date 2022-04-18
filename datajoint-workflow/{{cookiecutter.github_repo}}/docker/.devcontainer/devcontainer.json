@@ -1,0 +1,74 @@
+// For format details, see https://aka.ms/devcontainer.json
+{
+	"name": "{{cookiecutter.__project_name}} (devcontainer)",
+	"dockerComposeFile": [
+		"../docker-compose-devcontainer_env.yaml"
+	],
+	// Add the IDs of extensions you want installed when the container is created.
+	"extensions": [
+		"vivaxy.vscode-conventional-commits",
+		"eamodio.gitlens",
+		"ms-python.python",
+		"ms-python.vscode-pylance",
+		"ms-toolsai.jupyter",
+		"njpwerner.autodocstring",
+		"redhat.vscode-yaml",
+		"tamasfe.even-better-toml",
+		"yzhang.markdown-all-in-one"
+	],
+	"features": {
+		"github": "latest"
+	},
+	"service": "devcontainer_env",
+	// Set *default* container specific settings.json values on container create.
+	"settings": {
+		"[python]": {
+			"editor.formatOnSave": true
+		},
+		"autoDocstring.customTemplatePath": "configs/docstrings.mustache",
+		"autoDocstring.docstringFormat": "google",
+		"autoDocstring.generateDocstringOnEnter": true,
+		"autoDocstring.guessTypes": true,
+		"autoDocstring.startOnNewLine": false,
+		"conventionalCommits.scopes": [
+			"pipeline",
+			"actions",
+			"loaders",
+			"package",
+			"module",
+			"docker"
+		],
+		"files.exclude": {
+			"**/.DS_Store": true,
+			"**/.git": true,
+			"**/.hg": true,
+			"**/.svn": true,
+			"**/CVS": true,
+			"**/Thumbs.db": true,
+			"*.command": true
+		},
+		"jupyter.generateSVGPlots": true,
+		"python.defaultInterpreterPath": "/usr/local/bin/python",
+		"python.formatting.blackArgs": [
+			"--line-length=88"
+		],
+		"python.formatting.provider": "black",
+		"python.languageServer": "Pylance",
+		"python.linting.enabled": true,
+		"python.linting.flake8Args": [
+			"--max-line-length=88",
+			"--extend-ignore=E203"
+		],
+		"python.linting.flake8Enabled": true,
+		"python.linting.mypyEnabled": true,
+		"python.linting.pylintEnabled": false,
+		"python.sortImports.args": [
+			"--profile",
+			"black"
+		],
+		"python.terminal.activateEnvInCurrentTerminal": true,
+		"python.terminal.activateEnvironment": true
+	},
+	"shutdownAction": "none",
+	"workspaceFolder": "/home/{{cookiecutter.github_user}}/{{cookiecutter.__org}}_{{cookiecutter.__wf}}"
+}

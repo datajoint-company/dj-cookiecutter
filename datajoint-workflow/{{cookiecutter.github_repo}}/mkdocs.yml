@@ -1,0 +1,100 @@
+site_name: "Datajoint Workflow {{cookiecutter.workflow}}"
+site_description: "A DataJoint SciOps Workflow for {{cookiecutter.organization}}, {{cookiecutter.workflow}}"
+site_author: "{{cookiecutter.author_name}}"
+repo_url: "https://github.com/{{cookiecutter.github_user}}/{{cookiecutter.github_repo}}"
+edit_uri: ""
+remote_branch: gh-pages
+site_dir: site
+docs_dir: docs
+copyright: Copyright &copy; 2021-2022 DataJoint
+strict: true
+
+nav:
+  - Home:
+      - Introduction: README.md
+      - Contributing: CONTRIBUTING.md
+      - Changelog: CHANGELOG.md
+      - Open Source License: LICENSE.md
+  - Package Documentation: api/
+
+theme:
+  name: material
+  custom_dir: docs/overrides
+  palette:
+    primary: white
+  logo: assets/dj.svg
+  icon:
+    repo: fontawesome/brands/github
+  features:
+    - navigation.instant
+    - navigation.tabs
+    - navigation.expand
+    - navigation.sections
+    - toc.integrate
+
+extra:
+  version:
+    provider: mike
+    default: latest
+  homepage: https://datajoint.com
+  generator: false
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/datajoint
+    - icon: fontawesome/brands/slack
+      link: https://datajoint.slack.com
+    - icon: fontawesome/brands/stack-overflow
+      link: https://stackoverflow.com/questions/tagged/datajoint
+    - icon: fontawesome/brands/twitter
+      link: https://twitter.com/DataJointNeuro
+  analytics:
+    provider: google
+    property: G-XXXXXXXXXX
+
+extra_css:
+  - css/material.css
+
+markdown_extensions:
+  - admonition
+  - smarty
+  - toc:
+      permalink: false
+      title: Page Content
+      toc_depth: 4
+  - sane_lists
+  - pymdownx.striphtml
+  - pymdownx.caret
+  - pymdownx.mark
+  - pymdownx.tilde
+  - pymdownx.betterem
+  - pymdownx.tasklist
+  - pymdownx.superfences
+  - pymdownx.highlight
+  - pymdownx.inlinehilite
+
+plugins:
+  - include-markdown
+  - search
+  - gen-files:
+      scripts:
+        - docs/hooks/gen_api_pages.py
+  - literate-nav:
+      nav_file: SUMMARY.md
+  - section-index
+  - autorefs
+  - mkdocstrings:
+      default_handler: python
+      handlers:
+        python:
+          rendering:
+            show_source: false
+            show_submodules: true
+            separate_signature: true
+            docstring_section_style: spacy
+            merge_init_into_class: true
+            members_order: source
+            line_length: 88
+      watch:
+        - src/{{cookiecutter.__pkg_import_name}}
+  - mike:
+      version_selector: true

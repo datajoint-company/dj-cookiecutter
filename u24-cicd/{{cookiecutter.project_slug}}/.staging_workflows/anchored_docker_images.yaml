@@ -62,7 +62,7 @@ jobs:
     outputs:
       workflow_version: ${{steps.get_version.outputs.workflow_version}}
       release_upload_url: ${{steps.create_release.outputs.upload_url}}
-  
+
   call_u24_docker_image_py39:
     needs: [get_meta]
     !!merge <<: *$STAGE-workflow
@@ -70,7 +70,7 @@ jobs:
       jhub_ver: 1.4.2
       py_ver: 3.9
       dist: debian
-      workflow_version: ${{needs.get_meta.outputs.workflow_version}}
+      workflow_version: v${{needs.get_meta.outputs.workflow_version}}
       release_upload_url: ${{needs.get_meta.outputs.release_upload_url}}
     !!merge <<: *workflow-secrets
   call_u24_docker_image_py38:
@@ -80,7 +80,7 @@ jobs:
       jhub_ver: 1.4.2
       py_ver: 3.8
       dist: debian
-      workflow_version: ${{needs.get_meta.outputs.workflow_version}}
+      workflow_version: v${{needs.get_meta.outputs.workflow_version}}
       release_upload_url: ${{needs.get_meta.outputs.release_upload_url}}
     !!merge <<: *workflow-secrets
 
