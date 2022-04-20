@@ -11,7 +11,8 @@
         "datajoint-company",
         "iamamutt",
         "ttngu207",
-        "yambottle"
+        "yambottle",
+        "other-gh-username"
     ],
     "github_repo": "{{cookiecutter.__org}}_{{cookiecutter.__wf}}",
     "python_version": [
@@ -22,8 +23,8 @@
     "_pkg_version": "0.0.1",
     "homepage_url": "https://github.com/{{cookiecutter.github_user}}",
     "docs_url": "https://{{cookiecutter.github_user}}.github.io/{{cookiecutter.github_repo}}",
-    "__project_name": "datajoint-workflow-{{cookiecutter.__wf|replace('-lab', '')}}",
-    "__pkg_import_name": "{{cookiecutter.__wf|slugify(separator='')|replace('lab', '')}}wf",
+    "__project_name": "sciops-{{cookiecutter.__wf}}",
+    "__pkg_import_name": "sciops{{cookiecutter.__wf|slugify(separator='')}}",
     "_djconfig": "dj_local_conf.json",
     "_copy_without_render": [
         "docs/assets/*.svg",
