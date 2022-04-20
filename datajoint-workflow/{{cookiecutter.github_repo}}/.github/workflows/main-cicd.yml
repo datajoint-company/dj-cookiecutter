@@ -8,27 +8,28 @@ on:
 
 jobs:
   call_semantic_versioning:
-    uses: dj-sciops/djsciops-cicd/.github/workflows/semantic-versioning.yml@main
+    if: ${{"{{"}} github.event.workflow_run.conclusion == 'success' {{"}}"}}
+    uses: {{cookiecutter.github_user}}/djsciops-cicd/.github/workflows/semantic-versioning.yml@main
     with:
       py_ver: "{{cookiecutter.python_version}}"
       create_release: true
       release_only: "['major','minor','patch']"
 
   call_mkdocs_build:
-    needs: [call_semantic_versioning]
+    needs: call_semantic_versioning
     if: always() && needs.call_semantic_versioning.result == 'success'
-    uses: dj-sciops/djsciops-cicd/.github/workflows/mkdocs-build.yml@main
+    uses: {{cookiecutter.github_user}}/djsciops-cicd/.github/workflows/mkdocs-build.yml@main
     with:
       new_tag: ${{"{{"}} needs.call_semantic_versioning.outputs.new_tag {{"}}"}}
       branch_name: gh-pages
       py_ver: "{{cookiecutter.python_version}}"
 
   call_sciops_docker_images:
-    needs: [call_semantic_versioning]
+    needs: call_semantic_versioning
     if: |
       always() &&
       (needs.call_semantic_versioning.result == 'success')
-    uses: dj-sciops/djsciops-cicd/.github/workflows/sciops_docker_images.yaml@main
+    uses: {{cookiecutter.github_user}}/djsciops-cicd/.github/workflows/sciops_docker_images.yaml@main
     with:
       jhub_ver: "1.4.2"
       py_ver: "{{cookiecutter.python_version}}{% raw %}"

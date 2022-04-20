@@ -4,16 +4,24 @@ default_language_version:
 exclude: "^$"
 default_stages: [commit, push]
 repos:
+  # for debugging hook input arguments
+  - repo: meta
+    hooks:
+      - id: identity
+        exclude: (devcontainer\.json|\.code-workspace)$
+
+  # out-of-the-box hooks
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v4.2.0
     hooks:
       - id: check-case-conflict
       - id: detect-private-key
       - id: check-json
+        exclude: (devcontainer\.json|\.code-workspace)$
       - id: check-toml
       - id: check-yaml
       - id: name-tests-test
-        args: ['--django']
+        args: ["--django"]
       - id: check-added-large-files
         args: ["--maxkb=5000"]
       - id: end-of-file-fixer

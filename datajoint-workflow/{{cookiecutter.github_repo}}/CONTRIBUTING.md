@@ -137,6 +137,14 @@ pre-commit run --all-files
 !!! tip
     The `-n, --no-verify` flag of `git commit` can be used to deactivate pre-commit hooks temporarily. Run `pre-commit uninstall` to permanently stop pre-commit.
 
+If you want to install `pre-commit` automatically for all newly cloned or initialized respositories that have a `.pre-commit-config.yaml` file, set the get config option and initialize the template, like so:
+
+```
+git config --global init.templateDir ~/.git-template
+pre-commit init-templatedir ~/.git-template
+```
+
+
 ### Extra `test` packages
 
 The list of `test` packages are specified in `pyproject.toml` under `[project.optional-dependencies.test]`
