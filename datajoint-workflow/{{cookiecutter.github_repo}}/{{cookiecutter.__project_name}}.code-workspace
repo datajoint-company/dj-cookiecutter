@@ -10,6 +10,7 @@
 			"GitHub.vscode-pull-request-github",
 			"Gruntfuggly.todo-tree",
 			"johnpapa.vscode-peacock",
+			"kevinrose.vsc-python-indent",
 			"mechatroner.rainbow-csv",
 			"mikestead.dotenv",
 			"ms-azuretools.vscode-docker",
@@ -93,7 +94,8 @@
 		},
 		"python.defaultInterpreterPath": "${env:CONDA_ENV_ROOT}/{{cookiecutter.__pkg_import_name}}",
 		"python.linting.mypyEnabled": true,
-		"djcookiecutter.localPath": "${env:HOME}/Documents/datajoint/dj-cookiecutter"
+		"djcookiecutter.localPath": "${env:HOME}/Documents/datajoint/dj-cookiecutter",
+		"djcookiecutter.condaExec": "mamba"
 	},
 	"tasks": {
 		// See https://go.microsoft.com/fwlink/?LinkId=733558
@@ -120,9 +122,9 @@
 		},
 		"tasks": [
 			{
-				"label": "mamba install: environment.yml",
+				"label": "conda install: environment.yml",
 				"type": "shell",
-				"command": "mamba",
+				"command": "${config:djcookiecutter.condaExec}",
 				"args": [
 					"env",
 					"create",
@@ -132,9 +134,9 @@
 				]
 			},
 			{
-				"label": "mamba update: environment.yml",
+				"label": "conda update: environment.yml",
 				"type": "shell",
-				"command": "mamba",
+				"command": "${config:djcookiecutter.condaExec}",
 				"args": [
 					"env",
 					"update",
@@ -145,7 +147,7 @@
 				]
 			},
 			{
-				"label": "mamba update: all packages",
+				"label": "conda update: all packages",
 				"type": "shell",
 				"command": "conda",
 				"args": [
@@ -153,14 +155,14 @@
 					"--no-capture-output",
 					"-n",
 					"{{cookiecutter.__pkg_import_name}}",
-					"mamba",
+					"${config:djcookiecutter.condaExec}",
 					"update",
 					"-qy",
 					"--all"
 				]
 			},
 			{
-				"label": "mamba list",
+				"label": "conda list",
 				"type": "shell",
 				"command": "conda",
 				"args": [
@@ -168,7 +170,7 @@
 					"--no-capture-output",
 					"-n",
 					"{{cookiecutter.__pkg_import_name}}",
-					"mamba",
+					"${config:djcookiecutter.condaExec}",
 					"list"
 				],
 				"presentation": {
@@ -176,7 +178,7 @@
 				}
 			},
 			{
-				"label": "pip install {{cookiecutter.__project_name}}",
+				"label": "pip install dev package",
 				"type": "shell",
 				"command": "conda",
 				"args": [
@@ -191,7 +193,7 @@
 				]
 			},
 			{
-				"label": "uninstall pkg",
+				"label": "pip uninstall dev package",
 				"type": "shell",
 				"command": "conda",
 				"args": [
@@ -206,12 +208,13 @@
 				]
 			},
 			{
-				"label": "pip uninstall {{cookiecutter.__project_name}}",
+				"label": "pip uninstall dev package and egg",
 				"type": "shell",
 				"command": "find . -name '*.egg-info' -type d -exec rm -rf {} +",
 				"dependsOn": [
-					"uninstall pkg"
+					"pip uninstall dev package"
 				],
+				"dependsOrder": "sequence",
 				"options": {
 					"cwd": "${workspaceFolder}"
 				}
@@ -254,8 +257,23 @@
 					"{{cookiecutter.__pkg_import_name}}",
 					"pre-commit",
 					"run",
+					"--verbose",
 					"--all-files"
 				]
+			},
+			{
+				"label": "initial setup",
+				"type": "shell",
+				"command": "echo 'run setup'",
+				"dependsOn": [
+					"conda install: environment.yml",
+					"pre-commit install",
+					"pip install dev package"
+				],
+				"dependsOrder": "sequence",
+				"options": {
+					"cwd": "${workspaceFolder}"
+				}
 			},
 			{
 				"label": "docker-compose up codebook",
@@ -346,9 +364,13 @@
 				}
 			},
 			{
-				"label": "open devcontainer",
+				"label": "devcontainer open",
 				"type": "shell",
-				"command": "${workspaceFolder}/docker/.devcontainer/vscode-open-dev-container",
+				"command": "devcontainer",
+				"args": [
+					"open",
+					"${workspaceFolder}/docker"
+				]
 			}
 		]
 	}

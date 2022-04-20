@@ -6,14 +6,13 @@
 	],
 	// Add the IDs of extensions you want installed when the container is created.
 	"extensions": [
-		"vivaxy.vscode-conventional-commits",
+		"analytic-signal.snippets-plotly",
 		"eamodio.gitlens",
 		"ms-python.python",
-		"ms-python.vscode-pylance",
-		"ms-toolsai.jupyter",
 		"njpwerner.autodocstring",
 		"redhat.vscode-yaml",
 		"tamasfe.even-better-toml",
+		"vivaxy.vscode-conventional-commits",
 		"yzhang.markdown-all-in-one"
 	],
 	"features": {

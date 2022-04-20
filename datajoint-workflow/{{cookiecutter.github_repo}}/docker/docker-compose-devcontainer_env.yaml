@@ -1,4 +1,4 @@
-#  > docker-compose -f docker/docker-compose-devcontainer_env.yaml up --detach --force-recreate --remove-orphans --build
+#  > docker-compose -f docker/docker-compose-devcontainer_env.yaml up -V --detach --force-recreate --remove-orphans --build
 #  > docker-compose -f docker/docker-compose-devcontainer_env.yaml down --volumes
 
 version: "2.4"
@@ -41,6 +41,7 @@ services:
       - ..:/home/${REPO_OWNER}/${REPO_NAME}
       - vscode:/home/${REPO_OWNER}/.vscode-server/extensions
       - vscode-insiders:/home/${REPO_OWNER}/.vscode-server-insiders/extensions
+      - /home/${REPO_OWNER}/${REPO_NAME}/.nox
 
   # MySQL GUI --------------
   # http://localhost:8087/
