@@ -10,7 +10,7 @@ _A DataJoint SciOps Workflow for {{cookiecutter.organization}}, {{cookiecutter.w
 
 TODO: finish description.
 
-Welcome to the [_modality type_] SciOps service!
+Welcome to the DataJoint SciOps service!
 
 This service is designed for a user to upload their raw [_modality type_] data acquired with [_description_], which will then be automatically processed with [_..._]. The service also provides online Jupyter notebooks to visualize the results.
 
@@ -169,8 +169,8 @@ See the [_Development setup_](./CONTRIBUTING.md#setting-up-a-local-development-e
 ├── scripts                 <- Analysis examples or production scripts which rely on
 │                              importing the actual Python package, e.g. running queries.
 ├── src
-│   └── {{cookiecutter.__pkg_import_name}}          <- Actual Python package where the main functionality goes.
-├── tests                   <- Unit tests which can be run with `pytest` or `nox`.
+│   └── {{cookiecutter.__pkg_import_name}}             <- Actual Python package where the main functionality goes.
+├── tests                   <- Unit and integration tests which can be run with `pytest` or `nox`.
 ├── .cookiecutter.json      <- Options specified during template generation.
 ├── .gitignore              <- Files and folders to ignore for git.
 ├── .pre-commit-config.yaml <- Configuration of pre-commit git hooks.

@@ -1,15 +1,15 @@
 <!--start-contrib-->
 
-# Contributing
+# Contributing and Developer Guide
 
 Welcome to the `{{cookiecutter.__project_name}}` contributor's guide.
 
-This document focuses on getting any potential contributor familiarized with the development process, but [other kinds of contributions](https://opensource.guide/how-to-contribute) are also appreciated. See the DataJoint [community contributions](https://docs.datajoint.org/python/community/02-Contribute.html) page for information.
+This document focuses on getting any potential contributor familiarized with the DataJoint workflow development process, but [other general kinds of contributions](https://opensource.guide/how-to-contribute) are also appreciated. See the DataJoint [community contributions](https://docs.datajoint.org/python/community/02-Contribute.html) page for information.
 
-If you are new to using [git](https://git-scm.com) or have never collaborated in a project previously, please have a look at [contribution-guide.org](http://www.contribution-guide.org/). Other resources are also listed in the excellent [guide created by FreeCodeCamp](https://github.com/FreeCodeCamp/how-to-contribute-to-open-source).
+If you are new to using [git](https://git-scm.com) or have never collaborated on a project previously, please have a look at [contribution-guide.org](http://www.contribution-guide.org/). Other resources are also listed in the excellent [guide created by FreeCodeCamp](https://github.com/FreeCodeCamp/how-to-contribute-to-open-source).
 
 !!! note "Python Code of Conduct"
-    Please notice, all users and contributors are expected to be **open, considerate, reasonable, and respectful**. When in doubt, [Python Software Foundation's Code of Conduct](https://www.python.org/psf/conduct/) is a good reference in terms of behavior guidelines.
+    Please notice that all users and contributors are expected to be **open, considerate, reasonable, and respectful**. When in doubt, [Python Software Foundation's Code of Conduct](https://www.python.org/psf/conduct/) is a good reference in terms of behavior guidelines.
 
 ## Issue Reports
 
@@ -224,7 +224,7 @@ Resetting environment to locked state:
 mamba env update -f environment.lock.yml --prune
 ```
 
-### GitHub Actions
+## Continuous Integration/Development
 
 The GitHub actions and workflows are located under the `.github` folder and automate many of the tasks previously outlined. The following actions are used:
 
@@ -242,8 +242,33 @@ The GitHub actions and workflows are located under the `.github` folder and auto
     git push origin --delete $(git tag -l)
     git tag -d $(git tag -l)
     ```
+## Integrated Development Environments 
 
-### Troubleshooting
+### Visual Studio Code
+
+The file `{{cookiecutter.__project_name}}.code-workspace` contains many of the `vscode` specific settings for working with this project. Of most importance are `"settings":` specific to this project and `"tasks":` to run common operations.
+
+1. _extensions_
+
+Stores a list of recommended extensions to install. To instal them, open the command pallete then type `exten` and select 'Extensions: Show Recommended Extensions' from the dropdown menu.
+
+2. _folders_
+
+Specify folders for multiroot workspaces. 
+
+3. _launch_
+
+Specify python debugger configurations.
+
+4. _settings_
+
+Python specific settings as well as `cookiecutter` template settings. Be sure to specify the values of settings starting with `djcookiecutter.`. These are used for some of the `vscode` tasks.
+
+5. _tasks_
+
+Various tasks for environment setup, templates, or docker commands. 
+
+## Troubleshooting
 
 The following tips can be used when facing problems to build or test the
 package:

@@ -13,6 +13,7 @@ __pycache__/*
 .*.swp
 */.ipynb_checkpoints/*
 .DS_Store
+.mypy_cache/*
 
 # Project files
 .ropeproject
@@ -36,11 +37,11 @@ environment.lock.yml
 htmlcov/*
 .coverage
 .coverage.*
-.tox
-.nox
+.tox/*
+.nox/*
 junit*.xml
 coverage.xml
-.pytest_cache/
+.pytest_cache/*
 
 # Build and docs folder/files
 build/*
