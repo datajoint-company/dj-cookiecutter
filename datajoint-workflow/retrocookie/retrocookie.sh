@@ -142,7 +142,7 @@ create_commits() {
 	# git config --global init.defaultBranch main
 	git init >/dev/null
 	git add .
-	git commit -m "initial commit" >/dev/null
+	git commit -m "initial commit" --no-verify >/dev/null
 	rm -rf "${tmp_proj_parent}"/.git
 	mv -f "${tmp_proj_dir}"/.git "${tmp_proj_parent}"
 	rm -rf "${tmp_proj_dir:?}"
@@ -158,7 +158,7 @@ create_commits() {
 			echo "${_ex}" >>.gitignore
 		done
 		git add .gitignore
-		git commit -m "Added by retrocookie script ignore option"
+		git commit -m "Added by retrocookie script ignore option" --no-verify
 	fi
 	if [[ ! $(git status --porcelain) ]]; then
 		echo -e "\nnothing to change"
@@ -167,7 +167,7 @@ create_commits() {
 	fi
 	echo -e "\n----------- Adding and committing new files."
 	git add .
-	git commit -m "build(retrocookie): reflect updates to source template from generated project '${template_dir}'"
+	git commit -m "build(retrocookie): reflect updates to source template from generated project '$(basename "${tmp_proj_dir}")'" --no-verify
 	COMMIT=$(git rev-parse HEAD)
 	rev_num=$((rev_num + 1))
 
