@@ -37,6 +37,34 @@
 			"path": "."
 		}
 	],
+	"settings": {
+		"autoDocstring.customTemplatePath": "configs/docstrings.mustache",
+		"autoDocstring.docstringFormat": "google",
+		"autoDocstring.generateDocstringOnEnter": true,
+		"autoDocstring.guessTypes": true,
+		"autoDocstring.startOnNewLine": false,
+		"conventionalCommits.scopes": [
+			"pipeline",
+			"actions",
+			"loaders",
+			"package",
+			"module",
+			"docker"
+		],
+		"djcookiecutter.condaExec": "mamba",
+		"djcookiecutter.localPath": "${env:HOME}/Documents/datajoint/dj-cookiecutter",
+		"files.exclude": {
+			"**/.DS_Store": true,
+			"**/.git": true,
+			"**/.hg": true,
+			"**/.svn": true,
+			"**/CVS": true,
+			"**/Thumbs.db": true,
+			"*.command": true
+		},
+		"python.defaultInterpreterPath": "${env:CONDA_ENV_ROOT}/{{cookiecutter.__pkg_import_name}}",
+		"python.linting.mypyEnabled": true
+	},
 	"launch": {
 		"version": "0.2.0",
 		"configurations": [
@@ -68,34 +96,6 @@
 				"request": "launch"
 			}
 		]
-	},
-	"settings": {
-		"autoDocstring.customTemplatePath": "configs/docstrings.mustache",
-		"autoDocstring.docstringFormat": "google",
-		"autoDocstring.generateDocstringOnEnter": true,
-		"autoDocstring.guessTypes": true,
-		"autoDocstring.startOnNewLine": false,
-		"conventionalCommits.scopes": [
-			"pipeline",
-			"actions",
-			"loaders",
-			"package",
-			"module",
-			"docker"
-		],
-		"files.exclude": {
-			"**/.DS_Store": true,
-			"**/.git": true,
-			"**/.hg": true,
-			"**/.svn": true,
-			"**/CVS": true,
-			"**/Thumbs.db": true,
-			"*.command": true
-		},
-		"python.defaultInterpreterPath": "${env:CONDA_ENV_ROOT}/{{cookiecutter.__pkg_import_name}}",
-		"python.linting.mypyEnabled": true,
-		"djcookiecutter.localPath": "${env:HOME}/Documents/datajoint/dj-cookiecutter",
-		"djcookiecutter.condaExec": "mamba"
 	},
 	"tasks": {
 		// See https://go.microsoft.com/fwlink/?LinkId=733558
@@ -159,6 +159,22 @@
 					"update",
 					"-qy",
 					"--all"
+				]
+			},
+			{
+				"label": "conda remove: env",
+				"type": "shell",
+				"command": "conda",
+				"args": [
+					"run",
+					"--no-capture-output",
+					"-n",
+					"base",
+					"${config:djcookiecutter.condaExec}",
+					"env",
+					"remove",
+					"-n",
+					"{{cookiecutter.__pkg_import_name}}"
 				]
 			},
 			{
@@ -262,18 +278,23 @@
 				]
 			},
 			{
+				"label": "show recommended extensions",
+				"command": "${command:workbench.extensions.action.showRecommendedExtensions}"
+			},
+			{
 				"label": "initial setup",
-				"type": "shell",
-				"command": "echo 'run setup'",
+				"command": "${command:workbench.action.reloadWindow}",
 				"dependsOn": [
+					"show recommended extensions",
 					"conda install: environment.yml",
-					"pre-commit install",
-					"pip install dev package"
+					"pip install dev package",
+					"pre-commit install"
 				],
 				"dependsOrder": "sequence",
 				"options": {
 					"cwd": "${workspaceFolder}"
-				}
+				},
+				"problemMatcher": []
 			},
 			{
 				"label": "docker-compose up codebook",
