@@ -23,5 +23,5 @@ services:
       - /bin/bash
       - -c
       - |
-        wf_entrypoint --help &
+        {{cookiecutter.__pkg_import_name}}_entrypoint --help &
         tail -f /dev/null

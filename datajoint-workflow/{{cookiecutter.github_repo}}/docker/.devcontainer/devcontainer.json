@@ -15,9 +15,6 @@
 		"vivaxy.vscode-conventional-commits",
 		"yzhang.markdown-all-in-one"
 	],
-	"features": {
-		"github": "latest"
-	},
 	"service": "devcontainer_env",
 	// Set *default* container specific settings.json values on container create.
 	"settings": {
@@ -69,5 +66,6 @@
 		"python.terminal.activateEnvironment": true
 	},
 	"shutdownAction": "none",
-	"workspaceFolder": "/home/{{cookiecutter.github_user}}/{{cookiecutter.__org}}_{{cookiecutter.__wf}}"
+	"workspaceFolder": "/home/{{cookiecutter.github_user}}/{{cookiecutter.__org}}_{{cookiecutter.__wf}}",
+	"initializeCommand": "test -f \"${localWorkspaceFolder}/.env\" || exit 1"
 }

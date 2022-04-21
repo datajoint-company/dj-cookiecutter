@@ -5,6 +5,7 @@
 """
 
 import argparse
+import os
 import re
 
 import nox
@@ -101,6 +102,17 @@ def git_action_bot(
 
 
 @nox.session(python=default_python_version, reuse_venv=True)
+def run_entrypoint(session: nox.Session) -> None:
+    """Install all dependencies then run package entrypoint 'help'.
+
+    nox -s run_entrypoint
+    """
+
+    install_dependencies(session, "dev", "test", "doc", "sciops")
+    session.run("{{cookiecutter.__pkg_import_name}}_entrypoint", "--help")
+
+
+@nox.session(python=default_python_version, reuse_venv=True)
 def write_version(session: nox.Session) -> None:
     """Bump version.py to the latest version.
 
@@ -137,19 +149,28 @@ def pre_commit(session: nox.Session) -> None:
     install_dependencies(session, "dev")
     session.run("pre-commit", "install")
 
-    failed_hooks = []
+    failed_hooks = {}
+    log_file = ".nox.pre-commit.log"
     for hook in hooks:
         try:
-            session.run("pre-commit", "run", "--all-files", "-v", hook)
+            with open(log_file, "w") as fout:
+                session.run("pre-commit", "run", "--all-files", hook, stdout=fout)
+
         except Exception as err:
             session.log(err)
-            failed_hooks.append(hook)
+            with open(log_file, "r") as fin:
+                failed_hooks[hook] = fin.read()
+
+        finally:
+            os.remove(log_file)
 
     if failed_hooks:
         failed_str = "Failed pre-commit hooks:"
-        failed_str += "".join([f"\n  - {hk}" for hk in failed_hooks])
+        failed_str += "".join(
+            [f"\n::{hk}\n\n{txt}\n" for hk, txt in failed_hooks.items()]
+        )
         if raise_exception:
-            raise SyntaxError(failed_str)
+            session.error(failed_str)
         else:
             session.log(failed_str)
 

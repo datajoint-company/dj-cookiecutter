@@ -49,7 +49,7 @@ dependencies = [
 ]
 
 [project.optional-dependencies]
-dev = ["black", "flake8", "pre-commit", "nox", "mypy"]
+dev = ["black", "isort", "flake8", "pre-commit", "nox", "mypy"]
 doc = [
     "mkdocs",
     "mkdocstrings-python",
@@ -65,7 +65,7 @@ test = ["pytest"]
 sciops = ["ipykernel", "djsciops", "datajoint>=0.13.4"]
 
 [project.scripts]
-wf_entrypoint = "{{cookiecutter.__pkg_import_name}}.entrypoint:cli"
+{{cookiecutter.__pkg_import_name}}_entrypoint = "{{cookiecutter.__pkg_import_name}}.entrypoint:cli"
 
 [project.urls]
 Homepage = "{{cookiecutter.homepage_url}}"
