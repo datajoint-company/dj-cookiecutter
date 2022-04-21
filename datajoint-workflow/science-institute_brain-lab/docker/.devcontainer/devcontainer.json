@@ -1,24 +1,20 @@
 // For format details, see https://aka.ms/devcontainer.json
 {
-	"name": "datajoint-workflow-brain (devcontainer)",
+	"name": "sciops-brain-lab (devcontainer)",
 	"dockerComposeFile": [
 		"../docker-compose-devcontainer_env.yaml"
 	],
 	// Add the IDs of extensions you want installed when the container is created.
 	"extensions": [
-		"vivaxy.vscode-conventional-commits",
+		"analytic-signal.snippets-plotly",
 		"eamodio.gitlens",
 		"ms-python.python",
-		"ms-python.vscode-pylance",
-		"ms-toolsai.jupyter",
 		"njpwerner.autodocstring",
 		"redhat.vscode-yaml",
 		"tamasfe.even-better-toml",
+		"vivaxy.vscode-conventional-commits",
 		"yzhang.markdown-all-in-one"
 	],
-	"features": {
-		"github": "latest"
-	},
 	"service": "devcontainer_env",
 	// Set *default* container specific settings.json values on container create.
 	"settings": {
@@ -70,5 +66,6 @@
 		"python.terminal.activateEnvironment": true
 	},
 	"shutdownAction": "none",
-	"workspaceFolder": "/home/dj-sciops/science-institute_brain-lab"
+	"workspaceFolder": "/home/dj-sciops/science-institute_brain-lab",
+	"initializeCommand": "test -f \"${localWorkspaceFolder}/.env\" || exit 1"
 }

@@ -1,4 +1,4 @@
-#  > docker-compose -f docker/docker-compose-devcontainer_env.yaml up --detach --force-recreate --remove-orphans --build
+#  > docker-compose -f docker/docker-compose-devcontainer_env.yaml up -V --detach --force-recreate --remove-orphans --build
 #  > docker-compose -f docker/docker-compose-devcontainer_env.yaml down --volumes
 
 version: "2.4"
@@ -8,7 +8,7 @@ services:
       MYSQL_ROOT_PASSWORD: ${DJ_PASS:-simple}
     image: datajoint/mysql:5.7
     networks:
-      brainwf:
+      sciopsbrainlab:
     platform: linux/amd64
     ports:
       - 6603:3306
@@ -34,13 +34,15 @@ services:
     init: true
     tty: true
     networks:
-      brainwf:
+      sciopsbrainlab:
     ports:
       - 18888:8888
     volumes:
       - ..:/home/${REPO_OWNER}/${REPO_NAME}
       - vscode:/home/${REPO_OWNER}/.vscode-server/extensions
       - vscode-insiders:/home/${REPO_OWNER}/.vscode-server-insiders/extensions
+      - /home/${REPO_OWNER}/${REPO_NAME}/.nox
+      - /home/${REPO_OWNER}/${REPO_NAME}/src/sciops_brain_lab.egg-info
 
   # MySQL GUI --------------
   # http://localhost:8087/
@@ -54,7 +56,7 @@ services:
       ADMINER_DESIGN: nette
     image: adminer
     networks:
-      brainwf:
+      sciopsbrainlab:
     ports:
       - target: 8080
         published: 8087
@@ -64,13 +66,13 @@ services:
         condition: service_started
 
 networks:
-  brainwf:
-    name: datajoint-workflow-brain-network
+  sciopsbrainlab:
+    name: sciops-brain-lab-network
 
 volumes:
   sqldata:
-    name: datajoint-workflow-brain-vol-sqldata
+    name: sciops-brain-lab-vol-sqldata
   vscode:
-    name: datajoint-workflow-brain-vol-vscode
+    name: sciops-brain-lab-vol-vscode
   vscode-insiders:
-    name: datajoint-workflow-brain-vol-vscode-insiders
+    name: sciops-brain-lab-vol-vscode-insiders

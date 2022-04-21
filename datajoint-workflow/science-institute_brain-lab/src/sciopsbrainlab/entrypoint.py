@@ -1,17 +1,17 @@
-"""_Entrypoint for ingestion routines_
+"""Entrypoint for ingestion routines
 
 This serves as an example command-line entrypoint for running different DataJoint
 populate functions for data ingestion. Requires a valid connection to a database. The
-script will run the [`run()`][brainwf.entrypoint.run] function in this module and
-requires content from the `brainwf` package.
+script will run the [`run()`][sciopsbrainlab.entrypoint.run] function in this module and
+requires content from the `sciopsbrainlab` package.
 
 Example:
     Usage as a console entrypoint:
 
-        brainwf --help
-        brainwf task1
-        brainwf task2 -d 600 -s 60
-        brainwf -vvv task1
+        sciopsbrainlab_entrypoint --help
+        sciopsbrainlab_entrypoint task1
+        sciopsbrainlab_entrypoint task2 -d 600 -s 60
+        sciopsbrainlab_entrypoint -vvv task1
 
     Usage as a script:
 
@@ -20,7 +20,8 @@ Example:
 
     Usage from python:
 
-        from brainwf import run; run(task='task1', duration=20, sleep=5)
+        from sciopsbrainlab_entrypoint import run
+        run(task=..., duration=20, sleep=5)
 
 Attributes:
     LOGGER (logging.Logger): Module level logger when specifying verbosity.
@@ -178,7 +179,7 @@ def setup_logging(loglevel: int, base_level: str = "WARNING") -> logging.Logger:
 def run(**kwargs: Any) -> None:
     """_Run ingestion routine depending on the configured task/job_
 
-    See [Example][brainwf.entrypoint] for a list of args.
+    See [Example][sciopsbrainlab.entrypoint] for a list of args.
     """
 
     setup_logging(kwargs.get("loglevel", 0))
@@ -194,7 +195,7 @@ def run(**kwargs: Any) -> None:
 
 
 def cli() -> None:
-    """_Calls [`entrypoint.run`][brainwf.entrypoint.run], passing the cli
+    """_Calls [`entrypoint.run`][sciopsbrainlab.entrypoint.run], passing the cli
     arguments extracted from `sys.argv`_.
 
     This function can be used as entry point to create console scripts on package

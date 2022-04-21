@@ -4,7 +4,7 @@ Create a `.env` file and the change any variables as necessary, then source thos
 
 ```bash
 cat <<-EOF > ./docker/.env
-COMPOSE_PROJECT_NAME=datajoint-workflow-brain
+COMPOSE_PROJECT_NAME=sciops-brain-lab
 JHUB_VER=1.4.2
 PY_VER=3.9
 DIST=debian
@@ -41,7 +41,7 @@ docker build \
 ```bash
 docker run -it \
   --platform linux/amd64 \
-  --name datajoint-workflow-brain \
+  --name sciops-brain-lab \
   --user root \
   registry.vathes.com/${REPO_OWNER}/codebook-${REPO_NAME}:jhub${JHUB_VER}-py${PY_VER}-${DIST}-${WORKFLOW_VERSION} \
   bash

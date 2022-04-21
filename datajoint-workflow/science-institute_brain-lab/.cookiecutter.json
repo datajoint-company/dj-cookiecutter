@@ -1,7 +1,8 @@
 {
     "__org": "science-institute",
-    "__pkg_import_name": "brainwf",
-    "__project_name": "datajoint-workflow-brain",
+    "__pkg_import_name": "sciopsbrainlab",
+    "__pkg_import_sc_name": "sciops_brain_lab",
+    "__project_name": "sciops-brain-lab",
     "__wf": "brain-lab",
     "_copy_without_render": [
         "docs/assets/*.svg",

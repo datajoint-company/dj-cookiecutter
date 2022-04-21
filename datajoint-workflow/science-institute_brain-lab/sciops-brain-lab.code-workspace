@@ -10,6 +10,7 @@
 			"GitHub.vscode-pull-request-github",
 			"Gruntfuggly.todo-tree",
 			"johnpapa.vscode-peacock",
+			"kevinrose.vsc-python-indent",
 			"mechatroner.rainbow-csv",
 			"mikestead.dotenv",
 			"ms-azuretools.vscode-docker",
@@ -32,10 +33,38 @@
 	},
 	"folders": [
 		{
-			"name": "datajoint-workflow-brain",
+			"name": "sciops-brain-lab",
 			"path": "."
 		}
 	],
+	"settings": {
+		"autoDocstring.customTemplatePath": "configs/docstrings.mustache",
+		"autoDocstring.docstringFormat": "google",
+		"autoDocstring.generateDocstringOnEnter": true,
+		"autoDocstring.guessTypes": true,
+		"autoDocstring.startOnNewLine": false,
+		"conventionalCommits.scopes": [
+			"pipeline",
+			"actions",
+			"loaders",
+			"package",
+			"module",
+			"docker"
+		],
+		"djcookiecutter.condaExec": "mamba",
+		"djcookiecutter.localPath": "${env:HOME}/Documents/datajoint/dj-cookiecutter",
+		"files.exclude": {
+			"**/.DS_Store": true,
+			"**/.git": true,
+			"**/.hg": true,
+			"**/.svn": true,
+			"**/CVS": true,
+			"**/Thumbs.db": true,
+			"*.command": true
+		},
+		"python.defaultInterpreterPath": "${env:CONDA_ENV_ROOT}/sciopsbrainlab",
+		"python.linting.mypyEnabled": true
+	},
 	"launch": {
 		"version": "0.2.0",
 		"configurations": [
@@ -53,7 +82,7 @@
 			{
 				"name": "Python: Debug entrypoint.py",
 				"type": "python",
-				"program": "${workspaceFolder}/src/brainwf/entrypoint.py",
+				"program": "${workspaceFolder}/src/sciopsbrainlab/entrypoint.py",
 				"args": [
 					"task1",
 					"-d",
@@ -67,33 +96,6 @@
 				"request": "launch"
 			}
 		]
-	},
-	"settings": {
-		"autoDocstring.customTemplatePath": "configs/docstrings.mustache",
-		"autoDocstring.docstringFormat": "google",
-		"autoDocstring.generateDocstringOnEnter": true,
-		"autoDocstring.guessTypes": true,
-		"autoDocstring.startOnNewLine": false,
-		"conventionalCommits.scopes": [
-			"pipeline",
-			"actions",
-			"loaders",
-			"package",
-			"module",
-			"docker"
-		],
-		"files.exclude": {
-			"**/.DS_Store": true,
-			"**/.git": true,
-			"**/.hg": true,
-			"**/.svn": true,
-			"**/CVS": true,
-			"**/Thumbs.db": true,
-			"*.command": true
-		},
-		"python.defaultInterpreterPath": "${env:CONDA_ENV_ROOT}/brainwf",
-		"python.linting.mypyEnabled": true,
-		"djcookiecutter.localPath": "${env:HOME}/Documents/datajoint/dj-cookiecutter"
 	},
 	"tasks": {
 		// See https://go.microsoft.com/fwlink/?LinkId=733558
@@ -120,9 +122,9 @@
 		},
 		"tasks": [
 			{
-				"label": "mamba install: environment.yml",
+				"label": "conda install: environment.yml",
 				"type": "shell",
-				"command": "mamba",
+				"command": "${config:djcookiecutter.condaExec}",
 				"args": [
 					"env",
 					"create",
@@ -132,9 +134,9 @@
 				]
 			},
 			{
-				"label": "mamba update: environment.yml",
+				"label": "conda update: environment.yml",
 				"type": "shell",
-				"command": "mamba",
+				"command": "${config:djcookiecutter.condaExec}",
 				"args": [
 					"env",
 					"update",
@@ -145,30 +147,46 @@
 				]
 			},
 			{
-				"label": "mamba update: all packages",
+				"label": "conda update: all packages",
 				"type": "shell",
 				"command": "conda",
 				"args": [
 					"run",
 					"--no-capture-output",
 					"-n",
-					"brainwf",
-					"mamba",
+					"sciopsbrainlab",
+					"${config:djcookiecutter.condaExec}",
 					"update",
 					"-qy",
 					"--all"
 				]
 			},
 			{
-				"label": "mamba list",
+				"label": "conda remove: env",
 				"type": "shell",
 				"command": "conda",
 				"args": [
 					"run",
 					"--no-capture-output",
 					"-n",
-					"brainwf",
-					"mamba",
+					"base",
+					"${config:djcookiecutter.condaExec}",
+					"env",
+					"remove",
+					"-n",
+					"sciopsbrainlab"
+				]
+			},
+			{
+				"label": "conda list",
+				"type": "shell",
+				"command": "conda",
+				"args": [
+					"run",
+					"--no-capture-output",
+					"-n",
+					"sciopsbrainlab",
+					"${config:djcookiecutter.condaExec}",
 					"list"
 				],
 				"presentation": {
@@ -176,14 +194,14 @@
 				}
 			},
 			{
-				"label": "pip install datajoint-workflow-brain",
+				"label": "pip install dev package",
 				"type": "shell",
 				"command": "conda",
 				"args": [
 					"run",
 					"--no-capture-output",
 					"-n",
-					"brainwf",
+					"sciopsbrainlab",
 					"pip",
 					"install",
 					"-e",
@@ -191,27 +209,28 @@
 				]
 			},
 			{
-				"label": "uninstall pkg",
+				"label": "pip uninstall dev package",
 				"type": "shell",
 				"command": "conda",
 				"args": [
 					"run",
 					"--no-capture-output",
 					"-n",
-					"brainwf",
+					"sciopsbrainlab",
 					"pip",
 					"uninstall",
 					"-y",
-					"datajoint-workflow-brain"
+					"sciops-brain-lab"
 				]
 			},
 			{
-				"label": "pip uninstall datajoint-workflow-brain",
+				"label": "pip uninstall dev package and egg",
 				"type": "shell",
 				"command": "find . -name '*.egg-info' -type d -exec rm -rf {} +",
 				"dependsOn": [
-					"uninstall pkg"
+					"pip uninstall dev package"
 				],
+				"dependsOrder": "sequence",
 				"options": {
 					"cwd": "${workspaceFolder}"
 				}
@@ -224,7 +243,7 @@
 					"run",
 					"--no-capture-output",
 					"-n",
-					"brainwf",
+					"sciopsbrainlab",
 					"pre-commit",
 					"install",
 					"--install-hooks"
@@ -238,7 +257,7 @@
 					"run",
 					"--no-capture-output",
 					"-n",
-					"brainwf",
+					"sciopsbrainlab",
 					"pre-commit",
 					"autoupdate"
 				]
@@ -251,11 +270,31 @@
 					"run",
 					"--no-capture-output",
 					"-n",
-					"brainwf",
+					"sciopsbrainlab",
 					"pre-commit",
 					"run",
+					"--verbose",
 					"--all-files"
 				]
+			},
+			{
+				"label": "show recommended extensions",
+				"command": "${command:workbench.extensions.action.showRecommendedExtensions}"
+			},
+			{
+				"label": "initial setup",
+				"command": "${command:workbench.action.reloadWindow}",
+				"dependsOn": [
+					"show recommended extensions",
+					"conda install: environment.yml",
+					"pip install dev package",
+					"pre-commit install"
+				],
+				"dependsOrder": "sequence",
+				"options": {
+					"cwd": "${workspaceFolder}"
+				},
+				"problemMatcher": []
 			},
 			{
 				"label": "docker-compose up codebook",
@@ -307,38 +346,16 @@
 				"command": "find . -name '*.DS_Store' -type f -delete && find . -name '.ipynb_checkpoints' -type d -exec rm -rf {} + && find . -name '__pycache__' -type d -exec rm -rf {} +"
 			},
 			{
-				"label": "cookiecutter retrocookie",
-				"type": "shell",
-				"command": "code",
-				"args": [
-					"*.code-workspace",
-					"&&",
-					"**/*/retrocookie.sh",
-					"-i",
-					"'datajoint-workflow-brain.code-workspace'",
-					"-i",
-					"typings",
-					"-i",
-					"'docs/assets/*'",
-					"-i",
-					"'src/brainwf/*'",
-					"-i",
-					"'!src/brainwf/__init__.py'",
-					"-i",
-					"'!src/brainwf/entrypoint.py'",
-					"${workspaceFolder}"
-				],
-				"options": {
-					"cwd": "${config:djcookiecutter.localPath}"
-				}
-			},
-			{
 				"label": "cookiecutter replay",
 				"type": "shell",
 				"command": "**/*/replay.sh",
 				"args": [
 					"-r",
 					".",
+					"-d",
+					"datajoint-workflow",
+					"-n",
+					"cookies",
 					"'${workspaceFolder}'"
 				],
 				"options": {
@@ -346,9 +363,43 @@
 				}
 			},
 			{
-				"label": "open devcontainer",
+				"label": "cookiecutter retrocookie",
 				"type": "shell",
-				"command": "${workspaceFolder}/docker/.devcontainer/vscode-open-dev-container",
+				"command": "code",
+				"args": [
+					"*.code-workspace",
+					"&&",
+					"**/*/retrocookie.sh",
+					"-d",
+					"datajoint-workflow",
+					"-n",
+					"cookies",
+					"-i",
+					"'sciops-brain-lab.code-workspace'",
+					"-i",
+					"typings",
+					"-i",
+					"'docs/assets/*'",
+					"-i",
+					"'src/sciopsbrainlab/*'",
+					"-i",
+					"'!src/sciopsbrainlab/__init__.py'",
+					"-i",
+					"'!src/sciopsbrainlab/entrypoint.py'",
+					"${workspaceFolder}"
+				],
+				"options": {
+					"cwd": "${config:djcookiecutter.localPath}"
+				}
+			},
+			{
+				"label": "devcontainer open",
+				"type": "shell",
+				"command": "devcontainer",
+				"args": [
+					"open",
+					"${workspaceFolder}/docker"
+				]
 			}
 		]
 	}

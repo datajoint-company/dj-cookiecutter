@@ -5,7 +5,7 @@ from pathlib import Path
 import click
 from IPython.core import ultratb
 
-import brainwf  # isort: skip
+import sciopsbrainlab  # isort: skip
 
 
 # fallback to debugger on error
@@ -29,7 +29,7 @@ _logger = logging.getLogger(__name__)
 @click.option("--quiet", "log_level", flag_value=logging.WARNING, default=True)
 @click.option("-v", "--verbose", "log_level", flag_value=logging.INFO)
 @click.option("-vv", "--very-verbose", "log_level", flag_value=logging.DEBUG)
-@click.version_option(brainwf.__version__)
+@click.version_option(sciopsbrainlab.__version__)
 def main(cfg_path: Path, log_level: int):
     logging.basicConfig(
         stream=sys.stdout,
@@ -37,8 +37,8 @@ def main(cfg_path: Path, log_level: int):
         datefmt="%Y-%m-%d %H:%M",
         format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
     )
-    # YOUR CODE GOES HERE! Keep the main functionality in src/brainwf
-    # est = brainwf.models.Estimator()
+    # YOUR CODE GOES HERE! Keep the main functionality in src/sciopsbrainlab
+    # est = sciopsbrainlab.models.Estimator()
 
 
 if __name__ == "__main__":

@@ -1,19 +1,19 @@
 <!--start-contrib-->
 
-# Contributing
+# Contributing and Developer Guide
 
-Welcome to the `datajoint-workflow-brain` contributor's guide.
+Welcome to the `sciops-brain-lab` contributor's guide.
 
-This document focuses on getting any potential contributor familiarized with the development process, but [other kinds of contributions](https://opensource.guide/how-to-contribute) are also appreciated. See the DataJoint [community contributions](https://docs.datajoint.org/python/community/02-Contribute.html) page for information.
+This document focuses on getting any potential contributor familiarized with the DataJoint workflow development process, but [other general kinds of contributions](https://opensource.guide/how-to-contribute) are also appreciated. See the DataJoint [community contributions](https://docs.datajoint.org/python/community/02-Contribute.html) page for information.
 
-If you are new to using [git](https://git-scm.com) or have never collaborated in a project previously, please have a look at [contribution-guide.org](http://www.contribution-guide.org/). Other resources are also listed in the excellent [guide created by FreeCodeCamp](https://github.com/FreeCodeCamp/how-to-contribute-to-open-source).
+If you are new to using [git](https://git-scm.com) or have never collaborated on a project previously, please have a look at [contribution-guide.org](http://www.contribution-guide.org/). Other resources are also listed in the excellent [guide created by FreeCodeCamp](https://github.com/FreeCodeCamp/how-to-contribute-to-open-source).
 
 !!! note "Python Code of Conduct"
-    Please notice, all users and contributors are expected to be **open, considerate, reasonable, and respectful**. When in doubt, [Python Software Foundation's Code of Conduct](https://www.python.org/psf/conduct/) is a good reference in terms of behavior guidelines.
+    Please notice that all users and contributors are expected to be **open, considerate, reasonable, and respectful**. When in doubt, [Python Software Foundation's Code of Conduct](https://www.python.org/psf/conduct/) is a good reference in terms of behavior guidelines.
 
 ## Issue Reports
 
-If you experience bugs or general issues with `datajoint-workflow-brain`, please have a look at the [issue tracker](https://github.com/dj-sciops/science-institute_brain-lab/issues). If you don't see anything useful there, please feel free to fill out a new issue report.
+If you experience bugs or general issues with `sciops-brain-lab`, please have a look at the [issue tracker](https://github.com/dj-sciops/science-institute_brain-lab/issues). If you don't see anything useful there, please feel free to fill out a new issue report.
 
 New issue reports should include information about your programming environment (e.g., operating system, Python version) and steps to reproduce the problem. Please also try to simplify the reproduction steps to a very minimal example that still illustrates the problem you're facing. By removing other factors, you help us to identify the root cause of the issue.
 
@@ -23,12 +23,12 @@ New issue reports should include information about your programming environment 
 
 ## Documentation Improvements
 
-You can help improve the `datajoint-workflow-brain` docs by making them more readable and coherent, or by adding missing information and correcting mistakes.
+You can help improve the `sciops-brain-lab` docs by making them more readable and coherent, or by adding missing information and correcting mistakes.
 
 !!! tip "Quick Documentation Changes"
-    Please notice that the [GitHub web interface](https://docs.github.com/en/github/managing-files-in-a-repository/managing-files-on-github/editing-files-in-your-repository) provides a quick way of propose changes in `datajoint-workflow-brain`'s files. While this mechanism can be tricky for normal code contributions, it works perfectly fine for contributing to the docs, and can be quite handy.
+    Please notice that the [GitHub web interface](https://docs.github.com/en/github/managing-files-in-a-repository/managing-files-on-github/editing-files-in-your-repository) provides a quick way of propose changes in `sciops-brain-lab`'s files. While this mechanism can be tricky for normal code contributions, it works perfectly fine for contributing to the docs, and can be quite handy.
 
-`datajoint-workflow-brain` documentation uses [MkDocs](https://www.mkdocs.org/) as its main documentation compiler. This means that the docs are kept in the same repository as the project code, and that any documentation update is done in the same way as a code contribution.
+`sciops-brain-lab` documentation uses [MkDocs](https://www.mkdocs.org/) as its main documentation compiler. This means that the docs are kept in the same repository as the project code, and that any documentation update is done in the same way as a code contribution.
 
 All documentation is written in [Markdown](https://docs.github.com/en/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax), specifically the [`python-markdown`](https://python-markdown.github.io/#differences) implementation with additional [extensions](https://docutils.sourceforge.io/docs/ref/rst/directives.html#specific-admonitions) to use features from reStructuredText.
 
@@ -98,13 +98,13 @@ See the [_Installation_](./README.md#installation) section from the introductory
 Install the extra packages needed for local development, tests, and documentation:
 
 ```bash
-cd "datajoint-workflow-brain"
-conda activate brainwf
+cd "sciops-brain-lab"
+conda activate sciopsbrainlab
 pip install -e ".[dev,doc,test,sciops]"
 ```
 
 !!! note "Develop Mode Installs"
-    The command `conda list` will show `datajoint-workflow-brain`, but it will be installed in _editable/develop mode_ due to using the `-e` option during installation. This means that changes will be immediately reflected when the module is reloaded.
+    The command `conda list` will show `sciops-brain-lab`, but it will be installed in _editable/develop mode_ due to using the `-e` option during installation. This means that changes will be immediately reflected when the module is reloaded.
 
 ### Extra `dev` packages
 
@@ -122,7 +122,7 @@ You can also use `nox` to run several other pre-configured tasks for this projec
 
 #### `pre-commit`
 
-The [`pre-commit`](https://pre-commit.com/) package is used to detect or fix common issues before code is submitted to the remote repository. You first have to set and install the hooks after cloning the repository from GitHub. The `datajoint-workflow-brain` package comes with a lot of hooks configured to automatically help you check the code after being written. View the configuration in the file `.pre-commit-config.yaml`. Installing `pre-commit` and the specificed hooks is required only once:
+The [`pre-commit`](https://pre-commit.com/) package is used to detect or fix common issues before code is submitted to the remote repository. You first have to set and install the hooks after cloning the repository from GitHub. The `sciops-brain-lab` package comes with a lot of hooks configured to automatically help you check the code after being written. View the configuration in the file `.pre-commit-config.yaml`. Installing `pre-commit` and the specificed hooks is required only once:
 
 ```bash
 pre-commit install --install-hooks
@@ -136,6 +136,14 @@ pre-commit run --all-files
 
 !!! tip
     The `-n, --no-verify` flag of `git commit` can be used to deactivate pre-commit hooks temporarily. Run `pre-commit uninstall` to permanently stop pre-commit.
+
+If you want to install `pre-commit` automatically for all newly cloned or initialized respositories that have a `.pre-commit-config.yaml` file, set the get config option and initialize the template, like so:
+
+```
+git config --global init.templateDir ~/.git-template
+pre-commit init-templatedir ~/.git-template
+```
+
 
 ### Extra `test` packages
 
@@ -207,7 +215,7 @@ _Documentation Resources_:
 Exporting python packages:
 
 ```
-mamba env export -n brainwf -f environment.lock.yml --no-builds
+mamba env export -n sciopsbrainlab -f environment.lock.yml --no-builds
 ```
 
 Resetting environment to locked state:
@@ -216,7 +224,7 @@ Resetting environment to locked state:
 mamba env update -f environment.lock.yml --prune
 ```
 
-### GitHub Actions
+## Continuous Integration/Development
 
 The GitHub actions and workflows are located under the `.github` folder and automate many of the tasks previously outlined. The following actions are used:
 
@@ -234,8 +242,33 @@ The GitHub actions and workflows are located under the `.github` folder and auto
     git push origin --delete $(git tag -l)
     git tag -d $(git tag -l)
     ```
+## Integrated Development Environments 
 
-### Troubleshooting
+### Visual Studio Code
+
+The file `sciops-brain-lab.code-workspace` contains many of the `vscode` specific settings for working with this project. Of most importance are `"settings":` specific to this project and `"tasks":` to run common operations.
+
+1. _extensions_
+
+Stores a list of recommended extensions to install. To instal them, open the command pallete then type `exten` and select 'Extensions: Show Recommended Extensions' from the dropdown menu.
+
+2. _folders_
+
+Specify folders for multiroot workspaces. 
+
+3. _launch_
+
+Specify python debugger configurations.
+
+4. _settings_
+
+Python specific settings as well as `cookiecutter` template settings. Be sure to specify the values of settings starting with `djcookiecutter.`. These are used for some of the `vscode` tasks.
+
+5. _tasks_
+
+Various tasks for environment setup, templates, or docker commands. 
+
+## Troubleshooting
 
 The following tips can be used when facing problems to build or test the
 package:

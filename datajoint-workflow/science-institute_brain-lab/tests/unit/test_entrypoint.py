@@ -7,7 +7,7 @@ import logging
 
 import pytest
 
-from brainwf.entrypoint import setup_logging  # noqa, isort: skip
+from sciopsbrainlab.entrypoint import setup_logging  # noqa, isort: skip
 
 
 @pytest.mark.parametrize(

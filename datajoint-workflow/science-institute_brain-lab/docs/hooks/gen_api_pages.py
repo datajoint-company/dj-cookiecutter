@@ -29,24 +29,38 @@ def generate_api_docs(
         api_doc_path = rel_path.with_suffix(".md")
         rel_api_path = Path(rel_api_path)
         full_api_doc_path = rel_api_path / api_doc_path
+        parts = {"api_nav": list(module_path.parts), "doc_nav": list(module_path.parts)}
+        stem = parts["api_nav"][-1]
+        rendering = ["show_signature: true"]
+        write_mode = "w"
+        pretext = ""
 
-        parts = list(module_path.parts)
-
-        if parts[-1] == "__init__":
-            parts = parts[:-1]
+        if files_stems_to_skip and (stem in files_stems_to_skip):
+            continue
+        elif stem == "__init__":
+            parts["api_nav"] = parts["api_nav"][:-1]
+            parts["doc_nav"] = parts["doc_nav"][:-1]
             api_doc_path = api_doc_path.with_name("index.md")
             full_api_doc_path = full_api_doc_path.with_name("index.md")
-        elif files_stems_to_skip and parts[-1] in files_stems_to_skip:
-            continue
+            rendering.append("show_submodules: false")
+        elif stem == "__main__":
+            pretext = "\n## `command-line interface`\n"
+            api_doc_path = None
+            full_api_doc_path = full_api_doc_path.with_name("index.md")
+            write_mode = "a"
+            rendering.append("show_root_heading: false")
+            rendering.append("heading_level: 3")
 
-        nav[parts] = api_doc_path
+        if api_doc_path:
+            nav[parts["doc_nav"]] = api_doc_path
 
-        with mkgen.open(full_api_doc_path, "w") as fd:
-            ident: str = ".".join(parts)
-            file_txt: str = "::: " + ident
+        with mkgen.open(full_api_doc_path, write_mode) as fd:
+            ident: str = ".".join(parts["api_nav"])
+            file_txt: str = pretext + "::: " + ident
+            file_txt += "\n\trendering:"
             if show_source_list and ident in show_source_list:
-                file_txt += "\n\trendering:"
-                file_txt += "\n\t  show_source: true"
+                rendering.append("show_source: true")
+            file_txt += "".join([f"\n\t\t{r}" for r in rendering])
             print(file_txt, file=fd)
 
         mkgen.set_edit_path(full_api_doc_path, path)
@@ -58,6 +72,6 @@ def generate_api_docs(
 generate_api_docs(
     module_parent="src",
     rel_api_path="api",
-    files_stems_to_skip=["__main__", "version"],
-    show_source_list=["brainwf.entrypoint"],
+    files_stems_to_skip=["version"],
+    show_source_list=["sciopsbrainlab.entrypoint"],
 )
