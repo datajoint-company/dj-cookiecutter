@@ -66,6 +66,7 @@ sciops = ["ipykernel", "djsciops", "datajoint>=0.13.4"]
 
 [project.scripts]
 {{cookiecutter.__pkg_import_name}}_entrypoint = "{{cookiecutter.__pkg_import_name}}.entrypoint:cli"
+{{cookiecutter.__pkg_import_name}} = "{{cookiecutter.__pkg_import_name}}.__main__:cli"
 
 [project.urls]
 Homepage = "{{cookiecutter.homepage_url}}"

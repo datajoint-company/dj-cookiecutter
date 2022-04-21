@@ -99,6 +99,5 @@ def make_conda_env_yml():
 
 if __name__ == "__main__":
     delete_version_files()
-    make_cookiecutterc_yml()
     update_dot_cookiecutter_json()
     make_conda_env_yml()

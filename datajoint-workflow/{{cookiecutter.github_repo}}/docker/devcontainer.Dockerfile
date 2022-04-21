@@ -92,7 +92,8 @@ USER ${NEW_USER_NAME}:${NEW_USER_GROUP}
 RUN <<-EOF
 	rm -rf .nox .git .mypy_cache .pytest_cache site build
 	cp -f /usr/local/src/.datajoint_config.json ../.datajoint_config.json
-	mkdir -p .nox ../.vscode-server/extensions ../.vscode-server-insiders/extensions
+	mkdir -p .nox src/{{cookiecutter.__pkg_import_sc_name}}.egg-info \
+		../.vscode-server/extensions ../.vscode-server-insiders/extensions
 	chmod -R 2775 ../.vscode-server*
 	source activate
 	conda init -q bash

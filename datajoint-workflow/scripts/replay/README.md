@@ -22,17 +22,14 @@ Options:
 -n .... Conda environment name that contains cookiecutter.
         Value=cookies
 
--f .... Force remove existing content on rebuild.
-        Value=false
-
 
 Positional args:
 
 output_directory .... The directory where the output will be generated. (Required)
-                      Value=.
+                      Value=
 
 cookiecutter_json ... Path to the '.cookiecutter.json' file with user config.
-                      Value=.cookiecutter.json
+                      Value=/.cookiecutter.json
 
 
 Examples:
@@ -71,4 +68,4 @@ Examples:
 4. Run `replay.sh`.
 
    - `cd /tmp/wt-causality-in-motion`
-   - `../dj-cookiecutter/datajoint-workflow/replay/replay.sh . .cookiecutter.json`
+   - `../dj-cookiecutter/datajoint-workflow/scripts/replay/replay.sh . .cookiecutter.json`

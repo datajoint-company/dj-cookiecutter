@@ -1,13 +1,13 @@
 #!/bin/bash --login
 
-# datajoint-workflow/retrocookie/retrocookie.sh --help
+# datajoint-workflow/scripts/retrocookie/retrocookie.sh --help
 
 script_cmd="${BASH_SOURCE[0]}"
 script_pdir="$(cd "$(dirname "${script_cmd}")" &>/dev/null && pwd)"
 script_file=$(basename "${script_cmd}")
 curr_dir=$PWD
 
-root_dir=$(cd "${script_pdir}"/../.. &>/dev/null && pwd)
+root_dir=$(cd "${script_pdir}"/../../.. &>/dev/null && pwd)
 template_dir="datajoint-workflow"
 conda_env=cookies
 cc_config=
@@ -22,16 +22,13 @@ err_exit() {
 
 SHOW_HELP=0
 show_help() {
-	echo "usage: $script_file [OPTION]... project_folder
+	echo "usage: $script_file [OPTION]... project_folder cc_config
 
 Convert modified cookiecutter output back to it's template form.
 
 Options:
 
 -h, --help, help ... Show this help then exit.
-
--c .... Path to the 'cookiecutterc.yml' file with preconfigured values.
-        Value=$cc_config
 
 -d .... Template subdirectory to use from multi-template repository url.
         Value=$template_dir
@@ -47,7 +44,12 @@ Positional args:
 project_folder .... The directory corresponding to the output of the original
                     cookiecutter command.
                     Value=$project_folder
+cc_config ......... Path to the 'cookiecutterc.yml' file with preconfigured values.
+                    Value=$cc_config
 
+Temporary copy directory:
+
+$tmp_proj_parent
 
 Examples:
 
@@ -72,11 +74,6 @@ while [[ $# -gt 0 ]]; do
 		shift
 		shift
 		;;
-	"-c")
-		cc_config="${2}"
-		shift
-		shift
-		;;
 	"-n")
 		conda_env="${2}"
 		shift
@@ -94,29 +91,34 @@ while [[ $# -gt 0 ]]; do
 	esac
 done
 
-# show help if asked
-# ------------------
 
-if [[ ${#pos_args} -lt 1 ]]; then
-	project_folder="${script_pdir}"/../replay/build/
+if [[ ${#pos_args[@]} -lt 2 ]]; then
+	project_folder=${pos_args[0]:-my_project_dir}
+	cc_config="${project_folder}/.cookiecutter.json"
 else
 	project_folder=${pos_args[0]}
+	cc_config=${pos_args[1]}
 fi
 
-project_folder=$(cd "${project_folder}" &>/dev/null && pwd)
+tmp_proj_parent=${TMPDIR:-~/tmp/}cookie_retro/${template_dir}
 
-cc_config="${cc_config:-${project_folder}/configs/cookiecutterc.yml}"
-[[ ! -f ${cc_config} ]] && cc_config="${root_dir}/tests/integration/fixtures/cookiecutterc.yml"
-
+# show help if asked
+# ------------------
 [[ ${SHOW_HELP} -eq 1 ]] && show_help
 
 { [[ -z "$project_folder" ]] || [[ ! -d "$project_folder" ]]; } && err_exit "project folder path is required."
+project_folder=$(cd "${project_folder}" &>/dev/null && pwd)
+rm -rf "${tmp_proj_parent}"
+mkdir -p "${tmp_proj_parent}"
 
 conda activate "${conda_env}"
 
-tmp_proj_parent=${TMPDIR:-~/tmp/}cookie_retro/${template_dir}
-rm -rf "${tmp_proj_parent}"
-mkdir -p "${tmp_proj_parent}"
+if [[ -f ${cc_config} ]]; then
+	python "${script_pdir}"/../replay2config.py "${cc_config}" "${tmp_proj_parent}/cookiecutterc.yml"
+	cc_config="${tmp_proj_parent}/cookiecutterc.yml"
+else
+	cc_config="${root_dir}/tests/integration/fixtures/cookiecutterc.yml"
+fi
 
 echo -e "\n============ Project configuration context ============"
 echo -e "\n> '$cc_config'"

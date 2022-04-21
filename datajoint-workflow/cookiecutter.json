@@ -25,6 +25,7 @@
     "docs_url": "https://{{cookiecutter.github_user}}.github.io/{{cookiecutter.github_repo}}",
     "__project_name": "sciops-{{cookiecutter.__wf}}",
     "__pkg_import_name": "sciops{{cookiecutter.__wf|slugify(separator='')}}",
+    "__pkg_import_sc_name": "sciops_{{cookiecutter.__wf|slugify(separator='_')}}",
     "_djconfig": "dj_local_conf.json",
     "_copy_without_render": [
         "docs/assets/*.svg",

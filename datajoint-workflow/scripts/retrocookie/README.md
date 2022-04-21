@@ -5,16 +5,13 @@ You can add changes back to a template folder using the [`retrocookie`](https://
 **The `retrocookie.sh --help` documentation**:
 
 ```
-usage: retrocookie.sh [OPTION]... project_folder
+usage: retrocookie.sh [OPTION]... project_folder cc_config
 
 Convert modified cookiecutter output back to it's template form.
 
 Options:
 
 -h, --help, help ... Show this help then exit.
-
--c .... Path to the 'cookiecutterc.yml' file with preconfigured values.
-        Value=./dj-cookiecutter/tests/integration/fixtures/cookiecutterc.yml
 
 -d .... Template subdirectory to use from multi-template repository url.
         Value=datajoint-workflow
@@ -29,8 +26,13 @@ Positional args:
 
 project_folder .... The directory corresponding to the output of the original
                     cookiecutter command.
-                    Value=
+                    Value=my_project_dir
+cc_config ......... Path to the 'cookiecutterc.yml' file with preconfigured values.
+                    Value=my_project_dir/.cookiecutter.json
 
+Temporary copy directory:
+
+/var/folders/t3/wwync7qs1753cd1nzlqnzt900000gn/T/cookie_retro/datajoint-workflow
 
 Examples:
 
@@ -69,6 +71,6 @@ Examples:
 
 6. Run `retrocookie.sh`
 
-   - `dj-cookiecutter/datajoint-workflow/retrocookie/retrocookie.sh /tmp/wt-causality-in-motion`
+   - `dj-cookiecutter/datajoint-workflow/scripts/retrocookie/retrocookie.sh /tmp/wt-causality-in-motion`
 
 _Note:_ If you run into merge conflicts, see the help for [`git-cherry-pick`](https://git-scm.com/docs/git-cherry-pick).

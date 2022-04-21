@@ -1,4 +1,4 @@
-"""_Entrypoint for ingestion routines_
+"""Entrypoint for ingestion routines
 
 This serves as an example command-line entrypoint for running different DataJoint
 populate functions for data ingestion. Requires a valid connection to a database. The
@@ -8,10 +8,10 @@ requires content from the `{{cookiecutter.__pkg_import_name}}` package.
 Example:
     Usage as a console entrypoint:
 
-        {{cookiecutter.__pkg_import_name}} --help
-        {{cookiecutter.__pkg_import_name}} task1
-        {{cookiecutter.__pkg_import_name}} task2 -d 600 -s 60
-        {{cookiecutter.__pkg_import_name}} -vvv task1
+        {{cookiecutter.__pkg_import_name}}_entrypoint --help
+        {{cookiecutter.__pkg_import_name}}_entrypoint task1
+        {{cookiecutter.__pkg_import_name}}_entrypoint task2 -d 600 -s 60
+        {{cookiecutter.__pkg_import_name}}_entrypoint -vvv task1
 
     Usage as a script:
 
@@ -20,7 +20,8 @@ Example:
 
     Usage from python:
 
-        from {{cookiecutter.__pkg_import_name}} import run; run(task='task1', duration=20, sleep=5)
+        from {{cookiecutter.__pkg_import_name}}_entrypoint import run
+        run(task=..., duration=20, sleep=5)
 
 Attributes:
     LOGGER (logging.Logger): Module level logger when specifying verbosity.

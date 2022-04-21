@@ -1,6 +1,6 @@
 #!/bin/bash --login
 
-# datajoint-workflow/replay/replay.sh --help
+# datajoint-workflow/scripts/replay/replay.sh --help
 
 echo "$0 $*"
 script_cmd="${BASH_SOURCE[0]}"
@@ -109,24 +109,22 @@ conda activate "${conda_env}"
 tmp_dir=${TMPDIR:-~/tmp/}cookie_replay/"${template_dir}"
 rm -rf "${tmp_dir}"
 mkdir -p "${tmp_dir}"
-replay_file=${tmp_dir}/.cookiecutter.json
+replay_file=${tmp_dir}/.cookiecutterc.yml
 debug_file=${tmp_dir}/.cookiecutter.log
-cat <<-EOF >"${replay_file}"
-	{
-	"cookiecutter": $(cat "$input_json")
-	}
-EOF
-
 output_dir=$(dirname "$output_dir")
+
+python "${script_pdir}"/../replay2config.py "${input_json}" "${replay_file}"
+
 if [[ -d "${output_dir}" ]]; then
 	echo "Directory '${output_dir}' already exists. Overwriting existing content."
 fi
 
-echo "command: cookiecutter --overwrite-if-exists --replay-file='${replay_file}' --debug-file='${debug_file}' --output-dir='${output_dir}' --directory='${template_dir}' '${repo_url}'"
+echo "command: cookiecutter --overwrite-if-exists --no-input --config-file='${replay_file}' --debug-file='${debug_file}' --output-dir='${output_dir}' --directory='${template_dir}' '${repo_url}'"
 
 cookiecutter \
 	--overwrite-if-exists \
-	--replay-file="${replay_file}" \
+	--no-input \
+	--config-file="${replay_file}" \
 	--debug-file="${debug_file}" \
 	--output-dir="${output_dir}" \
 	--directory="${template_dir}" \

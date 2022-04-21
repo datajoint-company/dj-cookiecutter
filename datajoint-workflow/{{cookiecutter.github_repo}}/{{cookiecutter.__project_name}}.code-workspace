@@ -346,6 +346,23 @@
 				"command": "find . -name '*.DS_Store' -type f -delete && find . -name '.ipynb_checkpoints' -type d -exec rm -rf {} + && find . -name '__pycache__' -type d -exec rm -rf {} +"
 			},
 			{
+				"label": "cookiecutter replay",
+				"type": "shell",
+				"command": "**/*/replay.sh",
+				"args": [
+					"-r",
+					".",
+					"-d",
+					"datajoint-workflow",
+					"-n",
+					"cookies",
+					"'${workspaceFolder}'"
+				],
+				"options": {
+					"cwd": "${config:djcookiecutter.localPath}"
+				}
+			},
+			{
 				"label": "cookiecutter retrocookie",
 				"type": "shell",
 				"command": "code",
@@ -353,6 +370,10 @@
 					"*.code-workspace",
 					"&&",
 					"**/*/retrocookie.sh",
+					"-d",
+					"datajoint-workflow",
+					"-n",
+					"cookies",
 					"-i",
 					"'{{cookiecutter.__project_name}}.code-workspace'",
 					"-i",
@@ -366,19 +387,6 @@
 					"-i",
 					"'!src/{{cookiecutter.__pkg_import_name}}/entrypoint.py'",
 					"${workspaceFolder}"
-				],
-				"options": {
-					"cwd": "${config:djcookiecutter.localPath}"
-				}
-			},
-			{
-				"label": "cookiecutter replay",
-				"type": "shell",
-				"command": "**/*/replay.sh",
-				"args": [
-					"-r",
-					".",
-					"'${workspaceFolder}'"
 				],
 				"options": {
 					"cwd": "${config:djcookiecutter.localPath}"

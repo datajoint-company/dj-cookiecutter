@@ -102,14 +102,14 @@ def git_action_bot(
 
 
 @nox.session(python=default_python_version, reuse_venv=True)
-def run_entrypoint(session: nox.Session) -> None:
-    """Install all dependencies then run package entrypoint 'help'.
+def main_cli(session: nox.Session) -> None:
+    """Install all dependencies then run package main cli with arg '--version'.
 
-    nox -s run_entrypoint
+    nox -s main_cli
     """
 
     install_dependencies(session, "dev", "test", "doc", "sciops")
-    session.run("{{cookiecutter.__pkg_import_name}}_entrypoint", "--help")
+    session.run("{{cookiecutter.__pkg_import_name}}_entrypoint", "--version")
 
 
 @nox.session(python=default_python_version, reuse_venv=True)

@@ -26,11 +26,13 @@ theme:
   icon:
     repo: fontawesome/brands/github
   features:
-    - navigation.instant
-    - navigation.tabs
     - navigation.expand
+    - navigation.instant
     - navigation.sections
-    - toc.integrate
+    - navigation.tabs
+    - navigation.top
+    - search.share
+    - search.suggest
 
 extra:
   version:
@@ -49,28 +51,32 @@ extra:
       link: https://twitter.com/DataJointNeuro
   analytics:
     provider: google
-    property: G-XXXXXXXXXX
+    property: !ENV GOOGLE_ANALYTICS_KEY
 
 extra_css:
   - css/material.css
 
 markdown_extensions:
   - admonition
+  - attr_list
+  - def_list
+  - footnotes
+  - meta
+  - pymdownx.betterem
+  - pymdownx.caret
+  - pymdownx.highlight
+  - pymdownx.inlinehilite
+  - pymdownx.mark
+  - pymdownx.striphtml
+  - pymdownx.superfences
+  - pymdownx.tasklist
+  - pymdownx.tilde
+  - sane_lists
   - smarty
   - toc:
       permalink: false
       title: Page Content
       toc_depth: 4
-  - sane_lists
-  - pymdownx.striphtml
-  - pymdownx.caret
-  - pymdownx.mark
-  - pymdownx.tilde
-  - pymdownx.betterem
-  - pymdownx.tasklist
-  - pymdownx.superfences
-  - pymdownx.highlight
-  - pymdownx.inlinehilite
 
 plugins:
   - include-markdown
@@ -87,13 +93,15 @@ plugins:
       handlers:
         python:
           rendering:
+            docstring_section_style: spacy
+            line_length: 88
+            members_order: source
+            merge_init_into_class: true
+            separate_signature: true
+            show_root_heading: true
+            show_root_toc_entry: true
             show_source: false
             show_submodules: true
-            separate_signature: true
-            docstring_section_style: spacy
-            merge_init_into_class: true
-            members_order: source
-            line_length: 88
       watch:
         - src/{{cookiecutter.__pkg_import_name}}
   - mike:
