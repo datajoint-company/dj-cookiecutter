@@ -37,7 +37,7 @@ jobs:
           py_ver: ${{ matrix.python-version }}
           key_append: test-${{ matrix.python-version }}
 
-      - name: 🐍  Build all package dependencies and run entrypoint script
+      - name: 🐍  Build all package dependencies and run main cli
         run: nox --force-python ${{ matrix.python-version }} -s main_cli -v --non-interactive
 
       - name: 🐍  Run pytest

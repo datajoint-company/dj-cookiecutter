@@ -109,7 +109,7 @@ def main_cli(session: nox.Session) -> None:
     """
 
     install_dependencies(session, "dev", "test", "doc", "sciops")
-    session.run("sciopsbrainlab_entrypoint", "--version")
+    session.run("sciopsbrainlab", "--version")
 
 
 @nox.session(python=default_python_version, reuse_venv=True)
