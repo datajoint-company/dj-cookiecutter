@@ -109,7 +109,7 @@ def main_cli(session: nox.Session) -> None:
     """
 
     install_dependencies(session, "dev", "test", "doc", "sciops")
-    session.run("{{cookiecutter.__pkg_import_name}}_entrypoint", "--version")
+    session.run("{{cookiecutter.__pkg_import_name}}", "--version")
 
 
 @nox.session(python=default_python_version, reuse_venv=True)

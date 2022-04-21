@@ -48,4 +48,5 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - run: |
-          echo "The 'run-tests' workflow failed or did not run. Skipping 'semantic-versioning' workflow."{% endraw %}
+          echo "The 'run-tests' workflow failed or did not run. Skipping 'semantic-versioning' workflow."
+           exit 1{% endraw %}
