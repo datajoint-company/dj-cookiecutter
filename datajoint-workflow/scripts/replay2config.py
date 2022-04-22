@@ -19,7 +19,9 @@ def replay2config(args):
         "abbreviations": {
             "djcc": "https://github.com/datajoint-company/dj-cookiecutter.git"
         },
-        "default_context": {k: v for k, v in jsf.items() if not k.startswith("_")},
+        "default_context": {
+            k: v for k, v in jsf.items() if not k.startswith("_copy_without_render")
+        },
     }
 
     with open(config_file, "w") as fout:

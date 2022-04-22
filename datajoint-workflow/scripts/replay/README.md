@@ -47,9 +47,12 @@ Examples:
 ## Requirements
 
 - `conda` environment with required packages installed
-  - `cookiecutter` python package
+  - `tomli`, 
+  - `pyyaml`
+  - [`cookiecutter` ](https://github.com/cookiecutter/cookiecutter)
+  - [`retrocookie`](https://github.com/iamamutt/retrocookie)
 - `bash`
-- a `.cookiecutter.json` file with the user specified values filled in. See this [`.cookiecutter.json`](../{{cookiecutter.github_repo}}/.cookiecutter.json) as an example.
+- a `.cookiecutter.json` file with the user specified values filled in. This will be automatically generated at the root of the project folder.
 
 ## Example Usage
 
@@ -67,5 +70,5 @@ Examples:
 
 4. Run `replay.sh`.
 
-   - `cd /tmp/wt-causality-in-motion`
+   - `cd /tmp/science-institute_brain-lab`
    - `../dj-cookiecutter/datajoint-workflow/scripts/replay/replay.sh . .cookiecutter.json`

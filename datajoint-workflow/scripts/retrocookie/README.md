@@ -1,6 +1,6 @@
 # retrocookie.sh
 
-You can add changes back to a template folder using the [`retrocookie`](https://retrocookie.readthedocs.io/en/latest/) python package. [This fork](https://github.com/iamamutt/retrocookie) enables use of multiple template folders.
+You can add changes back to a template folder using the [`retrocookie`](https://retrocookie.readthedocs.io/en/latest/) python package. [This fork](https://github.com/iamamutt/retrocookie) fixes use of multiple template folders.
 
 **The `retrocookie.sh --help` documentation**:
 
@@ -46,31 +46,33 @@ Examples:
 ## Requirements
 
 - `conda` environment with required packages installed
-  - `cookiecutter` python package
-  - `retrocookie` python package
+  - `tomli`, 
+  - `pyyaml`
+  - [`cookiecutter` ](https://github.com/cookiecutter/cookiecutter)
+  - [`retrocookie`](https://github.com/iamamutt/retrocookie)
 - `bash` with `rsync` and `git` found in `PATH`.
-- a `.cookiecutter.json` file at the root of the project with the user specified values. See this [`.cookiecutter.json`](../{{cookiecutter.github_repo}}/.cookiecutter.json) as an example.
 - A project generated from a cookiecutter template.
+- a `.cookiecutter.json` file with the user specified values filled in. This will be automatically generated at the root of the project folder.
 
 ## Example Usage
 
-1. Install `cookiecutter` as outlined [here](../README.md#install-cookiecutter).
+1. Install `cookiecutter` as outlined [here](../../README.md#install-cookiecutter).
 
 2. Install `retrocookie`: `pip install 'git+https://github.com/iamamutt/retrocookie'`
 
 3. Clone the repo contents.
 
    - `git clone https://github.com/datajoint-company/dj-cookiecutter.git`
-   - Edit `dj-cookiecutter/tests/integration/fixtures/cookiecutterc.yml`. The rest of the instructions below assume the default values.
+   - _Optional_: Edit `dj-cookiecutter/tests/integration/fixtures/cookiecutterc.yml`. The rest of the instructions below assume these default values.
 
 4. Use the template.
 
    - `cookiecutter -f --no-input --config-file=dj-cookiecutter/tests/integration/fixtures/cookiecutterc.yml --directory=datajoint-workflow -o /tmp dj-cookiecutter`
 
-5. Make some changes to files in `/tmp/wt-causality-in-motion`.
+5. Make some changes to files in `/tmp/science-institute_brain-lab`.
 
 6. Run `retrocookie.sh`
 
-   - `dj-cookiecutter/datajoint-workflow/scripts/retrocookie/retrocookie.sh /tmp/wt-causality-in-motion`
+   - `dj-cookiecutter/datajoint-workflow/scripts/retrocookie/retrocookie.sh /tmp/science-institute_brain-lab`
 
 _Note:_ If you run into merge conflicts, see the help for [`git-cherry-pick`](https://git-scm.com/docs/git-cherry-pick).

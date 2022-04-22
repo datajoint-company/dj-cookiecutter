@@ -23,47 +23,55 @@ pip install -U "git+https://github.com/cookiecutter/cookiecutter" tomli pyyaml
 
 ### Basic usage
 
-Use `cookiecutter` to reference the template folder from a github repo or a local directory, then set a value to each variable, or skip/enter to use the default values.
+Use the `cookiecutter` command-line interface to generate new projects. You need to reference the name of the template folder and point to a GitHub repo or a local directory that holds the template. You will be asked to set a value for each variable, or you can skip (press `ENTER`) to use the default values.
+
+Example, use the template corresponding to the folder `template-name` and point to the GitHub repo containing the templates at `git@github.com:...` (you can also use `gh:` as a shorthand for `git@github.com:`).
+
+> **Note**: Make sure the `cookiecutter` cli can be found, activating the environment if necessary!
 
 ```
 cookiecutter --directory template-name git@github.com:datajoint-company/dj-cookiecutter.git
 ```
 
-A python project will be generated at `~/my-current-dir/project-name/`, where `project-name` is determined based on your input to the questions asked.
+A python project will be generated at `~/.../my-current-dir/project-name/`, where `project-name` is determined based on your input to the questions asked.
 
-If there is an existing, local cookiecutter template, e.g., at `./local_cookiecutter_template`, use that path instead of the GitHub repo url.
+If there is an existing, local cookiecutter template, e.g., at `./dj-cookiecutter`, you can use that path instead of the GitHub repo url.
 
 ```
-cookiecutter --directory template-name ./local_cookiecutter_template
+cookiecutter --directory template-name ./dj-cookiecutter
 ```
+
+### Specifying additional options
 
 To generate a project to a specific directory: `./Projects`
 
 ```
-cookiecutter --directory template-name -o ./Project git@github.com:datajoint-company/dj-cookiecutter.git
+cookiecutter --directory template-name -o ./Project gh:datajoint-company/dj-cookiecutter
 ```
 
 Files will be in `./Projects/project_name`.
 
-This repo supports multiple cookiecutter templates
-
-```
-cookiecutter git@github.com:datajoint-company/dj-cookiecutter.git --directory another-template
-```
-
 If you have already started working on your project and there are existing files.
 
 ```
-cookiecutter git@github.com:datajoint-company/dj-cookiecutter.git --directory template-name --overwrite-if-exists
+cookiecutter --directory template-name --overwrite-if-exists gh:datajoint-company/dj-cookiecutter 
 ```
 
 or ...
 
 ```
-cookiecutter git@github.com:datajoint-company/dj-cookiecutter.git --directory template-name --skip-if-file-exists
+cookiecutter --directory template-name --skip-if-file-exists gh:datajoint-company/dj-cookiecutter
 ```
 
-> Note: cookiecutter will cache/clone this specified template repo to your user directory's ~/.cookiecutters
+This repo uses multiple cookiecutter templates, requiring the `--directory` option. To specifiy a different template, e.g., `another-template`:
+
+```
+cookiecutter --directory another-template gh:datajoint-company/dj-cookiecutter 
+```
+
+> **Note**: cookiecutter will cache/clone this specified template repo to your user directory's ~/.cookiecutters
+
+--- 
 
 ## DataJoint Templates
 
@@ -71,6 +79,8 @@ cookiecutter git@github.com:datajoint-company/dj-cookiecutter.git --directory te
 - [`element-example`](element-example/README.md) created as initial examples for science-team, welcome changes or new templates for your own requirements
 
 > Note: the [`datajoint-workflow`](datajoint-workflow/README.md) template requires _cookiecutter>=2.0.0_
+
+--- 
 
 ## General `cookiecutter` Overview
 
