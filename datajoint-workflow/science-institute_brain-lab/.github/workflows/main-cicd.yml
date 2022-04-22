@@ -49,4 +49,4 @@ jobs:
     steps:
       - run: |
           echo "The 'run-tests' workflow failed or did not run. Skipping 'semantic-versioning' workflow."
-           exit 1
+          exit 1

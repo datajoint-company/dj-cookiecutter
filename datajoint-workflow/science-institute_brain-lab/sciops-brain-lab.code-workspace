@@ -385,6 +385,8 @@
 					"-i",
 					"'!src/sciopsbrainlab/__init__.py'",
 					"-i",
+					"'!src/sciopsbrainlab/__main__.py'",
+					"-i",
 					"'!src/sciopsbrainlab/entrypoint.py'",
 					"${workspaceFolder}"
 				],
