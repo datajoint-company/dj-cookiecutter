@@ -4,13 +4,13 @@ _View the latest documentation site here:_ [{{cookiecutter.docs_url}}]({{cookiec
 
 # `{{cookiecutter.__project_name}}`
 
-_A DataJoint SciOps Workflow for {{cookiecutter.organization}}, {{cookiecutter.workflow}}_
+_A {{cookiecutter.workflow}} {{cookiecutter.pkg_type}} for {{cookiecutter.organization}}_
 
 ## Description
 
 TODO: finish description.
 
-Welcome to the DataJoint SciOps service!
+Welcome to the {{cookiecutter.organization}} {{cookiecutter.pkg_type}} service!
 
 This service is designed for a user to upload their raw [_modality type_] data acquired with [_description_], which will then be automatically processed with [_..._]. The service also provides online Jupyter notebooks to visualize the results.
 
@@ -21,7 +21,7 @@ This [workflow](https://github.com/{{cookiecutter.github_user}}/{{cookiecutter.g
 
 Please follow the steps listed below to begin working with the platform.
 
-## Using the SciOps Services
+## Using the {{cookiecutter.pkg_type}} Services
 
 ### Account Setup
 
@@ -95,12 +95,12 @@ DataJoint LabBook displays data from your database.
 <!--intro-end-->
 <!--install-start-->
 
-Thank you for using the DataJoint SciOps cloud-based platform.
+Thank you for using the {{cookiecutter.organization}} {{cookiecutter.pkg_type}} cloud-based platform.
 
 ## Installation
 
 !!! note
-    The following is intended for developers and is not required for users of the SciOps services.
+    The following is intended for developers and is not required for users of the {{cookiecutter.pkg_type}} services.
 
 ### 1. Clone the repository
 

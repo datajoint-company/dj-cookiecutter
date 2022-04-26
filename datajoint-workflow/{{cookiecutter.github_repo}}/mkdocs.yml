@@ -1,5 +1,5 @@
-site_name: "Datajoint Workflow {{cookiecutter.workflow}}"
-site_description: "A DataJoint SciOps Workflow for {{cookiecutter.organization}}, {{cookiecutter.workflow}}"
+site_name: "{{cookiecutter.organization}} {{cookiecutter.pkg_type}} - {{cookiecutter.workflow}}"
+site_description: "A {{cookiecutter.workflow}} {{cookiecutter.pkg_type}} for {{cookiecutter.organization}}"
 site_author: "{{cookiecutter.author_name}}"
 repo_url: "https://github.com/{{cookiecutter.github_user}}/{{cookiecutter.github_repo}}"
 edit_uri: ""

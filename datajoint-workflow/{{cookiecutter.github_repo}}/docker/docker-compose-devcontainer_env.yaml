@@ -42,7 +42,7 @@ services:
       - vscode:/home/${REPO_OWNER}/.vscode-server/extensions
       - vscode-insiders:/home/${REPO_OWNER}/.vscode-server-insiders/extensions
       - /home/${REPO_OWNER}/${REPO_NAME}/.nox
-      - /home/${REPO_OWNER}/${REPO_NAME}/src/{{cookiecutter.__pkg_import_sc_name}}.egg-info
+      - /home/${REPO_OWNER}/${REPO_NAME}/src/{{cookiecutter.__pkg_import_name}}.egg-info
 
   # MySQL GUI --------------
   # http://localhost:8087/

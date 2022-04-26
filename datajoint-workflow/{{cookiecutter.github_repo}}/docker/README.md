@@ -56,7 +56,7 @@ cd docker
 docker-compose -f docker-compose-codebook_env.yaml up --detach --force-recreate --remove-orphans --build
 ```
 
-## Standard Workflow Environment
+## Standard {{cookiecutter.pkg_type}} Environment
 
 ... 
 

@@ -3,7 +3,7 @@
 ARG PROJECT_NAME={{cookiecutter.__project_name}}
 ARG IMPORT_NAME={{cookiecutter.__pkg_import_name}}
 ARG REPO_OWNER={{cookiecutter.github_user}}
-ARG REPO_NAME={{cookiecutter.__org}}_{{cookiecutter.__wf}}
+ARG REPO_NAME={{cookiecutter.github_repo}}
 ARG HOST_UID=1000
 ARG HOST_GID=1000
 ARG USER_SUDO=true
@@ -92,7 +92,7 @@ USER ${NEW_USER_NAME}:${NEW_USER_GROUP}
 RUN <<-EOF
 	rm -rf .nox .git .mypy_cache .pytest_cache site build
 	cp -f /usr/local/src/.datajoint_config.json ../.datajoint_config.json
-	mkdir -p .nox src/{{cookiecutter.__pkg_import_sc_name}}.egg-info \
+	mkdir -p .nox src/{{cookiecutter.__pkg_import_name}}.egg-info \
 		../.vscode-server/extensions ../.vscode-server-insiders/extensions
 	chmod -R 2775 ../.vscode-server*
 	source activate
@@ -117,7 +117,7 @@ ENV TZ=${TIMEZONE}
 ENV LANG=en_US.UTF-8
 ENV LC_ALL=en_US.UTF-8
 LABEL org.opencontainers.image.authors "Joseph M. Burling"
-LABEL org.opencontainers.image.title "{{cookiecutter.__org}}_{{cookiecutter.__wf}}"
+LABEL org.opencontainers.image.title "{{cookiecutter.github_repo}}"
 LABEL org.opencontainers.image.description "A development container with a debian-based python environment"
 LABEL org.opencontainers.image.version "$WORKFLOW_VERSION"
 LABEL org.opencontainers.image.created "$IMAGE_DATE"

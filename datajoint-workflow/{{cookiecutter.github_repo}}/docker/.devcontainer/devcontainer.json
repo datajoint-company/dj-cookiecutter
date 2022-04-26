@@ -36,7 +36,7 @@
 			"docker"
 		],
 		"djcookiecutter.condaExec": "mamba",
-		"djcookiecutter.localPath": "${env:HOME}/Documents/{{cookiecutter.__org}}/dj-cookiecutter",
+		"djcookiecutter.localPath": "${env:HOME}/Documents/datajoint/dj-cookiecutter",
 		"files.exclude": {
 			"**/.DS_Store": true,
 			"**/.git": true,
@@ -85,5 +85,5 @@
 		"python.testing.pytestEnabled": true
 	},
 	"shutdownAction": "none",
-	"workspaceFolder": "/home/{{cookiecutter.github_user}}/{{cookiecutter.__org}}_{{cookiecutter.__wf}}"
+	"workspaceFolder": "/home/{{cookiecutter.github_user}}/{{cookiecutter.github_repo}}"
 }

@@ -1,6 +1,5 @@
 """`{{cookiecutter.__project_name}}`:
-_A DataJoint SciOps Workflow for
-{{cookiecutter.organization}}, {{cookiecutter.workflow}}_
+_A {{cookiecutter.workflow}} {{cookiecutter.pkg_type}} for {{cookiecutter.organization}}_
 """
 
 import logging

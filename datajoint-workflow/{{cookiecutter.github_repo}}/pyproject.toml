@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "{{cookiecutter.__project_name}}"
-description = "A DataJoint SciOps Workflow for {{cookiecutter.organization}}, {{cookiecutter.workflow}}"
+description = "A {{cookiecutter.workflow}} {{cookiecutter.pkg_type}} for {{cookiecutter.organization}}"
 readme = "README.md"
 requires-python = ">={{cookiecutter.python_version}}"
 license = { file = "LICENSE" }
