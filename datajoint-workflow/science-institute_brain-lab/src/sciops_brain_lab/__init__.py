@@ -1,6 +1,5 @@
 """`sciops-brain-lab`:
-_A DataJoint SciOps Workflow for
-Science Institute, Brain Lab_
+_A Brain Lab SciOps for Science Institute_
 """
 
 import logging
@@ -32,5 +31,5 @@ version: str = __version__
 
 
 # fmt: off
-# Root level logger for the 'sciopsbrainlab' namespace
-logging.getLogger("sciopsbrainlab").addHandler(logging.NullHandler())
+# Root level logger for the 'sciops_brain_lab' namespace
+logging.getLogger("sciops_brain_lab").addHandler(logging.NullHandler())

@@ -1,4 +1,4 @@
-"""Dummy conftest.py for sciopsbrainlab.
+"""Dummy conftest.py for sciops_brain_lab.
 
 If you don't know what this is for, just leave it empty. Read more about conftest.py
 under:

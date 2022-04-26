@@ -1,9 +1,6 @@
 {
-    "__org": "science-institute",
-    "__pkg_import_name": "sciopsbrainlab",
-    "__pkg_import_sc_name": "sciops_brain_lab",
+    "__pkg_import_name": "sciops_brain_lab",
     "__project_name": "sciops-brain-lab",
-    "__wf": "brain-lab",
     "_copy_without_render": [
         "docs/assets/*.svg",
         "docs/assets/setup/*.png",
@@ -19,6 +16,7 @@
     "github_user": "dj-sciops",
     "homepage_url": "https://github.com/dj-sciops",
     "organization": "Science Institute",
+    "pkg_type": "SciOps",
     "python_version": "3.9",
     "workflow": "Brain Lab"
 }

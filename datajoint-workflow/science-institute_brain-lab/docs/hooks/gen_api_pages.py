@@ -73,5 +73,5 @@ generate_api_docs(
     module_parent="src",
     rel_api_path="api",
     files_stems_to_skip=["version"],
-    show_source_list=["sciopsbrainlab.entrypoint"],
+    show_source_list=["sciops_brain_lab.entrypoint"],
 )

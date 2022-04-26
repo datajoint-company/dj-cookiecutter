@@ -38,6 +38,9 @@
 		}
 	],
 	"settings": {
+		"[python]": {
+			"editor.formatOnSave": true
+		},
 		"autoDocstring.customTemplatePath": "configs/docstrings.mustache",
 		"autoDocstring.docstringFormat": "google",
 		"autoDocstring.generateDocstringOnEnter": true,
@@ -54,16 +57,51 @@
 		"djcookiecutter.condaExec": "mamba",
 		"djcookiecutter.localPath": "${env:HOME}/Documents/datajoint/dj-cookiecutter",
 		"files.exclude": {
+			".mypy_cache": true,
+			".nox": true,
+			".pytest_cache": true,
+			"*.command": true,
+			"**/__pycache__": true,
 			"**/.DS_Store": true,
 			"**/.git": true,
 			"**/.hg": true,
+			"**/.ipynb_checkpoints": true,
 			"**/.svn": true,
+			"**/*.egg-info": true,
 			"**/CVS": true,
 			"**/Thumbs.db": true,
-			"*.command": true
+			"build": true
 		},
-		"python.defaultInterpreterPath": "${env:CONDA_ENV_ROOT}/sciopsbrainlab",
-		"python.linting.mypyEnabled": true
+		"jupyter.alwaysScrollOnNewCell": true,
+		"jupyter.generateSVGPlots": true,
+		"jupyter.interactiveWindowMode": "single",
+		"jupyter.notebookFileRoot": "${workspaceFolder}",
+		"jupyter.sendSelectionToInteractiveWindow": true,
+		"jupyter.themeMatplotlibPlots": true,
+		"python.analysis.completeFunctionParens": true,
+		"python.analysis.diagnosticMode": "workspace",
+		"python.analysis.diagnosticSeverityOverrides": {
+			"reportGeneralTypeIssues": "information"
+		},
+		"python.analysis.typeCheckingMode": "basic",
+		"python.defaultInterpreterPath": "${env:CONDA_ENV_ROOT}/sciops_brain_lab",
+		"python.formatting.blackArgs": [
+			"--line-length=88"
+		],
+		"python.formatting.provider": "black",
+		"python.languageServer": "Pylance",
+		"python.linting.flake8Args": [
+			"--max-line-length=88",
+			"--extend-ignore=E203"
+		],
+		"python.linting.flake8Enabled": true,
+		"python.linting.mypyCategorySeverity.error": "Hint",
+		"python.linting.mypyEnabled": true,
+		"python.sortImports.args": [
+			"--profile=black"
+		],
+		"python.terminal.activateEnvInCurrentTerminal": true,
+		"python.testing.pytestEnabled": true
 	},
 	"launch": {
 		"version": "0.2.0",
@@ -82,7 +120,7 @@
 			{
 				"name": "Python: Debug entrypoint.py",
 				"type": "python",
-				"program": "${workspaceFolder}/src/sciopsbrainlab/entrypoint.py",
+				"program": "${workspaceFolder}/src/sciops_brain_lab/entrypoint.py",
 				"args": [
 					"task1",
 					"-d",
@@ -113,6 +151,7 @@
 			"cwd": "${workspaceFolder}"
 		},
 		"presentation": {
+			"group": "workflow",
 			"clear": false,
 			"echo": true,
 			"focus": true,
@@ -122,19 +161,35 @@
 		},
 		"tasks": [
 			{
+				"label": "show recommended extensions",
+				"command": "${command:workbench.extensions.action.showRecommendedExtensions}"
+			},
+			{
+				"label": "clean junk files",
+				"type": "shell",
+				"command": "find . -name '*.DS_Store' -type f -delete && find . -name '.ipynb_checkpoints' -type d -exec rm -rf {} + && find . -name '__pycache__' -type d -exec rm -rf {} +"
+			},
+			{
 				"label": "conda install: environment.yml",
 				"type": "shell",
-				"command": "${config:djcookiecutter.condaExec}",
+				"command": "conda",
 				"args": [
+					"run",
+					"--no-capture-output",
+					"-n",
+					"base",
+					"${config:djcookiecutter.condaExec}",
 					"env",
 					"create",
 					"-vq",
 					"--file",
-					"environment.yml"
+					"environment.yml",
+					"--force",
+					"--no-default-packages"
 				]
 			},
 			{
-				"label": "conda update: environment.yml",
+				"label": "conda prune: environment.yml",
 				"type": "shell",
 				"command": "${config:djcookiecutter.condaExec}",
 				"args": [
@@ -154,7 +209,7 @@
 					"run",
 					"--no-capture-output",
 					"-n",
-					"sciopsbrainlab",
+					"sciops_brain_lab",
 					"${config:djcookiecutter.condaExec}",
 					"update",
 					"-qy",
@@ -174,7 +229,7 @@
 					"env",
 					"remove",
 					"-n",
-					"sciopsbrainlab"
+					"sciops_brain_lab"
 				]
 			},
 			{
@@ -185,7 +240,7 @@
 					"run",
 					"--no-capture-output",
 					"-n",
-					"sciopsbrainlab",
+					"sciops_brain_lab",
 					"${config:djcookiecutter.condaExec}",
 					"list"
 				],
@@ -194,14 +249,14 @@
 				}
 			},
 			{
-				"label": "pip install dev package",
+				"label": "pip install: dev package",
 				"type": "shell",
 				"command": "conda",
 				"args": [
 					"run",
 					"--no-capture-output",
 					"-n",
-					"sciopsbrainlab",
+					"sciops_brain_lab",
 					"pip",
 					"install",
 					"-e",
@@ -209,14 +264,14 @@
 				]
 			},
 			{
-				"label": "pip uninstall dev package",
+				"label": "pip uninstall: dev package",
 				"type": "shell",
 				"command": "conda",
 				"args": [
 					"run",
 					"--no-capture-output",
 					"-n",
-					"sciopsbrainlab",
+					"sciops_brain_lab",
 					"pip",
 					"uninstall",
 					"-y",
@@ -224,11 +279,11 @@
 				]
 			},
 			{
-				"label": "pip uninstall dev package and egg",
+				"label": "pip uninstall: dev package and egg",
 				"type": "shell",
 				"command": "find . -name '*.egg-info' -type d -exec rm -rf {} +",
 				"dependsOn": [
-					"pip uninstall dev package"
+					"pip uninstall: dev package"
 				],
 				"dependsOrder": "sequence",
 				"options": {
@@ -236,41 +291,41 @@
 				}
 			},
 			{
-				"label": "pre-commit install",
+				"label": "pre-commit: install",
 				"type": "shell",
 				"command": "conda",
 				"args": [
 					"run",
 					"--no-capture-output",
 					"-n",
-					"sciopsbrainlab",
+					"sciops_brain_lab",
 					"pre-commit",
 					"install",
 					"--install-hooks"
 				]
 			},
 			{
-				"label": "pre-commit autoupdate",
+				"label": "pre-commit: autoupdate",
 				"type": "shell",
 				"command": "conda",
 				"args": [
 					"run",
 					"--no-capture-output",
 					"-n",
-					"sciopsbrainlab",
+					"sciops_brain_lab",
 					"pre-commit",
 					"autoupdate"
 				]
 			},
 			{
-				"label": "pre-commit run all",
+				"label": "pre-commit: run all",
 				"type": "shell",
 				"command": "conda",
 				"args": [
 					"run",
 					"--no-capture-output",
 					"-n",
-					"sciopsbrainlab",
+					"sciops_brain_lab",
 					"pre-commit",
 					"run",
 					"--verbose",
@@ -278,23 +333,28 @@
 				]
 			},
 			{
-				"label": "show recommended extensions",
-				"command": "${command:workbench.extensions.action.showRecommendedExtensions}"
+				"label": "nox: run main_cli",
+				"type": "shell",
+				"command": "conda",
+				"args": [
+					"run",
+					"--no-capture-output",
+					"-n",
+					"sciops_brain_lab",
+					"nox",
+					"-s",
+					"main_cli"
+				]
 			},
 			{
-				"label": "initial setup",
-				"command": "${command:workbench.action.reloadWindow}",
-				"dependsOn": [
-					"show recommended extensions",
-					"conda install: environment.yml",
-					"pip install dev package",
-					"pre-commit install"
-				],
-				"dependsOrder": "sequence",
-				"options": {
-					"cwd": "${workspaceFolder}"
-				},
-				"problemMatcher": []
+				"label": "mypy: generate stubs",
+				"type": "shell",
+				"command": "stubgen",
+				"args": [
+					"src",
+					"-o",
+					"typings"
+				]
 			},
 			{
 				"label": "docker-compose up codebook",
@@ -328,25 +388,7 @@
 				}
 			},
 			{
-				"label": "generate stubs",
-				"type": "shell",
-				"command": "stubgen",
-				"args": [
-					"src",
-					"-o",
-					"typings"
-				],
-				"options": {
-					"cwd": "${workspaceFolder}/docker"
-				}
-			},
-			{
-				"label": "clean junk files",
-				"type": "shell",
-				"command": "find . -name '*.DS_Store' -type f -delete && find . -name '.ipynb_checkpoints' -type d -exec rm -rf {} + && find . -name '__pycache__' -type d -exec rm -rf {} +"
-			},
-			{
-				"label": "cookiecutter replay",
+				"label": "cookiecutter: replay",
 				"type": "shell",
 				"command": "**/*/replay.sh",
 				"args": [
@@ -363,7 +405,7 @@
 				}
 			},
 			{
-				"label": "cookiecutter retrocookie",
+				"label": "cookiecutter: retrocookie",
 				"type": "shell",
 				"command": "code",
 				"args": [
@@ -381,13 +423,13 @@
 					"-i",
 					"'docs/assets/*'",
 					"-i",
-					"'src/sciopsbrainlab/*'",
+					"'src/sciops_brain_lab/*'",
 					"-i",
-					"'!src/sciopsbrainlab/__init__.py'",
+					"'!src/sciops_brain_lab/__init__.py'",
 					"-i",
-					"'!src/sciopsbrainlab/__main__.py'",
+					"'!src/sciops_brain_lab/__main__.py'",
 					"-i",
-					"'!src/sciopsbrainlab/entrypoint.py'",
+					"'!src/sciops_brain_lab/entrypoint.py'",
 					"${workspaceFolder}"
 				],
 				"options": {
@@ -402,6 +444,24 @@
 					"open",
 					"${workspaceFolder}/docker"
 				]
+			},
+			{
+				"label": "initial setup",
+				"command": "${command:workbench.action.reloadWindow}",
+				"dependsOn": [
+					"show recommended extensions",
+					"conda install: environment.yml",
+					"pip install: dev package",
+					"pre-commit: install",
+					"pre-commit: autoupdate",
+					"nox: run main_cli",
+					"clean junk files"
+				],
+				"dependsOrder": "sequence",
+				"options": {
+					"cwd": "${workspaceFolder}"
+				},
+				"problemMatcher": []
 			}
 		]
 	}

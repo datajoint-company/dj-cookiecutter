@@ -1,5 +1,5 @@
-site_name: "Datajoint Workflow Brain Lab"
-site_description: "A DataJoint SciOps Workflow for Science Institute, Brain Lab"
+site_name: "Science Institute SciOps - Brain Lab"
+site_description: "A Brain Lab SciOps for Science Institute"
 site_author: "FirstName LastName"
 repo_url: "https://github.com/dj-sciops/science-institute_brain-lab"
 edit_uri: ""
@@ -103,6 +103,6 @@ plugins:
             show_source: false
             show_submodules: true
       watch:
-        - src/sciopsbrainlab
+        - src/sciops_brain_lab
   - mike:
       version_selector: true

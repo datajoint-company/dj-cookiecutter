@@ -4,13 +4,13 @@ _View the latest documentation site here:_ [https://dj-sciops.github.io/science-
 
 # `sciops-brain-lab`
 
-_A DataJoint SciOps Workflow for Science Institute, Brain Lab_
+_A Brain Lab SciOps for Science Institute_
 
 ## Description
 
 TODO: finish description.
 
-Welcome to the DataJoint SciOps service!
+Welcome to the Science Institute SciOps service!
 
 This service is designed for a user to upload their raw [_modality type_] data acquired with [_description_], which will then be automatically processed with [_..._]. The service also provides online Jupyter notebooks to visualize the results.
 
@@ -95,7 +95,7 @@ DataJoint LabBook displays data from your database.
 <!--intro-end-->
 <!--install-start-->
 
-Thank you for using the DataJoint SciOps cloud-based platform.
+Thank you for using the Science Institute SciOps cloud-based platform.
 
 ## Installation
 
@@ -124,7 +124,7 @@ mamba env create -f environment.yml --force
 2. Activate the new environment:
 
 ```bash
-conda activate sciopsbrainlab
+conda activate sciops_brain_lab
 ```
 
 ### 3. Install the package `sciops-brain-lab`
@@ -169,7 +169,7 @@ See the [_Development setup_](./CONTRIBUTING.md#setting-up-a-local-development-e
 ├── scripts                 <- Analysis examples or production scripts which rely on
 │                              importing the actual Python package, e.g. running queries.
 ├── src
-│   └── sciopsbrainlab             <- Actual Python package where the main functionality goes.
+│   └── sciops_brain_lab             <- Actual Python package where the main functionality goes.
 ├── tests                   <- Unit and integration tests which can be run with `pytest` or `nox`.
 ├── .cookiecutter.json      <- Options specified during template generation.
 ├── .gitignore              <- Files and folders to ignore for git.

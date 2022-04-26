@@ -5,23 +5,23 @@ This serves as an example command-line interface for the main package module.
 Example:
     Usage as a console entrypoint:
 
-        sciopsbrainlab --help
-        sciopsbrainlab --version
+        sciops_brain_lab --help
+        sciops_brain_lab --version
 
     Usage as a script:
 
-        python -m sciopsbrainlab
+        python -m sciops_brain_lab
 
     Usage from python:
 
-        from sciopsbrainlab import main; main(...)
+        from sciops_brain_lab import main; main(...)
 """
 
 import argparse
 import sys
 from typing import Any, Sequence
 
-from sciopsbrainlab import version
+from sciops_brain_lab import version
 
 
 def parse_args(args: Sequence[str]) -> argparse.Namespace:
@@ -46,7 +46,7 @@ def parse_args(args: Sequence[str]) -> argparse.Namespace:
         pass
 
     parser = argparse.ArgumentParser(
-        prog="sciopsbrainlab",
+        prog="sciops_brain_lab",
         epilog=__doc__,
         formatter_class=ArgumentDefaultsRawDescriptionHelpFormatter,
     )
@@ -68,7 +68,7 @@ def main(**kwargs: Any) -> None:
 
 
 def cli() -> None:
-    """_Calls [`__main__.main`][sciopsbrainlab.__main__.main], passing the cli
+    """_Calls [`__main__.main`][sciops_brain_lab.__main__.main], passing the cli
     arguments extracted from `sys.argv`_.
 
     This function can be used as entry point to create console scripts on package

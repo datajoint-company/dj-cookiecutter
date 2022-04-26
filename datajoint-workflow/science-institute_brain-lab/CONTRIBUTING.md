@@ -99,7 +99,7 @@ Install the extra packages needed for local development, tests, and documentatio
 
 ```bash
 cd "sciops-brain-lab"
-conda activate sciopsbrainlab
+conda activate sciops_brain_lab
 pip install -e ".[dev,doc,test,sciops]"
 ```
 
@@ -215,7 +215,7 @@ _Documentation Resources_:
 Exporting python packages:
 
 ```
-mamba env export -n sciopsbrainlab -f environment.lock.yml --no-builds
+mamba env export -n sciops_brain_lab -f environment.lock.yml --no-builds
 ```
 
 Resetting environment to locked state:

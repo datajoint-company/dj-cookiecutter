@@ -109,7 +109,7 @@ def main_cli(session: nox.Session) -> None:
     """
 
     install_dependencies(session, "dev", "test", "doc", "sciops")
-    session.run("sciopsbrainlab", "--version")
+    session.run("sciops_brain_lab", "--version")
 
 
 @nox.session(python=default_python_version, reuse_venv=True)
@@ -129,10 +129,10 @@ def write_version(session: nox.Session) -> None:
 
     session.log(f"Overwriting 'version.py' to '{version}'")
 
-    with open("src/sciopsbrainlab/version.py", "w") as out:
+    with open("src/sciops_brain_lab/version.py", "w") as out:
         session.run("echo", f'__version__ = "{version}"', stdout=out, external=True)
 
-    git_action_bot(session, add=["--force", "src/sciopsbrainlab/version.py"])
+    git_action_bot(session, add=["--force", "src/sciops_brain_lab/version.py"])
 
 
 @nox.session(python=default_python_version, reuse_venv=True)

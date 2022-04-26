@@ -37,10 +37,10 @@ RUN apt-get -y update &&\
 
 USER anaconda:anaconda
 RUN mamba env create -qv -f /tmp/${REPO_NAME}/environment.yml &&\
-	conda run --no-capture-output -n sciopsbrainlab pip install /tmp/${REPO_NAME}
+	conda run --no-capture-output -n sciops_brain_lab pip install /tmp/${REPO_NAME}
 
 USER root:anaconda
-RUN	conda run --no-capture-output -n sciopsbrainlab ipython kernel install --name=sciopsbrainlab &&\
+RUN	conda run --no-capture-output -n sciops_brain_lab ipython kernel install --name=sciops_brain_lab &&\
 	rm -fR /tmp/${REPO_NAME} &&\
 	mamba clean -ya
 

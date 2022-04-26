@@ -1,7 +1,7 @@
 # syntax=docker/dockerfile:1
 
 ARG PROJECT_NAME=sciops-brain-lab
-ARG IMPORT_NAME=sciopsbrainlab
+ARG IMPORT_NAME=sciops_brain_lab
 ARG REPO_OWNER=dj-sciops
 ARG REPO_NAME=science-institute_brain-lab
 ARG HOST_UID=1000

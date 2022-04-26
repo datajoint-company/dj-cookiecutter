@@ -8,7 +8,7 @@ services:
       MYSQL_ROOT_PASSWORD: ${DJ_PASS:-simple}
     image: datajoint/mysql:5.7
     networks:
-      sciopsbrainlab:
+      sciops_brain_lab:
     platform: linux/amd64
     ports:
       - 6603:3306
@@ -34,7 +34,7 @@ services:
     init: true
     tty: true
     networks:
-      sciopsbrainlab:
+      sciops_brain_lab:
     ports:
       - 18888:8888
     volumes:
@@ -56,7 +56,7 @@ services:
       ADMINER_DESIGN: nette
     image: adminer
     networks:
-      sciopsbrainlab:
+      sciops_brain_lab:
     ports:
       - target: 8080
         published: 8087
@@ -66,7 +66,7 @@ services:
         condition: service_started
 
 networks:
-  sciopsbrainlab:
+  sciops_brain_lab:
     name: sciops-brain-lab-network
 
 volumes:
