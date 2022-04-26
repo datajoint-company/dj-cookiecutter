@@ -58,16 +58,21 @@ docker-compose -f docker-compose-codebook_env.yaml up --detach --force-recreate 
 
 ## Standard Workflow Environment
 
+... 
+
+
 ### Docker Compose
 
 Will automatically load environment variables from `.env` file.
 
 ```bash
 cd docker
-docker-compose -f docker-compose-standard_workflow.yaml up --detach --force-recreate --remove-orphans --build
+docker-compose -f docker-compose-standard_worker.yaml up --detach --force-recreate --remove-orphans --build
 ```
 
 ## Devcontainer Environment
+
+> **Note**: Make sure to first set the environment variables file `.env` as outlined at the top of this document, otherwise building the docker image will fail.
 
 ### VSCode
 
