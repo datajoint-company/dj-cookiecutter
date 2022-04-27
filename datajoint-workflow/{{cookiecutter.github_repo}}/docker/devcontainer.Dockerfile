@@ -29,11 +29,8 @@ RUN <<-EOF
 	init-apt-deps ../apt_requirements.txt
 	init-conda-env environment.yml
 	source ~/.bashrc
-	conda-run pip install -q '.[dev,doc,test,sciops]'
-	conda-run pip uninstall -yq ${PROJECT_NAME}
-	CONDA_ENV_USER=base conda-run mamba install -yq conda-pack
-	conda-run mamba clean -yqa
 	chmod -R 2775 /usr/local
+	CONDA_ENV_USER=base conda-run mamba install -yq conda-pack
 	CONDA_ENV_USER=base conda-run conda pack -n ${CONDA_ENV_USER} -o condaenv.tar.gz
 	tar -xzf condaenv.tar.gz -C /usr/local
 	source /usr/local/bin/activate
@@ -97,7 +94,7 @@ RUN <<-EOF
 	chmod -R 2775 ../.vscode-server*
 	source activate
 	conda init -q bash
-	pip install -e .
+	pip install --no-cache-dir -e '.[dev,doc,test,sciops]'
 EOF
 
 ENTRYPOINT [ "/bin/sh", "-c" ]

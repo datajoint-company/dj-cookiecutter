@@ -81,7 +81,7 @@
 		"python.analysis.completeFunctionParens": true,
 		"python.analysis.diagnosticMode": "workspace",
 		"python.analysis.diagnosticSeverityOverrides": {
-			"reportGeneralTypeIssues": "information"
+			"reportGeneralTypeIssues": "none"
 		},
 		"python.analysis.typeCheckingMode": "basic",
 		"python.defaultInterpreterPath": "${env:CONDA_ENV_ROOT}/{{cookiecutter.__pkg_import_name}}",

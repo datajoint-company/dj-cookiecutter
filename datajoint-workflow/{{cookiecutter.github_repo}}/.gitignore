@@ -8,7 +8,7 @@
 *.orig
 *.log
 *.pot
-__pycache__/*
+**/__pycache__
 .cache/*
 .*.swp
 */.ipynb_checkpoints/*
@@ -67,3 +67,4 @@ MANIFEST
 
 # Misc files/folders
 scratch/*
+src/{{cookiecutter.__pkg_import_name}}/scratch/*
