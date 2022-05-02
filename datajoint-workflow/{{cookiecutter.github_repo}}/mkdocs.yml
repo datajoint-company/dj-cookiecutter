@@ -1,5 +1,5 @@
-site_name: "{{cookiecutter.organization}} {{cookiecutter.pkg_type}} - {{cookiecutter.workflow}}"
-site_description: "A {{cookiecutter.workflow}} {{cookiecutter.pkg_type}} for {{cookiecutter.organization}}"
+site_name: "{{cookiecutter.organization}}: {{cookiecutter.workflow}}"
+site_description: "A {{cookiecutter.workflow}} for {{cookiecutter.organization}}"
 site_author: "{{cookiecutter.author_name}}"
 repo_url: "https://github.com/{{cookiecutter.github_user}}/{{cookiecutter.github_repo}}"
 edit_uri: ""
@@ -92,6 +92,11 @@ plugins:
       default_handler: python
       handlers:
         python:
+          paths:
+            - src
+          setup_commands:
+            - "import sys"
+            - "sys.path.append('src')"
           rendering:
             docstring_section_style: spacy
             line_length: 88

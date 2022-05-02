@@ -3,7 +3,7 @@
 This serves as an example command-line interface for the main package module.
 
 Example:
-    Usage as a console entrypoint:
+    Usage as a package cli:
 
         {{cookiecutter.__pkg_import_name}} --help
         {{cookiecutter.__pkg_import_name}} --version

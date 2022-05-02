@@ -2,8 +2,10 @@
 
 This serves as an example command-line entrypoint for running different DataJoint
 populate functions for data ingestion. Requires a valid connection to a database. The
-script will run the [`run()`][{{cookiecutter.__pkg_import_name}}.entrypoint.run] function in this module and
-requires content from the `{{cookiecutter.__pkg_import_name}}` package.
+script will run the
+[`run()`][{{cookiecutter.__pkg_import_name}}.populate.entrypoint.run]
+function in this module and requires content from the
+`{{cookiecutter.__pkg_import_name}}` package.
 
 Example:
     Usage as a console entrypoint:
@@ -15,7 +17,7 @@ Example:
 
     Usage as a script:
 
-        python entrypoint.py --help
+        python populate/entrypoint.py --help
 
 
     Usage from python:
@@ -179,7 +181,8 @@ def setup_logging(loglevel: int, base_level: str = "WARNING") -> logging.Logger:
 def run(**kwargs: Any) -> None:
     """_Run ingestion routine depending on the configured task/job_
 
-    See [Example][{{cookiecutter.__pkg_import_name}}.entrypoint] for a list of args.
+    See [Example][{{cookiecutter.__pkg_import_name}}.populate.entrypoint]
+    for a list of args.
     """
 
     setup_logging(kwargs.get("loglevel", 0))
@@ -195,8 +198,9 @@ def run(**kwargs: Any) -> None:
 
 
 def cli() -> None:
-    """_Calls [`entrypoint.run`][{{cookiecutter.__pkg_import_name}}.entrypoint.run], passing the cli
-    arguments extracted from `sys.argv`_.
+    """_Calls
+    [`entrypoint.run`][{{cookiecutter.__pkg_import_name}}.populate.entrypoint.run],
+    passing the cli arguments extracted from `sys.argv`_.
 
     This function can be used as entry point to create console scripts on package
     install.

@@ -168,7 +168,7 @@ create_commits() {
 		exit 0
 	fi
 	echo -e "\n----------- Adding and committing new files."
-	git add .
+	git add . :^src/*/version.py
 	git commit -m "build(retrocookie): reflect updates to source template from generated project '$(basename "${tmp_proj_dir}")'" --no-verify
 	COMMIT=$(git rev-parse HEAD)
 	rev_num=$((rev_num + 1))

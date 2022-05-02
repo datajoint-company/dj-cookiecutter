@@ -1,19 +1,23 @@
-# Run workflows that require semantic versioning info
-name: main-cicd
+# Run workflows that require semantic versioning info, updates to python package files, and builds.
+name: package-updates
+
 on:
   workflow_run:
-    workflows: [run-tests]
-    types: [completed]
-    branches: [main]
+    workflows:
+      - run-tests
+    types:
+      - completed
+    branches:
+      - main
 
 jobs:
   call_semantic_versioning:
-    if: ${{"{{"}} github.event.workflow_run.conclusion == 'success' {{"}}"}}
+    if: github.event.workflow_run.conclusion == 'success'
     uses: {{cookiecutter.github_user}}/djsciops-cicd/.github/workflows/semantic-versioning.yml@main
     with:
-      py_ver: "{{cookiecutter.python_version}}"
       create_release: true
-      release_only: "['major','minor','patch']"
+      release_types: major,minor,patch
+      release_branch: main
 
   call_mkdocs_build:
     needs: call_semantic_versioning
@@ -23,6 +27,7 @@ jobs:
       new_tag: ${{"{{"}} needs.call_semantic_versioning.outputs.new_tag {{"}}"}}
       branch_name: gh-pages
       py_ver: "{{cookiecutter.python_version}}"
+      release_branch: main
 
   call_sciops_docker_images:
     needs: call_semantic_versioning
@@ -44,7 +49,7 @@ jobs:
       REGISTRY_PASSWORD: ${{ secrets.REGISTRY_PASSWORD }}
 
   if_run_tests_failed:
-    if: ${{ github.event.workflow_run.conclusion == 'failure' }}
+    if: github.event.workflow_run.conclusion == 'failure'
     runs-on: ubuntu-latest
     steps:
       - run: |

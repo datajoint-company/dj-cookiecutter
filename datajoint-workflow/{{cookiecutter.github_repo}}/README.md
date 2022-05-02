@@ -4,13 +4,13 @@ _View the latest documentation site here:_ [{{cookiecutter.docs_url}}]({{cookiec
 
 # `{{cookiecutter.__project_name}}`
 
-_A {{cookiecutter.workflow}} {{cookiecutter.pkg_type}} for {{cookiecutter.organization}}_
+_A {{cookiecutter.organization}} Workflow for {{cookiecutter.workflow}}_
 
 ## Description
 
 TODO: finish description.
 
-Welcome to the {{cookiecutter.organization}} {{cookiecutter.pkg_type}} service!
+Welcome to the {{cookiecutter.organization}} {{cookiecutter.workflow}} pipeline!
 
 This service is designed for a user to upload their raw [_modality type_] data acquired with [_description_], which will then be automatically processed with [_..._]. The service also provides online Jupyter notebooks to visualize the results.
 
@@ -21,7 +21,7 @@ This [workflow](https://github.com/{{cookiecutter.github_user}}/{{cookiecutter.g
 
 Please follow the steps listed below to begin working with the platform.
 
-## Using the {{cookiecutter.pkg_type}} Services
+## Using the SciOps Services
 
 ### Account Setup
 
@@ -95,12 +95,12 @@ DataJoint LabBook displays data from your database.
 <!--intro-end-->
 <!--install-start-->
 
-Thank you for using the {{cookiecutter.organization}} {{cookiecutter.pkg_type}} cloud-based platform.
+Thank you for using the {{cookiecutter.organization}}: _{{cookiecutter.workflow}}_ cloud-based platform.
 
 ## Installation
 
 !!! note
-    The following is intended for developers and is not required for users of the {{cookiecutter.pkg_type}} services.
+    The following is intended for developers and is not required for users of the SciOps services.
 
 ### 1. Clone the repository
 
@@ -165,11 +165,19 @@ See the [_Development setup_](./CONTRIBUTING.md#setting-up-a-local-development-e
 ├── figures                 <- Generated plots and figures for sharing, reports or documentation.
 ├── notebooks               <- Jupyter notebooks. Naming convention is a number for
 │                              ordering, the creator's initials, and a description.
-|                              For example, '1.0-fw-initial-data-exploration'.
+│                              For example, '1.0-fw-initial-data-exploration'.
 ├── scripts                 <- Analysis examples or production scripts which rely on
 │                              importing the actual Python package, e.g. running queries.
-├── src
-│   └── {{cookiecutter.__pkg_import_name}}             <- Actual Python package where the main functionality goes.
+├── src/
+│   └── {{cookiecutter.__pkg_import_name}}/          <- Actual Python package where the main functionality goes.
+│       └── pipeline/       <- Main schemas and tables used to run the datajoint pipeline.
+│       └── populate/       <- Code to run `populate` or to ingest data into the database.
+│       └── support/        <- Tables to add functionality to the main pipeline modules.
+│       └── tables/         <- Primary end-user tables defined for easy-of-use.
+│       └── utils/          <- Package utilities.
+│       └── __init__.py     <- Root-level package init file.
+│       └── __main__.py     <- Main package script.
+│       └── version.py      <- Should only contain the current package version number.
 ├── tests                   <- Unit and integration tests which can be run with `pytest` or `nox`.
 ├── .cookiecutter.json      <- Options specified during template generation.
 ├── .gitignore              <- Files and folders to ignore for git.
