@@ -2,15 +2,15 @@ _View the latest documentation site here:_ [https://dj-sciops.github.io/science-
 
 <!--intro-start-->
 
-# `sciops-brain-lab`
+# `brain-lab`
 
-_A Brain Lab SciOps for Science Institute_
+_A Science Institute Workflow for Brain Lab_
 
 ## Description
 
 TODO: finish description.
 
-Welcome to the Science Institute SciOps service!
+Welcome to the Science Institute Brain Lab pipeline!
 
 This service is designed for a user to upload their raw [_modality type_] data acquired with [_description_], which will then be automatically processed with [_..._]. The service also provides online Jupyter notebooks to visualize the results.
 
@@ -95,7 +95,7 @@ DataJoint LabBook displays data from your database.
 <!--intro-end-->
 <!--install-start-->
 
-Thank you for using the Science Institute SciOps cloud-based platform.
+Thank you for using the Science Institute: _Brain Lab_ cloud-based platform.
 
 ## Installation
 
@@ -108,7 +108,7 @@ First, clone a local copy of the [project repository](https://github.com/dj-scio
 
 ```bash
 git clone https://github.com/dj-sciops/science-institute_brain-lab.git
-cd "sciops-brain-lab"
+cd "brain-lab"
 ```
 
 ### 2. Create a new python environment
@@ -124,10 +124,10 @@ mamba env create -f environment.yml --force
 2. Activate the new environment:
 
 ```bash
-conda activate sciops_brain_lab
+conda activate brain_lab
 ```
 
-### 3. Install the package `sciops-brain-lab`
+### 3. Install the package `brain-lab`
 
 After the new virtual environment has been created and activated, install this python package using `pip>=62.0` (`pip` is already in the list of requirements from the `environment.yml` file).
 
@@ -140,7 +140,7 @@ pip install .
 If you need to uninstall the package, do so with `pip`:
 
 ```bash
-pip uninstall sciops-brain-lab
+pip uninstall brain-lab
 ```
 
 #### Additional setup for local development and testing
@@ -165,11 +165,19 @@ See the [_Development setup_](./CONTRIBUTING.md#setting-up-a-local-development-e
 ├── figures                 <- Generated plots and figures for sharing, reports or documentation.
 ├── notebooks               <- Jupyter notebooks. Naming convention is a number for
 │                              ordering, the creator's initials, and a description.
-|                              For example, '1.0-fw-initial-data-exploration'.
+│                              For example, '1.0-fw-initial-data-exploration'.
 ├── scripts                 <- Analysis examples or production scripts which rely on
 │                              importing the actual Python package, e.g. running queries.
-├── src
-│   └── sciops_brain_lab             <- Actual Python package where the main functionality goes.
+├── src/
+│   └── brain_lab/          <- Actual Python package where the main functionality goes.
+│       └── pipeline/       <- Main schemas and tables used to run the datajoint pipeline.
+│       └── populate/       <- Code to run `populate` or to ingest data into the database.
+│       └── support/        <- Tables to add functionality to the main pipeline modules.
+│       └── tables/         <- Primary end-user tables defined for easy-of-use.
+│       └── utils/          <- Package utilities.
+│       └── __init__.py     <- Root-level package init file.
+│       └── __main__.py     <- Main package script.
+│       └── version.py      <- Should only contain the current package version number.
 ├── tests                   <- Unit and integration tests which can be run with `pytest` or `nox`.
 ├── .cookiecutter.json      <- Options specified during template generation.
 ├── .gitignore              <- Files and folders to ignore for git.

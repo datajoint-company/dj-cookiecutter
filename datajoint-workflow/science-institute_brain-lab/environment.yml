@@ -5,9 +5,9 @@
 # Package install:
 #   > pip install -e ".[dev,doc,test,sciops]"
 # Remove env:
-#   > mamba env remove -n sciops_brain_lab
+#   > mamba env remove -n brain_lab
 
-name: sciops_brain_lab
+name: brain_lab
 channels:
   - conda-forge
   - defaults

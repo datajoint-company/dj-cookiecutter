@@ -7,7 +7,7 @@ import logging
 
 import pytest
 
-from sciops_brain_lab.entrypoint import setup_logging  # noqa, isort: skip
+from brain_lab.populate.entrypoint import setup_logging  # noqa, isort: skip
 
 
 @pytest.mark.parametrize(

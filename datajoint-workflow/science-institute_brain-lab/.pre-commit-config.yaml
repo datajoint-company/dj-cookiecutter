@@ -1,6 +1,6 @@
 default_language_version:
   python: python3.9
-# files: "^(tests|src\/sciops_brain_lab)\/.*$"
+# files: "^(tests|src\/brain_lab)\/.*$"
 exclude: "^$"
 default_stages: [commit, push]
 repos:

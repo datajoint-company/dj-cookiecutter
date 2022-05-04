@@ -9,7 +9,7 @@ def generate_api_docs(
     module_parent: str,
     rel_api_path: str,
     *,
-    files_stems_to_skip: list[str] = None,
+    modules_to_skip: list[str] = None,
     show_source_list: list[str] = None,
 ) -> None:
     """Generate files with autodoc expressions processed by the mkdocstrings plugin.
@@ -18,24 +18,25 @@ def generate_api_docs(
         module_parent (str): The parent folder where API content lives.
         rel_api_path (str): The path inside 'docs' where files should be generated.
             This should be the same as the 'Package Documentation' path in mkdocs.yml.
-        files_stems_to_skip (list[str]): Skip these files.
+        modules_to_skip (list[str]): Skip these files.
         show_source_list (list[str]): Show source content for these modules.
     """
     nav: mkgen.Nav = mkgen.Nav()
     paths = sorted(Path(module_parent).rglob("*.py"))
+    rel_api_path = Path(rel_api_path)
     for path in paths:
         rel_path = path.relative_to(module_parent)
-        module_path = rel_path.with_suffix("")
+        module_parts = rel_path.with_suffix("").parts
+        module_path = ".".join(module_parts)
         api_doc_path = rel_path.with_suffix(".md")
-        rel_api_path = Path(rel_api_path)
         full_api_doc_path = rel_api_path / api_doc_path
-        parts = {"api_nav": list(module_path.parts), "doc_nav": list(module_path.parts)}
+        parts = {"api_nav": list(module_parts), "doc_nav": list(module_parts)}
         stem = parts["api_nav"][-1]
         rendering = ["show_signature: true"]
         write_mode = "w"
         pretext = ""
 
-        if files_stems_to_skip and (stem in files_stems_to_skip):
+        if modules_to_skip and (module_path in modules_to_skip):
             continue
         elif stem == "__init__":
             parts["api_nav"] = parts["api_nav"][:-1]
@@ -72,6 +73,6 @@ def generate_api_docs(
 generate_api_docs(
     module_parent="src",
     rel_api_path="api",
-    files_stems_to_skip=["version"],
-    show_source_list=["sciops_brain_lab.entrypoint"],
+    modules_to_skip=["brain_lab.version"],
+    show_source_list=["brain_lab.populate.entrypoint"],
 )

@@ -1,5 +1,5 @@
-site_name: "Science Institute SciOps - Brain Lab"
-site_description: "A Brain Lab SciOps for Science Institute"
+site_name: "Science Institute: Brain Lab"
+site_description: "A Brain Lab for Science Institute"
 site_author: "FirstName LastName"
 repo_url: "https://github.com/dj-sciops/science-institute_brain-lab"
 edit_uri: ""
@@ -92,6 +92,11 @@ plugins:
       default_handler: python
       handlers:
         python:
+          paths:
+            - src
+          setup_commands:
+            - "import sys"
+            - "sys.path.append('src')"
           rendering:
             docstring_section_style: spacy
             line_length: 88
@@ -103,6 +108,6 @@ plugins:
             show_source: false
             show_submodules: true
       watch:
-        - src/sciops_brain_lab
+        - src/brain_lab
   - mike:
       version_selector: true

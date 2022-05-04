@@ -1,6 +1,6 @@
 {
-    "__pkg_import_name": "sciops_brain_lab",
-    "__project_name": "sciops-brain-lab",
+    "__pkg_import_name": "brain_lab",
+    "__project_name": "brain-lab",
     "_copy_without_render": [
         "docs/assets/*.svg",
         "docs/assets/setup/*.png",
@@ -8,7 +8,7 @@
         "docs/overrides/*"
     ],
     "_djconfig": "dj_local_conf.json",
-    "_pkg_version": "0.0.1",
+    "_pkg_version": "0.0.0",
     "author_email": "firstname@datajoint.com",
     "author_name": "FirstName LastName",
     "docs_url": "https://dj-sciops.github.io/science-institute_brain-lab",
@@ -16,7 +16,6 @@
     "github_user": "dj-sciops",
     "homepage_url": "https://github.com/dj-sciops",
     "organization": "Science Institute",
-    "pkg_type": "SciOps",
     "python_version": "3.9",
     "workflow": "Brain Lab"
 }

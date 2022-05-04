@@ -1,17 +1,22 @@
 # Docker Containers
 
+TODO: docker things
+- test image builds for resuable workflows
+- labhub multi conda envs 
+- actions checkout 
+
 Create a `.env` file and the change any variables as necessary, then source those variables for later use.
 
 ```bash
 cat <<-EOF > ./docker/.env
-COMPOSE_PROJECT_NAME=sciops-brain-lab
+COMPOSE_PROJECT_NAME=brain-lab
 JHUB_VER=1.4.2
 PY_VER=3.9
 DIST=debian
 DEPLOY_KEY=science-institute_brain-lab-deploy.pem
 REPO_OWNER=dj-sciops
 REPO_NAME=science-institute_brain-lab
-WORKFLOW_VERSION=v0.0.1
+WORKFLOW_VERSION=v0.0.0
 HOST_UID=1000
 HOST_GID=1000
 DJ_HOST=host.docker.internal
@@ -41,7 +46,7 @@ docker build \
 ```bash
 docker run -it \
   --platform linux/amd64 \
-  --name sciops-brain-lab \
+  --name brain-lab \
   --user root \
   registry.vathes.com/${REPO_OWNER}/codebook-${REPO_NAME}:jhub${JHUB_VER}-py${PY_VER}-${DIST}-${WORKFLOW_VERSION} \
   bash
@@ -56,9 +61,9 @@ cd docker
 docker-compose -f docker-compose-codebook_env.yaml up --detach --force-recreate --remove-orphans --build
 ```
 
-## Standard SciOps Environment
+## Standard Worker Environment
 
-... 
+TODO: add description 
 
 
 ### Docker Compose

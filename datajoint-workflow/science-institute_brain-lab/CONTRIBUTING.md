@@ -2,7 +2,7 @@
 
 # Contributing and Developer Guide
 
-Welcome to the `sciops-brain-lab` contributor's guide.
+Welcome to the `brain-lab` contributor's guide.
 
 This document focuses on getting any potential contributor familiarized with the DataJoint workflow development process, but [other general kinds of contributions](https://opensource.guide/how-to-contribute) are also appreciated. See the DataJoint [community contributions](https://docs.datajoint.org/python/community/02-Contribute.html) page for information.
 
@@ -13,7 +13,7 @@ If you are new to using [git](https://git-scm.com) or have never collaborated on
 
 ## Issue Reports
 
-If you experience bugs or general issues with `sciops-brain-lab`, please have a look at the [issue tracker](https://github.com/dj-sciops/science-institute_brain-lab/issues). If you don't see anything useful there, please feel free to fill out a new issue report.
+If you experience bugs or general issues with `brain-lab`, please have a look at the [issue tracker](https://github.com/dj-sciops/science-institute_brain-lab/issues). If you don't see anything useful there, please feel free to fill out a new issue report.
 
 New issue reports should include information about your programming environment (e.g., operating system, Python version) and steps to reproduce the problem. Please also try to simplify the reproduction steps to a very minimal example that still illustrates the problem you're facing. By removing other factors, you help us to identify the root cause of the issue.
 
@@ -23,12 +23,12 @@ New issue reports should include information about your programming environment 
 
 ## Documentation Improvements
 
-You can help improve the `sciops-brain-lab` docs by making them more readable and coherent, or by adding missing information and correcting mistakes.
+You can help improve the `brain-lab` docs by making them more readable and coherent, or by adding missing information and correcting mistakes.
 
 !!! tip "Quick Documentation Changes"
-    Please notice that the [GitHub web interface](https://docs.github.com/en/github/managing-files-in-a-repository/managing-files-on-github/editing-files-in-your-repository) provides a quick way of propose changes in `sciops-brain-lab`'s files. While this mechanism can be tricky for normal code contributions, it works perfectly fine for contributing to the docs, and can be quite handy.
+    Please notice that the [GitHub web interface](https://docs.github.com/en/github/managing-files-in-a-repository/managing-files-on-github/editing-files-in-your-repository) provides a quick way of propose changes in `brain-lab`'s files. While this mechanism can be tricky for normal code contributions, it works perfectly fine for contributing to the docs, and can be quite handy.
 
-`sciops-brain-lab` documentation uses [MkDocs](https://www.mkdocs.org/) as its main documentation compiler. This means that the docs are kept in the same repository as the project code, and that any documentation update is done in the same way as a code contribution.
+`brain-lab` documentation uses [MkDocs](https://www.mkdocs.org/) as its main documentation compiler. This means that the docs are kept in the same repository as the project code, and that any documentation update is done in the same way as a code contribution.
 
 All documentation is written in [Markdown](https://docs.github.com/en/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax), specifically the [`python-markdown`](https://python-markdown.github.io/#differences) implementation with additional [extensions](https://docutils.sourceforge.io/docs/ref/rst/directives.html#specific-admonitions) to use features from reStructuredText.
 
@@ -72,12 +72,11 @@ Format your commit messages so that they help create the appropriate semantic ve
 
 _Conventional Commit Resources_:
 
-- [Conventional commits](https://www.conventionalcommits.org/en/v1.0.0-beta.4/)
-- [More commit examples](https://github.com/conventional-changelog/commitlint/tree/master/%40commitlint/config-conventional)
-- [Angular format](https://github.com/angular/angular.js/blob/master/DEVELOPERS.md#commit-message-format)
+- [`semantic-release`: GitHub Action used with this package](https://github.com/mathieudutour/github-tag-action)
+- Other [conventional](https://www.conventionalcommits.org/en/v1.0.0-beta.4/) commit [examples](https://github.com/conventional-changelog/commitlint/tree/master/%40commitlint/config-conventional) and [resources](https://github.com/angular/angular.js/blob/master/DEVELOPERS.md#commit-message-format)
 
 !!! tip "Commit History"
-    Writing a [descriptive commit message](https://github.com/angular/angular.js/blob/master/DEVELOPERS.md#commit-message-format) is highly recommended. In case of doubt, you can check the commit history to look for recurring communication patterns with:
+    Writing a [descriptive commit message](https://github.com/angular/angular.js/blob/master/DEVELOPERS.md#-git-commit-guidelines) is highly recommended. In case of doubt, you can check the commit history to look for recurring communication patterns with:
 
         git log --graph --decorate --pretty=oneline --abbrev-commit --all
 
@@ -98,13 +97,13 @@ See the [_Installation_](./README.md#installation) section from the introductory
 Install the extra packages needed for local development, tests, and documentation:
 
 ```bash
-cd "sciops-brain-lab"
-conda activate sciops_brain_lab
+cd "brain-lab"
+conda activate brain_lab
 pip install -e ".[dev,doc,test,sciops]"
 ```
 
 !!! note "Develop Mode Installs"
-    The command `conda list` will show `sciops-brain-lab`, but it will be installed in _editable/develop mode_ due to using the `-e` option during installation. This means that changes will be immediately reflected when the module is reloaded.
+    The command `conda list` will show `brain-lab`, but it will be installed in _editable/develop mode_ due to using the `-e` option during installation. This means that changes will be immediately reflected when the module is reloaded.
 
 ### Extra `dev` packages
 
@@ -122,7 +121,7 @@ You can also use `nox` to run several other pre-configured tasks for this projec
 
 #### `pre-commit`
 
-The [`pre-commit`](https://pre-commit.com/) package is used to detect or fix common issues before code is submitted to the remote repository. You first have to set and install the hooks after cloning the repository from GitHub. The `sciops-brain-lab` package comes with a lot of hooks configured to automatically help you check the code after being written. View the configuration in the file `.pre-commit-config.yaml`. Installing `pre-commit` and the specificed hooks is required only once:
+The [`pre-commit`](https://pre-commit.com/) package is used to detect or fix common issues before code is submitted to the remote repository. You first have to set and install the hooks after cloning the repository from GitHub. The `brain-lab` package comes with a lot of hooks configured to automatically help you check the code after being written. View the configuration in the file `.pre-commit-config.yaml`. Installing `pre-commit` and the specificed hooks is required only once:
 
 ```bash
 pre-commit install --install-hooks
@@ -215,7 +214,7 @@ _Documentation Resources_:
 Exporting python packages:
 
 ```
-mamba env export -n sciops_brain_lab -f environment.lock.yml --no-builds
+mamba env export -n brain_lab -f environment.lock.yml --no-builds
 ```
 
 Resetting environment to locked state:
@@ -246,7 +245,7 @@ The GitHub actions and workflows are located under the `.github` folder and auto
 
 ### Visual Studio Code
 
-The file `sciops-brain-lab.code-workspace` contains many of the `vscode` specific settings for working with this project. Of most importance are `"settings":` specific to this project and `"tasks":` to run common operations.
+The file `brain-lab.code-workspace` contains many of the `vscode` specific settings for working with this project. Of most importance are `"settings":` specific to this project and `"tasks":` to run common operations.
 
 1. _extensions_
 

@@ -3,8 +3,8 @@ requires = ["setuptools>=62.0", "wheel>=0.37"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "sciops-brain-lab"
-description = "A Brain Lab SciOps for Science Institute"
+name = "brain-lab"
+description = "A Science Institute Workflow for Brain Lab"
 readme = "README.md"
 requires-python = ">=3.9"
 license = { file = "LICENSE" }
@@ -39,13 +39,13 @@ dependencies = [
     "appdirs",      # djsciops-axon
     "boto3",        # djsciops-axon
     "flask",        # djsciops-axon
-    "click",        # sciops_brain_lab
-    "h5py",         # sciops_brain_lab
-    "plotly",       # sciops_brain_lab
-    "pyyaml",       # sciops_brain_lab
-    "scipy",        # sciops_brain_lab
-    "seaborn",      # sciops_brain_lab
-    "tomli",        # sciops_brain_lab
+    "click",        # brain_lab
+    "h5py",         # brain_lab
+    "plotly",       # brain_lab
+    "pyyaml",       # brain_lab
+    "scipy",        # brain_lab
+    "seaborn",      # brain_lab
+    "tomli",        # brain_lab
 ]
 
 [project.optional-dependencies]
@@ -65,8 +65,8 @@ test = ["pytest"]
 sciops = ["ipykernel", "djsciops", "datajoint>=0.13.4"]
 
 [project.scripts]
-sciops_brain_lab_entrypoint = "sciops_brain_lab.entrypoint:cli"
-sciops_brain_lab = "sciops_brain_lab.__main__:cli"
+brain_lab_entrypoint = "brain_lab.populate.entrypoint:cli"
+brain_lab = "brain_lab.__main__:cli"
 
 [project.urls]
 Homepage = "https://github.com/dj-sciops"
@@ -75,7 +75,7 @@ Documentation = "https://dj-sciops.github.io/science-institute_brain-lab"
 DataJoint = "https://docs.datajoint.org/"
 
 [tool.setuptools.dynamic]
-version = { attr = "sciops_brain_lab.__version__" }
+version = { attr = "brain_lab.__version__" }
 
 [tool.pytest.ini_options]
 minversion = "6.0"

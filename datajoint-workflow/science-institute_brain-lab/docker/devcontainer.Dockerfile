@@ -1,7 +1,7 @@
 # syntax=docker/dockerfile:1
 
-ARG PROJECT_NAME=sciops-brain-lab
-ARG IMPORT_NAME=sciops_brain_lab
+ARG PROJECT_NAME=brain-lab
+ARG IMPORT_NAME=brain_lab
 ARG REPO_OWNER=dj-sciops
 ARG REPO_NAME=science-institute_brain-lab
 ARG HOST_UID=1000
@@ -89,7 +89,7 @@ USER ${NEW_USER_NAME}:${NEW_USER_GROUP}
 RUN <<-EOF
 	rm -rf .nox .git .mypy_cache .pytest_cache site build
 	cp -f /usr/local/src/.datajoint_config.json ../.datajoint_config.json
-	mkdir -p .nox src/sciops_brain_lab.egg-info \
+	mkdir -p .nox src/brain_lab.egg-info \
 		../.vscode-server/extensions ../.vscode-server-insiders/extensions
 	chmod -R 2775 ../.vscode-server*
 	source activate

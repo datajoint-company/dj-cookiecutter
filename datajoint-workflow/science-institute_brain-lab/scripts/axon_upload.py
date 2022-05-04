@@ -1,4 +1,4 @@
-"""_Custom script to upload data for the `sciops-brain-lab` pipeline_.
+"""_Custom script to upload data for the `brain-lab` pipeline_.
 
 """
 

@@ -1,4 +1,4 @@
-"""Dummy conftest.py for sciops_brain_lab.
+"""Dummy conftest.py for brain_lab.
 
 If you don't know what this is for, just leave it empty. Read more about conftest.py
 under:
@@ -6,4 +6,4 @@ under:
     - https://docs.pytest.org/en/stable/writing_plugins.html
 """
 
-# import pytest
+import pytest

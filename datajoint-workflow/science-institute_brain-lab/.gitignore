@@ -67,4 +67,4 @@ dj_local_conf.json
 
 # Misc files/folders
 scratch/*
-src/sciops_brain_lab/scratch/*
+src/brain_lab/scratch/*

@@ -1,4 +1,4 @@
-# docker-compose up --build
+# docker-compose up --build --detach
 version: "2.4"
 services:
   standard_worker:
@@ -13,7 +13,7 @@ services:
       DJ_HOST: ${DJ_HOST:-host.docker.internal} # Specify DataJoint database host
       DJ_USER: ${DJ_USER:-root} # Specify DataJoint database user
       DJ_PASS: ${DJ_PASS:-simple} # Specify DataJoint database password
-      DATABASE_PREFIX: sciops_brain_lab # Speicify DataJoint database prefix
+      DATABASE_PREFIX: brain_lab # Speicify DataJoint database prefix
     volumes:
       - ${ROOT_DATA_DIR:-../data/raw}:/home/${REPO_OWNER:-dj-sciops}/workflow_root_data
       - ${PROCESSED_DATA_DIR:-../data/preprocessed}:/home/${REPO_OWNER:-dj-sciops}/workflow_processed_data
@@ -23,5 +23,5 @@ services:
       - /bin/bash
       - -c
       - |
-        sciops_brain_lab_entrypoint --help &
+        brain_lab_entrypoint --help &
         tail -f /dev/null

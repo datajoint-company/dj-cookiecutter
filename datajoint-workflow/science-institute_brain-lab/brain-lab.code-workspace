@@ -33,7 +33,7 @@
 	},
 	"folders": [
 		{
-			"name": "sciops-brain-lab",
+			"name": "brain-lab",
 			"path": "."
 		}
 	],
@@ -52,7 +52,8 @@
 			"loaders",
 			"package",
 			"module",
-			"docker"
+			"docker",
+			"vscode"
 		],
 		"djcookiecutter.condaExec": "mamba",
 		"djcookiecutter.localPath": "${env:HOME}/Documents/datajoint/dj-cookiecutter",
@@ -84,7 +85,7 @@
 			"reportGeneralTypeIssues": "none"
 		},
 		"python.analysis.typeCheckingMode": "basic",
-		"python.defaultInterpreterPath": "${env:CONDA_ENV_ROOT}/sciops_brain_lab",
+		"python.defaultInterpreterPath": "${env:CONDA_ENV_ROOT}/brain_lab",
 		"python.formatting.blackArgs": [
 			"--line-length=88"
 		],
@@ -120,7 +121,7 @@
 			{
 				"name": "Python: Debug entrypoint.py",
 				"type": "python",
-				"program": "${workspaceFolder}/src/sciops_brain_lab/entrypoint.py",
+				"program": "${workspaceFolder}/src/brain_lab/populate/entrypoint.py",
 				"args": [
 					"task1",
 					"-d",
@@ -209,7 +210,7 @@
 					"run",
 					"--no-capture-output",
 					"-n",
-					"sciops_brain_lab",
+					"brain_lab",
 					"${config:djcookiecutter.condaExec}",
 					"update",
 					"-qy",
@@ -229,7 +230,7 @@
 					"env",
 					"remove",
 					"-n",
-					"sciops_brain_lab"
+					"brain_lab"
 				]
 			},
 			{
@@ -240,7 +241,7 @@
 					"run",
 					"--no-capture-output",
 					"-n",
-					"sciops_brain_lab",
+					"brain_lab",
 					"${config:djcookiecutter.condaExec}",
 					"list"
 				],
@@ -256,7 +257,7 @@
 					"run",
 					"--no-capture-output",
 					"-n",
-					"sciops_brain_lab",
+					"brain_lab",
 					"pip",
 					"install",
 					"-e",
@@ -271,11 +272,11 @@
 					"run",
 					"--no-capture-output",
 					"-n",
-					"sciops_brain_lab",
+					"brain_lab",
 					"pip",
 					"uninstall",
 					"-y",
-					"sciops-brain-lab"
+					"brain-lab"
 				]
 			},
 			{
@@ -298,7 +299,7 @@
 					"run",
 					"--no-capture-output",
 					"-n",
-					"sciops_brain_lab",
+					"brain_lab",
 					"pre-commit",
 					"install",
 					"--install-hooks"
@@ -312,7 +313,7 @@
 					"run",
 					"--no-capture-output",
 					"-n",
-					"sciops_brain_lab",
+					"brain_lab",
 					"pre-commit",
 					"autoupdate"
 				]
@@ -325,7 +326,7 @@
 					"run",
 					"--no-capture-output",
 					"-n",
-					"sciops_brain_lab",
+					"brain_lab",
 					"pre-commit",
 					"run",
 					"--verbose",
@@ -340,7 +341,7 @@
 					"run",
 					"--no-capture-output",
 					"-n",
-					"sciops_brain_lab",
+					"brain_lab",
 					"nox",
 					"-s",
 					"main_cli"
@@ -417,19 +418,25 @@
 					"-n",
 					"cookies",
 					"-i",
-					"'sciops-brain-lab.code-workspace'",
-					"-i",
-					"typings",
+					"'typings'",
 					"-i",
 					"'docs/assets/*'",
 					"-i",
-					"'src/sciops_brain_lab/*'",
+					"'src/brain_lab/*'",
 					"-i",
-					"'!src/sciops_brain_lab/__init__.py'",
+					"'!src/brain_lab/__init__.py'",
 					"-i",
-					"'!src/sciops_brain_lab/__main__.py'",
+					"'!src/brain_lab/__main__.py'",
 					"-i",
-					"'!src/sciops_brain_lab/entrypoint.py'",
+					"'!src/brain_lab/populate/entrypoint.py'",
+					"-i",
+					"'!src/brain_lab/pipeline/.gitignore'",
+					"-i",
+					"'!src/brain_lab/support/.gitignore'",
+					"-i",
+					"'!src/brain_lab/tables/.gitignore'",
+					"-i",
+					"'!src/brain_lab/utils/.gitignore'",
 					"${workspaceFolder}"
 				],
 				"options": {

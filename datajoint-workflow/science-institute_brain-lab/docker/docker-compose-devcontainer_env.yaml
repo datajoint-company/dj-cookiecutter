@@ -8,7 +8,7 @@ services:
       MYSQL_ROOT_PASSWORD: ${DJ_PASS:-simple}
     image: datajoint/mysql:5.7
     networks:
-      sciops_brain_lab:
+      brain_lab:
     platform: linux/amd64
     ports:
       - 6603:3306
@@ -34,7 +34,7 @@ services:
     init: true
     tty: true
     networks:
-      sciops_brain_lab:
+      brain_lab:
     ports:
       - 18888:8888
     volumes:
@@ -42,7 +42,7 @@ services:
       - vscode:/home/${REPO_OWNER}/.vscode-server/extensions
       - vscode-insiders:/home/${REPO_OWNER}/.vscode-server-insiders/extensions
       - /home/${REPO_OWNER}/${REPO_NAME}/.nox
-      - /home/${REPO_OWNER}/${REPO_NAME}/src/sciops_brain_lab.egg-info
+      - /home/${REPO_OWNER}/${REPO_NAME}/src/brain_lab.egg-info
 
   # MySQL GUI --------------
   # http://localhost:8087/
@@ -56,7 +56,7 @@ services:
       ADMINER_DESIGN: nette
     image: adminer
     networks:
-      sciops_brain_lab:
+      brain_lab:
     ports:
       - target: 8080
         published: 8087
@@ -66,13 +66,13 @@ services:
         condition: service_started
 
 networks:
-  sciops_brain_lab:
-    name: sciops-brain-lab-network
+  brain_lab:
+    name: brain-lab-network
 
 volumes:
   sqldata:
-    name: sciops-brain-lab-vol-sqldata
+    name: brain-lab-vol-sqldata
   vscode:
-    name: sciops-brain-lab-vol-vscode
+    name: brain-lab-vol-vscode
   vscode-insiders:
-    name: sciops-brain-lab-vol-vscode-insiders
+    name: brain-lab-vol-vscode-insiders

@@ -1,6 +1,6 @@
 // For format details, see https://aka.ms/devcontainer.json
 {
-	"name": "sciops-brain-lab (devcontainer)",
+	"name": "brain-lab (devcontainer)",
 	"dockerComposeFile": [
 		"../docker-compose-devcontainer_env.yaml"
 	],
