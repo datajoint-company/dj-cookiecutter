@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "{{cookiecutter.__project_name}}"
-description = "A {{cookiecutter.workflow}} {{cookiecutter.pkg_type}} for {{cookiecutter.organization}}"
+description = "A {{cookiecutter.organization}} Workflow for {{cookiecutter.workflow}}"
 readme = "README.md"
 requires-python = ">={{cookiecutter.python_version}}"
 license = { file = "LICENSE" }
@@ -65,7 +65,7 @@ test = ["pytest"]
 sciops = ["ipykernel", "djsciops", "datajoint>=0.13.4"]
 
 [project.scripts]
-{{cookiecutter.__pkg_import_name}}_entrypoint = "{{cookiecutter.__pkg_import_name}}.entrypoint:cli"
+{{cookiecutter.__pkg_import_name}}_entrypoint = "{{cookiecutter.__pkg_import_name}}.populate.entrypoint:cli"
 {{cookiecutter.__pkg_import_name}} = "{{cookiecutter.__pkg_import_name}}.__main__:cli"
 
 [project.urls]

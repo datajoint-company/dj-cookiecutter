@@ -52,7 +52,8 @@
 			"loaders",
 			"package",
 			"module",
-			"docker"
+			"docker",
+			"vscode"
 		],
 		"djcookiecutter.condaExec": "mamba",
 		"djcookiecutter.localPath": "${env:HOME}/Documents/datajoint/dj-cookiecutter",
@@ -120,7 +121,7 @@
 			{
 				"name": "Python: Debug entrypoint.py",
 				"type": "python",
-				"program": "${workspaceFolder}/src/{{cookiecutter.__pkg_import_name}}/entrypoint.py",
+				"program": "${workspaceFolder}/src/{{cookiecutter.__pkg_import_name}}/populate/entrypoint.py",
 				"args": [
 					"task1",
 					"-d",
@@ -417,9 +418,7 @@
 					"-n",
 					"cookies",
 					"-i",
-					"'{{cookiecutter.__project_name}}.code-workspace'",
-					"-i",
-					"typings",
+					"'typings'",
 					"-i",
 					"'docs/assets/*'",
 					"-i",
@@ -429,7 +428,15 @@
 					"-i",
 					"'!src/{{cookiecutter.__pkg_import_name}}/__main__.py'",
 					"-i",
-					"'!src/{{cookiecutter.__pkg_import_name}}/entrypoint.py'",
+					"'!src/{{cookiecutter.__pkg_import_name}}/populate/entrypoint.py'",
+					"-i",
+					"'!src/{{cookiecutter.__pkg_import_name}}/pipeline/.gitignore'",
+					"-i",
+					"'!src/{{cookiecutter.__pkg_import_name}}/support/.gitignore'",
+					"-i",
+					"'!src/{{cookiecutter.__pkg_import_name}}/tables/.gitignore'",
+					"-i",
+					"'!src/{{cookiecutter.__pkg_import_name}}/utils/.gitignore'",
 					"${workspaceFolder}"
 				],
 				"options": {

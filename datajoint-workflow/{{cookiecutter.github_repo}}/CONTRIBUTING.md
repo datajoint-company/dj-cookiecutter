@@ -72,12 +72,11 @@ Format your commit messages so that they help create the appropriate semantic ve
 
 _Conventional Commit Resources_:
 
-- [Conventional commits](https://www.conventionalcommits.org/en/v1.0.0-beta.4/)
-- [More commit examples](https://github.com/conventional-changelog/commitlint/tree/master/%40commitlint/config-conventional)
-- [Angular format](https://github.com/angular/angular.js/blob/master/DEVELOPERS.md#commit-message-format)
+- [`semantic-release`: GitHub Action used with this package](https://github.com/mathieudutour/github-tag-action)
+- Other [conventional](https://www.conventionalcommits.org/en/v1.0.0-beta.4/) commit [examples](https://github.com/conventional-changelog/commitlint/tree/master/%40commitlint/config-conventional) and [resources](https://github.com/angular/angular.js/blob/master/DEVELOPERS.md#commit-message-format)
 
 !!! tip "Commit History"
-    Writing a [descriptive commit message](https://github.com/angular/angular.js/blob/master/DEVELOPERS.md#commit-message-format) is highly recommended. In case of doubt, you can check the commit history to look for recurring communication patterns with:
+    Writing a [descriptive commit message](https://github.com/angular/angular.js/blob/master/DEVELOPERS.md#-git-commit-guidelines) is highly recommended. In case of doubt, you can check the commit history to look for recurring communication patterns with:
 
         git log --graph --decorate --pretty=oneline --abbrev-commit --all
 

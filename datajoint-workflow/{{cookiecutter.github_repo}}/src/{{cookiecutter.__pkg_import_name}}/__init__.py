@@ -1,5 +1,5 @@
 """`{{cookiecutter.__project_name}}`:
-_A {{cookiecutter.workflow}} {{cookiecutter.pkg_type}} for {{cookiecutter.organization}}_
+_A {{cookiecutter.organization}} Workflow for {{cookiecutter.workflow}}_
 """
 
 import logging

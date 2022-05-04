@@ -3,7 +3,6 @@
     "author_email": "{{cookiecutter.author_name|words(1)|lower}}@datajoint.com",
     "organization": "Science Institute",
     "workflow": "Brain Lab",
-    "pkg_type": "SciOps",
     "github_user": [
         "dj-sciops",
         "datajoint",
@@ -19,11 +18,11 @@
         "3.10",
         "3.8"
     ],
-    "_pkg_version": "0.0.1",
+    "_pkg_version": "0.0.0",
     "homepage_url": "https://github.com/{{cookiecutter.github_user}}",
     "docs_url": "https://{{cookiecutter.github_user}}.github.io/{{cookiecutter.github_repo}}",
-    "__project_name": "{{cookiecutter.pkg_type|lower}}-{{cookiecutter.workflow|slugify}}",
-    "__pkg_import_name": "{{cookiecutter.pkg_type|lower}}_{{cookiecutter.workflow|slugify(separator='_')}}",
+    "__project_name": "{{cookiecutter.workflow|slugify}}",
+    "__pkg_import_name": "{{cookiecutter.workflow|slugify(separator='_')}}",
     "_djconfig": "dj_local_conf.json",
     "_copy_without_render": [
         "docs/assets/*.svg",
