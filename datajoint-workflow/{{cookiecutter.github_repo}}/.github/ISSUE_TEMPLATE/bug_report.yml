@@ -26,7 +26,7 @@ body:
     attributes:
       label: Version
       description: What version of the package were you running?
-      placeholder: "0.0.1"
+      placeholder: "{{cookiecutter._pkg_version}}"
     validations:
       required: true
 

@@ -29,7 +29,7 @@ jobs:
       py_ver: "{{cookiecutter.python_version}}"
       release_branch: main
 
-  call_sciops_docker_images:
+  call_sciops_docker_image_debian:
     needs: call_semantic_versioning
     if: |
       always() &&
@@ -39,14 +39,13 @@ jobs:
       jhub_ver: "1.4.2"
       py_ver: "{{cookiecutter.python_version}}{% raw %}"
       dist: debian
-      env_base_hash: 44c5f19
-      worker_base_hash: fcd8909
+      codebook_base_hash: a7ee3ce
       workflow_version: ${{ needs.call_semantic_versioning.outputs.new_tag }}
       release_upload_url: ${{ needs.call_semantic_versioning.outputs.upload_url }}
     secrets:
-      RAW_DEPLOY_KEY: ${{ secrets.RAW_DEPLOY_KEY }}
-      REGISTRY_USERNAME: ${{ secrets.REGISTRY_USERNAME }}
-      REGISTRY_PASSWORD: ${{ secrets.REGISTRY_PASSWORD }}
+      BOT_SSH_KEY: ${{secrets.BOT_SSH_KEY}}
+      REGISTRY_USERNAME: ${{secrets.REGISTRY_USERNAME}}
+      REGISTRY_PASSWORD: ${{secrets.REGISTRY_PASSWORD}}
 
   if_run_tests_failed:
     if: github.event.workflow_run.conclusion == 'failure'

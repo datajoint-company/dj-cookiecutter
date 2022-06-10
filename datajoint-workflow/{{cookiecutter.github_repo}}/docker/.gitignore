@@ -1,3 +1,6 @@
 *.pem
-.env
-!.datajoint_config.json
+*.env
+!build.env
+!run.example.env
+!.devcontainer/.datajoint_config.json
+!.devcontainer/.env

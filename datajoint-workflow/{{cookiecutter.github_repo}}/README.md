@@ -84,9 +84,48 @@ DataJoint LabBook displays data from your database.
 
 ...
 
-### DataJoint Axon (Data Upload)
+### DataJoint Axon (Data Upload/Download)
 
-...
+
+#### Axon GUI 
+
+1. In the Axon app, on the lower left side, click the 'gear' icon (Config). Enter the following information in each field (See the `Misc` section below for what the generated `json` config file will look like once configured):
+
+- AWS Account ID: `123456789012`
+
+- DataJoint Account Client ID: `xxxxxxxxxxxxxxxxxxxxxx`
+
+- S3 Role: `{{cookiecutter.github_repo}}_researcher_prod`
+
+- S3 Bucket: `dj-sciops`
+
+2. At the top right of the Axon app, click the 'circle arrow' icon (Token). This will open a browser to be able to sign in with your DataJoint account and generate a temporary token.
+
+3. Select the 'S3 Bucket' tab on the left side of the Axon app. Enter the following information to view the current list of files uploaded, the press 'Load':
+
+- S3 Bucket Directory: `{{cookiecutter.github_repo}}/inbox/`
+
+4. To upload a folder to a subfolder within the 'S3 Bucket Directory', for example to upload the subject data folder 'SUBJ100' from your local machine, enter the following path on S3: `{{cookiecutter.github_repo}}/inbox/SUBJ100`
+
+#### Axon CLI
+
+... 
+
+#### Misc
+
+```json
+{
+  "version": "1.2.0",
+  "aws": { "account_id": "123456789012" },
+  "s3":
+    {
+      "role": "{{cookiecutter.github_repo}}_researcher_prod",
+      "bucket": "dj-sciops",
+    },
+  "djauth": { "client_id": "xxxxxxxxxxxxxxxxxxxxxx" },
+}
+```
+
 
 ### DataJoint CodeBook (JupyterHub)
 
