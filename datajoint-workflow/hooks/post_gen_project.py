@@ -70,6 +70,33 @@ def update_dot_cookiecutter_json(remove_keys=None):
         jc_file.write("\n")
 
 
+def make_devcontainer_req():
+    try:
+        import tomli
+
+    except ModuleNotFoundError as err:
+        print("Need 'tomli' package for creating conda's environment.yml", "\n>", err)
+        return
+
+    with open("pyproject.toml", "rb") as tml:
+        pyproject = tomli.load(tml)
+
+    main_deps = pyproject["project"]["dependencies"]
+    main_deps = "\n".join(list(main_deps))
+    sciops_deps = pyproject["project"]["optional-dependencies"]["sciops"]
+    sciops_deps = "\n".join(list(sciops_deps))
+
+    with open(
+        "docker/.devcontainer/build/requirements/conda_requirements.txt", "a"
+    ) as txt:
+        txt.write(main_deps)
+
+    with open(
+        "docker/.devcontainer/build/requirements/pip_requirements.txt", "a"
+    ) as txt:
+        txt.write(sciops_deps)
+
+
 def make_conda_env_yml():
     try:
         import tomli
@@ -101,3 +128,4 @@ if __name__ == "__main__":
     delete_version_files()
     update_dot_cookiecutter_json()
     make_conda_env_yml()
+    make_devcontainer_req()
