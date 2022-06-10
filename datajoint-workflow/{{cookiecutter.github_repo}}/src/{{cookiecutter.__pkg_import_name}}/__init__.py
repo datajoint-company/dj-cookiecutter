@@ -5,8 +5,19 @@ _A {{cookiecutter.organization}} Workflow for {{cookiecutter.workflow}}_
 import logging
 
 
+def get_names() -> tuple[str, str]:
+    """Get the package name and import name for the current package.
+
+    Returns:
+        tuple[str, str]: The package name and import name, respectively.
+    """
+    import_name: str = __package__ or "{{cookiecutter.__pkg_import_name}}"
+    package: str = import_name.replace("_", "-")
+    return package, import_name
+
+
 def get_version() -> str:
-    """_Get version number for the package `{{cookiecutter.__project_name}}`._
+    """Get the version number for the current package.
 
     Returns:
         str: Version number taken from the installed package version or `version.py`.
@@ -17,7 +28,7 @@ def get_version() -> str:
 
     try:
         # Replace `version(__name__)` if project does not equal the package name
-        __version__ = version("{{cookiecutter.__project_name}}")
+        __version__ = version(__pkg_name__)
     except PackageNotFoundError:  # pragma: no cover
         from .version import __version__
     finally:
@@ -26,10 +37,15 @@ def get_version() -> str:
     return __version__
 
 
+__pkg_name__: str
+__pkg_import_name__: str
+__pkg_name__, __pkg_import_name__ = get_names()
+
+
 __version__: str = get_version()
 version: str = __version__
 
 
 # fmt: off
 # Root level logger for the '{{cookiecutter.__pkg_import_name}}' namespace
-logging.getLogger("{{cookiecutter.__pkg_import_name}}").addHandler(logging.NullHandler())
+logging.getLogger(__pkg_import_name__).addHandler(logging.NullHandler())

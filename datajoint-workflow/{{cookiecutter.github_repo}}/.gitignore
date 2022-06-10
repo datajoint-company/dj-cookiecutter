@@ -68,3 +68,4 @@ MANIFEST
 # Misc files/folders
 scratch/*
 src/{{cookiecutter.__pkg_import_name}}/scratch/*
+.junk/

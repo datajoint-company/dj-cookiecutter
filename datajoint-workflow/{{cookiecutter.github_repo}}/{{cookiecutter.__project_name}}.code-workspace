@@ -73,17 +73,19 @@
 			"**/Thumbs.db": true,
 			"build": true
 		},
-		"jupyter.alwaysScrollOnNewCell": true,
+		"interactiveWindow.alwaysScrollOnNewCell": true,
 		"jupyter.generateSVGPlots": true,
 		"jupyter.interactiveWindowMode": "single",
 		"jupyter.notebookFileRoot": "${workspaceFolder}",
 		"jupyter.sendSelectionToInteractiveWindow": true,
 		"jupyter.themeMatplotlibPlots": true,
 		"python.analysis.completeFunctionParens": true,
-		"python.analysis.diagnosticMode": "workspace",
+		"python.analysis.diagnosticMode": "openFilesOnly",
 		"python.analysis.diagnosticSeverityOverrides": {
-			"reportGeneralTypeIssues": "none"
+			"reportGeneralTypeIssues": "none",
+			"reportUnusedExpression": "none"
 		},
+		"python.analysis.logLevel": "Information",
 		"python.analysis.typeCheckingMode": "basic",
 		"python.defaultInterpreterPath": "${env:CONDA_ENV_ROOT}/{{cookiecutter.__pkg_import_name}}",
 		"python.formatting.blackArgs": [
@@ -91,9 +93,10 @@
 		],
 		"python.formatting.provider": "black",
 		"python.languageServer": "Pylance",
+		"python.linting.enabled": true,
 		"python.linting.flake8Args": [
 			"--max-line-length=88",
-			"--extend-ignore=E203"
+			"--extend-ignore=E203,E501"
 		],
 		"python.linting.flake8Enabled": true,
 		"python.linting.mypyCategorySeverity.error": "Hint",
