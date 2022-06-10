@@ -2,5 +2,6 @@
 *.env
 !build.env
 !run.example.env
+!.devcontainer/build
 !.devcontainer/.datajoint_config.json
 !.devcontainer/.env
