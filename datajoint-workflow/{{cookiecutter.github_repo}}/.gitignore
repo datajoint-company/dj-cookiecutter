@@ -62,7 +62,7 @@ MANIFEST
 /.env
 
 # DataJoint files
-{{cookiecutter._djconfig}}
+dj_local_conf.json
 .datajoint_config.json
 
 # Misc files/folders
