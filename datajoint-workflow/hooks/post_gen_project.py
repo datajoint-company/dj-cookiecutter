@@ -87,12 +87,14 @@ def make_devcontainer_req():
     sciops_deps = "\n".join(list(sciops_deps))
 
     with open(
-        "docker/.devcontainer/build/requirements/conda_requirements.txt", "a"
+        "docker/{{cookiecutter.__pkg_import_name}}_local/.devcontainer/build/requirements/conda_requirements.txt",
+        "a",
     ) as txt:
         txt.write(main_deps)
 
     with open(
-        "docker/.devcontainer/build/requirements/pip_requirements.txt", "a"
+        "docker/{{cookiecutter.__pkg_import_name}}_local/.devcontainer/build/requirements/pip_requirements.txt",
+        "a",
     ) as txt:
         txt.write(sciops_deps)
 
