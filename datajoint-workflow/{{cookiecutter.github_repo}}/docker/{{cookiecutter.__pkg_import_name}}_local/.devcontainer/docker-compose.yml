@@ -1,11 +1,13 @@
-#  > docker-compose -f docker/.devcontainer/docker-compose.yml up -V --detach --force-recreate --remove-orphans --build
-#  > docker-compose -f docker/.devcontainer/docker-compose.yml down --volumes
+#  > docker-compose -f docker/{{cookiecutter.__pkg_import_name}}_local/.devcontainer/docker-compose.yml up -V --detach --force-recreate --remove-orphans --build
+#  > docker-compose -f docker/{{cookiecutter.__pkg_import_name}}_local/.devcontainer/docker-compose.yml down --volumes
 
-version: "2.4"
+version: "{{cookiecutter.python_version}}"
 services:
   mysql_sciops:
     environment:
       MYSQL_ROOT_PASSWORD: ${DJ_PASS:-simple}
+      MYSQL_USER: djuser
+      MYSQL_PASSWORD: djuser
     image: datajoint/mysql:5.7
     networks:
       {{cookiecutter.__pkg_import_name}}:
@@ -15,15 +17,16 @@ services:
     restart: always
     volumes:
       - sciops-sqldata:/var/lib/mysql
+    command: --default-authentication-plugin=mysql_native_password
 
   devcontainer_env:
     build:
-      context: ../../.
-      dockerfile: docker/.devcontainer/build/Dockerfile
+      context: ../../../.
+      dockerfile: docker/{{cookiecutter.__pkg_import_name}}_local/.devcontainer/build/Dockerfile
       args:
-        REPO_NAME: ${REPO_NAME?}
-        WORKFLOW_VERSION: v${WORKFLOW_VERSION?}
-    image: ghcr.io/${REPO_OWNER?}/${REPO_NAME}:latest
+        REPO_NAME: {{cookiecutter.github_repo}}
+        WORKFLOW_VERSION: v0.0.0
+    image: ghcr.io/iamamutt/{{cookiecutter.github_repo}}:latest
     depends_on:
       mysql_sciops:
         condition: service_healthy
@@ -38,10 +41,10 @@ services:
     ports:
       - 18888:8888
     volumes:
-      - ../..:/home/ubuntu/${REPO_NAME}
-      - vscode:/home/ubuntu/.vscode-server/extensions
-      - /home/ubuntu/${REPO_NAME}/.nox
-      - /home/ubuntu/${REPO_NAME}/src/{{cookiecutter.__pkg_import_name}}.egg-info
+      - ../../..:/home/djuser/{{cookiecutter.github_repo}}
+      - vscode:/home/djuser/.vscode-server/extensions
+      - /home/djuser/{{cookiecutter.github_repo}}/.nox
+      - /home/djuser/{{cookiecutter.github_repo}}/src/{{cookiecutter.__pkg_import_name}}.egg-info
 
   # MySQL GUI --------------
   # http://localhost:8087/

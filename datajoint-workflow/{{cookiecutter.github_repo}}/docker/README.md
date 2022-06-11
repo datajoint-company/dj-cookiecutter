@@ -87,7 +87,7 @@ PLTARCH=$(uname -m)              # target architecture for platform
 MSTARG=micromamba_debian         # multi-stage build target name
 IMGTAG=devcontainer:v0.0.1       # image tag
 DCNAME=sciops-devcontainer       # container name
-DCUSER=ubuntu                    # container user
+DCUSER=djuser                    # container user
 ```
 
 ```bash

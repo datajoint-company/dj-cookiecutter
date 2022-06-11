@@ -15,7 +15,7 @@
 		"vivaxy.vscode-conventional-commits",
 		"yzhang.markdown-all-in-one"
 	],
-	"initializeCommand": "test -f \"${localWorkspaceFolder}/.devcontainer/.env\" || exit 7",
+	// "initializeCommand": "test -f \"${localWorkspaceFolder}/.devcontainer/.env\" || exit 7",
 	"service": "devcontainer_env",
 	// Set *default* container specific settings.json values on container create.
 	"settings": {
@@ -83,5 +83,5 @@
 		"python.testing.pytestEnabled": true
 	},
 	"shutdownAction": "none",
-	"workspaceFolder": "/home/ubuntu/{{cookiecutter.github_repo}}"
+	"workspaceFolder": "/home/djuser/{{cookiecutter.github_repo}}"
 }

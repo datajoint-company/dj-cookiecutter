@@ -105,7 +105,7 @@ RUN <<-EOF
 	chmod a+rx /etc/profile.d/micromamba.sh
 
 	# add a default user (no sudo)
-	useradd -u 999 -g 999 --no-log-init -ms /bin/bash ubuntu
+	useradd -u 999 -g 999 --no-log-init -ms /bin/bash djuser
 	chown -R 999:999 ${MAMBA_INSTALL_ROOT}
 	chmod -R a+rwX,o-w,ug+s,+t,-t ${MAMBA_INSTALL_ROOT}
 	chown -R 999:999 /var/log
@@ -153,23 +153,23 @@ ENV LC_CTYPE=en_US.utf8
 ENV TZ=${TIMEZONE}
 
 USER 999:999
-WORKDIR /home/ubuntu/${REPO_NAME}
+WORKDIR /home/djuser/${REPO_NAME}
 COPY --chown=999:999 ./ ./
 SHELL [ "/bin/bash",  "-elc" ]
-
+ENV RELPATH_DEVCONTAINER=./docker/{{cookiecutter.__pkg_import_name}}_local/.devcontainer/build
 USER 0:999
-RUN xargs <./docker/.devcontainer/build/requirements/apt_requirements.txt apt-get-update-install
+RUN xargs <${RELPATH_DEVCONTAINER}/requirements/apt_requirements.txt apt-get-update-install
 
 USER 999:999
 RUN <<-EOF
-	cp -f docker/.devcontainer/build/settings/.datajoint_config.json ./
+	cp -f ${RELPATH_DEVCONTAINER}/settings/.datajoint_config.json ./
 
 	# install conda-specific packages using micromamba ---------------------------------
 	micromamba activate
-	micromamba install -yq --file ./docker/.devcontainer/build/requirements/conda_requirements.txt
+	micromamba install -yq --file ${RELPATH_DEVCONTAINER}/requirements/conda_requirements.txt
 
 	# install packages from pypi using pip ---------------------------------------------
-	pip install --no-cache --no-input -vr ./docker/.devcontainer/build/requirements/pip_requirements.txt
+	pip install --no-cache --no-input -vr ${RELPATH_DEVCONTAINER}/requirements/pip_requirements.txt
 
 	# cleanup --------------------------------------------------------------------------
 	micromamba clean -fya
@@ -205,8 +205,8 @@ LABEL org.opencontainers.image.description "A development container with a debia
 LABEL org.opencontainers.image.created="$IMAGE_CREATED"
 LABEL org.opencontainers.image.version="$WORKFLOW_VERSION"
 
-WORKDIR /home/ubuntu/{{cookiecutter.github_repo}}
-USER ubuntu:docker
+WORKDIR /home/djuser/{{cookiecutter.github_repo}}
+USER djuser:docker
 SHELL [ "/bin/bash",  "-elc" ]
 ENTRYPOINT [ "/bin/bash",  "-elc" ]
 CMD [ "tail", "-f", "/dev/null" ]
