@@ -1,4 +1,4 @@
-# Run various tests using pytest{% raw %}
+# Run various tests using pytest
 name: run-tests
 
 on:
@@ -12,8 +12,7 @@ on:
 
 jobs:
   run_tests:
-    runs-on: ${{ matrix.os }}
-
+    runs-on: ${{"{{"}} matrix.os {{"}}"}}
     strategy:
       matrix:
         os: [ubuntu-latest, macos-latest, windows-latest]
@@ -28,6 +27,7 @@ jobs:
       run:
         shell: bash
 
+    # begin multiplatform tests{% raw %}
     steps:
       - name: 🛎️  Checkout repository
         id: check-repo

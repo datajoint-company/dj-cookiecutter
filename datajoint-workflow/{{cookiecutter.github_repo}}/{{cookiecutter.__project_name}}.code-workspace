@@ -424,7 +424,7 @@
 					"-i",
 					"'docs/assets/*'",
 					"-i",
-					"'docker/{{cookiecutter.__pkg_import_name}}/.devcontainer/build/requirements'",
+					"'docker/{{cookiecutter.__pkg_import_name}}_local/.devcontainer/build/requirements'",
 					"-i",
 					"'src/{{cookiecutter.__pkg_import_name}}/*'",
 					"-i",
