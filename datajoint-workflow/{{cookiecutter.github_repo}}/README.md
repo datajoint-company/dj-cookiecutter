@@ -105,25 +105,79 @@ DataJoint LabBook displays data from your database.
 
 - S3 Bucket Directory: `{{cookiecutter.github_repo}}/inbox/`
 
-4. To upload a folder to a subfolder within the 'S3 Bucket Directory', for example to upload the subject data folder 'SUBJ100' from your local machine, enter the following path on S3: `{{cookiecutter.github_repo}}/inbox/SUBJ100`
+4. To upload a folder to a subfolder within the 'S3 Bucket Directory', for example to upload the subject data folder 'SUBJ100' from your local machine, enter the following path on S3: `{{cookiecutter.github_repo}}/inbox/SUBJ100/`
 
 #### Axon CLI
 
-... 
+Environment variables for configuration (you can set these to bypass the prompts for user input): 
 
-#### Misc
+```bash
+# AWS Account ID
+export DJSCIOPS_AWS_ACCOUNT_ID=
 
-```json
-{
-  "version": "1.2.0",
-  "aws": { "account_id": "123456789012" },
-  "s3":
-    {
-      "role": "{{cookiecutter.github_repo}}_researcher_prod",
-      "bucket": "dj-sciops",
-    },
-  "djauth": { "client_id": "xxxxxxxxxxxxxxxxxxxxxx" },
-}
+# S3 Role
+export DJSCIOPS_S3_ROLE=
+
+# S3 Bucket
+export DJSCIOPS_S3_BUCKET=
+
+# DataJoint Account Client ID
+export DJSCIOPS_DJAUTH_CLIENT_ID=
+```
+
+##### `upload`
+
+- See help  
+
+```bash 
+./djsciops axon upload --help
+```
+
+```
+usage: djsciops axon upload [-h] source destination
+
+Copy objects by uploading to object store.
+
+options:
+  -h, --help   show this help message and exit
+
+required named arguments:
+  source       Source file or directory on client.
+  destination  Target directory in object store.
+```
+
+
+- Upload data from a folder: 
+
+```bash
+djsciops axon upload ./data/SUBJ100 {{cookiecutter.github_repo}}_researcher_prod/inbox/SUBJ100/
+```
+
+- Upload a file to an existing folder: 
+
+```bash
+djsciops axon upload ./data/meta.csv {{cookiecutter.github_repo}}_researcher_prod/inbox/SUBJ100/
+```
+
+
+#### Axon Misc
+
+##### Config file 
+
+```yml
+aws:
+  account_id: '123456789012'
+boto3:
+  max_concurrency: 10
+  multipart_chunksize: 25600
+  multipart_threshold: 25600
+  use_threads: true
+djauth:
+  client_id: xxxxxxxxxxxxxxxxxxxxxx
+s3:
+  bucket: {{cookiecutter.github_user}}
+  role: {{cookiecutter.github_repo}}_researcher_prod
+version: 1.2.0
 ```
 
 

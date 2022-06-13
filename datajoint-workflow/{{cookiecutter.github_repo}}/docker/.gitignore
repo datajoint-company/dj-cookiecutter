@@ -1,5 +1,6 @@
 *.pem
 *.env
+codebook_env
 !build.env
 !run.example.env
 !**/.devcontainer/build
