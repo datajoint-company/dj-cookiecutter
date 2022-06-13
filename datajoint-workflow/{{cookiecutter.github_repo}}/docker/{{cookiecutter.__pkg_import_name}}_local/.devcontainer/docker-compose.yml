@@ -1,7 +1,7 @@
 #  > docker-compose -f docker/{{cookiecutter.__pkg_import_name}}_local/.devcontainer/docker-compose.yml up -V --detach --force-recreate --remove-orphans --build
 #  > docker-compose -f docker/{{cookiecutter.__pkg_import_name}}_local/.devcontainer/docker-compose.yml down --volumes
 
-version: "{{cookiecutter.python_version}}"
+version: "3.9"
 services:
   mysql_sciops:
     environment:
