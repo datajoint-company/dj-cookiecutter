@@ -66,6 +66,7 @@ dj_local_conf.json
 .datajoint_config.json
 
 # Misc files/folders
+*.code-workspace
 scratch/*
 src/{{cookiecutter.__pkg_import_name}}/scratch/*
 .junk/

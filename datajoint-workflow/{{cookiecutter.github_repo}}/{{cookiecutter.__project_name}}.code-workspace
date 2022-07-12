@@ -86,6 +86,7 @@
 		},
 		"python.analysis.logLevel": "Information",
 		"python.analysis.typeCheckingMode": "off",
+		"python.analysis.useLibraryCodeForTypes": true,
 		"python.defaultInterpreterPath": "${env:CONDA_ENV_ROOT}/{{cookiecutter.__pkg_import_name}}",
 		"python.formatting.blackArgs": [
 			"--line-length=88"
@@ -103,8 +104,7 @@
 			"--profile=black"
 		],
 		"python.terminal.activateEnvInCurrentTerminal": true,
-		"python.testing.pytestEnabled": true,
-		"python.analysis.useLibraryCodeForTypes": true,
+		"python.testing.pytestEnabled": true
 	},
 	"launch": {
 		"version": "0.2.0",
