@@ -400,7 +400,7 @@
 			{
 				"label": "cookiecutter: replay",
 				"type": "shell",
-				"command": "**/*/replay.sh",
+				"command": "scripts/replay/replay.sh",
 				"args": [
 					"-r",
 					".",
@@ -421,7 +421,7 @@
 				"args": [
 					"*.code-workspace",
 					"&&",
-					"**/*/retrocookie.sh",
+					"scripts/retrocookie/retrocookie.sh",
 					"-d",
 					"datajoint-workflow",
 					"-n",

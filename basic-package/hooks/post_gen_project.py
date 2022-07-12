@@ -139,7 +139,7 @@ def make_conda_env_yml(requires_pip=None):
     conda_deps, pip_deps = split_deps(
         pyproject["project"]["dependencies"], requires_pip
     )
-    pip_deps = {*pip_deps, *pyproject["project"]["optional-dependencies"]["sciops"]}
+    pip_deps = {*pip_deps}
 
     conda_env_dep = [i for i in conda_env.get("dependencies", []) if isinstance(i, str)]
     conda_env_pip = [
@@ -163,5 +163,5 @@ def make_conda_env_yml(requires_pip=None):
 if __name__ == "__main__":
     delete_version_files()
     update_dot_cookiecutter_json()
-    requires_pip = ["datajoint", "datajoint-utilities", "djsciops"]
+    requires_pip = ["datajoint", "datajoint-utilities"]
     make_conda_env_yml(requires_pip)
