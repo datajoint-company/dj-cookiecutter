@@ -1,0 +1,8 @@
+name: {{cookiecutter.__pkg_import_name}}
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  - python=={{cookiecutter.python_version}}.*
+  - pip>=22.0
+  - mamba>0.21

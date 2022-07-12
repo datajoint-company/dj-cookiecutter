@@ -1,0 +1,71 @@
+# https://docs.github.com/en/communities/using-templates-to-encourage-useful-issues-and-pull-requests/syntax-for-githubs-form-schema
+name: Bug Report
+description: File a bug report
+title: "[Bug]: "
+labels: ["bug", "triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to fill out this bug report!
+        Please fill out all fields to the best of your ability.
+
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened?
+      description: |
+        A description of the operation that resulted in an error.
+        Also tell us what you expected to happen.
+      placeholder: "Bug description."
+    validations:
+      required: true
+
+  - type: input
+    id: version-num
+    attributes:
+      label: Version
+      description: What version of the package were you running?
+      placeholder: "{{cookiecutter._pkg_version}}"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: os-selection
+    attributes:
+      label: OS
+      description: What operating system are you running?
+      options:
+        - Windows
+        - Mac OS
+        - Linux
+    validations:
+      required: true
+
+  - type: textarea
+    id: error-logs
+    attributes:
+      label: Relevant log output
+      description: |
+        Please copy and paste any relevant log output or error messages.
+        This will be automatically formatted into code, so no need for backticks.
+      render: shell
+
+  - type: textarea
+    id: reproducible-code
+    attributes:
+      label: Reproducible Steps
+      description: |
+        Please copy and paste any code that shows the minimum number of steps to
+        reproduce the error. This will be automatically formatted into code,
+        so no need for backticks.
+      render: python
+
+  - type: input
+    id: contact
+    attributes:
+      label: Contact Details
+      description: How can we get in touch with you if we need more info?
+      placeholder: ex. email@example.com
+    validations:
+      required: false

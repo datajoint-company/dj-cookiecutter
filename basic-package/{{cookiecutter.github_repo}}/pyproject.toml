@@ -1,0 +1,124 @@
+[build-system]
+requires = ["setuptools>=62.0", "wheel>=0.37"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "{{cookiecutter.__pkg_name}}"
+description = "A {{cookiecutter.organization}} Workflow for {{cookiecutter.package_name}}"
+readme = "README.md"
+requires-python = ">={{cookiecutter.python_version}}"
+license = { file = "LICENSE" }
+authors = [
+    { name = "DataJoint", email = "info@datajoint.com" },
+    { name = "{{cookiecutter.author_name}}", email = "{{cookiecutter.author_email}}" },
+]
+keywords = ["datajoint"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "Operating System :: OS Independent",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+]
+dynamic = ["version"]
+dependencies = [
+    "cryptography",                                                                       # datajoint
+    "ipython",                                                                            # datajoint
+    "matplotlib",                                                                         # datajoint
+    "minio",                                                                              # datajoint
+    "networkx<2.8.3",                                                                     # datajoint
+    "numpy",                                                                              # datajoint
+    "otumat",                                                                             # datajoint
+    "pandas",                                                                             # datajoint
+    "pydot",                                                                              # datajoint
+    "pymysql",                                                                            # datajoint
+    "pyparsing",                                                                          # datajoint
+    "tqdm",                                                                               # datajoint
+    "urllib3",                                                                            # datajoint
+    "appdirs",                                                                            # djsciops-axon
+    "boto3",                                                                              # djsciops-axon
+    "flask",                                                                              # djsciops-axon
+    "click",                                                                              # {{cookiecutter.__pkg_import_name}}
+    "h5py",                                                                               # {{cookiecutter.__pkg_import_name}}
+    "plotly",                                                                             # {{cookiecutter.__pkg_import_name}}
+    "pyyaml",                                                                             # {{cookiecutter.__pkg_import_name}}
+    "scipy",                                                                              # {{cookiecutter.__pkg_import_name}}
+    "seaborn",                                                                            # {{cookiecutter.__pkg_import_name}}
+    "tomli",                                                                              # {{cookiecutter.__pkg_import_name}}
+    "datajoint>=0.13.6",                                                                  # {{cookiecutter.__pkg_import_name}} @ pypi
+    "datajoint-utilities @ git+https://github.com/datajoint-company/datajoint-utilities", # {{cookiecutter.__pkg_import_name}} @ pypi
+    "plotnine",                                                                           # {{cookiecutter.__pkg_import_name}} @ pypi
+    "polars",                                                                             # {{cookiecutter.__pkg_import_name}} @ pypi
+]
+
+[project.optional-dependencies]
+dev = ["black", "isort", "flake8", "pre-commit", "nox", "mypy", "notebook"]
+doc = [
+    "mkdocs",
+    "mkdocstrings-python",
+    "mkdocs-material",
+    "mkdocs-gen-files",
+    "mkdocs-literate-nav",
+    "mkdocs-section-index",
+    "mkdocs-include-markdown-plugin",
+    "pymdown-extensions",
+    "mike",
+]
+test = ["pytest", "faker"]
+sciops = ["ipykernel", "djsciops"]
+
+[project.scripts]
+{{cookiecutter.__pkg_import_name}}_entrypoint = "{{cookiecutter.__pkg_import_name}}.populate.entrypoint:cli"
+{{cookiecutter.__pkg_import_name}} = "{{cookiecutter.__pkg_import_name}}.__main__:cli"
+
+[project.urls]
+Homepage = "https://github.com/{{cookiecutter.github_user}}/{{cookiecutter.github_repo}}"
+Source = "https://github.com/{{cookiecutter.github_user}}/{{cookiecutter.github_repo}}"
+Documentation = "https://github.com/{{cookiecutter.github_user}}/{{cookiecutter.github_repo}}"
+DataJoint = "https://docs.datajoint.org/"
+
+[tool.setuptools.dynamic]
+version = { attr = "{{cookiecutter.__pkg_import_name}}.__version__" }
+
+[tool.pytest.ini_options]
+minversion = "6.0"
+addopts = "-ra -q"
+testpaths = ["tests"]
+
+[tool.black]
+line-length = 88
+target-version = ["py310"]
+color = false
+exclude = '''
+/(
+    \.git
+    | \.mypy_cache
+    | \.nox
+    | \.venv
+    | _build
+    | build
+    | dist
+    | env
+    | venv
+)/
+'''
+
+[tool.isort]
+profile = "black"
+
+[tool.pyright]
+include = ["src"]
+exclude = [
+    ".git",
+    ".mypy_cache",
+    ".nox",
+    "**/.ipynb_checkpoints",
+    "**/__pycache__",
+    "src/experimental",
+    "notebooks",
+]
+ignore = ["**/*.ipynb", "notebooks"]
+stubPath = "typings"
+reportMissingImports = true
+reportMissingTypeStubs = false

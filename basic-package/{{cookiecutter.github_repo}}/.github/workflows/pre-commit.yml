@@ -1,0 +1,64 @@
+# Run pre-commit hooks using nox
+name: pre-commit
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  run_pre_commit_on_pr:
+    runs-on: ubuntu-latest
+    if: ${{"{{"}} github.event_name == 'pull_request' {{"}}"}}
+    steps:
+      - name: 🛎️  Checkout repository
+        id: check-repo
+        uses: actions/checkout@v3
+
+      - name: 🐍  Install python and nox
+        uses: ./.github/actions/nox-python
+        with:
+          py_ver: "{{cookiecutter.python_version}}"
+          extra_path: ~/.cache/pre-commit
+
+      - name: 🛠️  Run pre-commit on PR
+        id: run-pre-commit
+        run: |
+          nox -s pre_commit -- --pre-commit-hook=black,isort,blacken-docs,end-of-file-fixer
+
+      - name: 🐶  Suggest changes on PR
+        uses: reviewdog/action-suggester@v1
+        with:
+          tool_name: pre-commit hooks
+          level: info
+
+  run_pre_commit_on_push:
+    runs-on: ubuntu-latest
+    if: ${{"{{"}} github.event_name == 'push' {{"}}"}}
+    steps:
+      - name: 🛎️  Checkout repository
+        id: check-repo
+        uses: actions/checkout@v3
+
+      - name: 🐍  Install python and nox
+        uses: ./.github/actions/nox-python
+        with:
+          py_ver: "{{cookiecutter.python_version}}"
+          extra_path: ~/.cache/pre-commit
+
+      - name: 🛠️  Run pre-commit on push to main
+        run: |
+          nox -s pre_commit -- \
+            --pre-commit-hooks=black,isort,blacken-docs,nbstripout,mixed-line-ending
+          if [ -z "$(git status --porcelain)" ]; then
+            echo "No changes made from pre-commit hooks."
+            exit 0
+          fi
+          echo -e "::debug::Committing and pushing:\n$(git status --porcelain)"
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git add .
+          git commit --no-verify -m "ci(precommit): commit code changes from pre-commit hooks"
+          git push origin HEAD:main
