@@ -26,7 +26,7 @@ def test_cookiecutter_defaults():
 
 def test_cookiecutter_yml_config():
     this_dir = Path(__file__).parent
-    config_file = this_dir / "fixtures" / "cookiecutterc.yml"
+    config_file = this_dir / "fixtures" / "cookiecutterc_datajoint_workflow.yml"
     output_dir = Path("~/Documents/projects").expanduser()
     out_dir = cookiecutter(
         ".",

@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "{{cookiecutter.__pkg_name}}"
-description = "A {{cookiecutter.organization}} Workflow for {{cookiecutter.package_name}}"
+description = "A {{cookiecutter.organization}} template python package"
 readme = "README.md"
 requires-python = ">={{cookiecutter.python_version}}"
 license = { file = "LICENSE" }
@@ -36,9 +36,6 @@ dependencies = [
     "pyparsing",                                                                          # datajoint
     "tqdm",                                                                               # datajoint
     "urllib3",                                                                            # datajoint
-    "appdirs",                                                                            # djsciops-axon
-    "boto3",                                                                              # djsciops-axon
-    "flask",                                                                              # djsciops-axon
     "click",                                                                              # {{cookiecutter.__pkg_import_name}}
     "h5py",                                                                               # {{cookiecutter.__pkg_import_name}}
     "plotly",                                                                             # {{cookiecutter.__pkg_import_name}}
@@ -53,23 +50,10 @@ dependencies = [
 ]
 
 [project.optional-dependencies]
-dev = ["black", "isort", "flake8", "pre-commit", "nox", "mypy", "notebook"]
-doc = [
-    "mkdocs",
-    "mkdocstrings-python",
-    "mkdocs-material",
-    "mkdocs-gen-files",
-    "mkdocs-literate-nav",
-    "mkdocs-section-index",
-    "mkdocs-include-markdown-plugin",
-    "pymdown-extensions",
-    "mike",
-]
+dev = ["black", "isort", "flake8", "pre-commit", "nox", "mypy", "notebook", "ipykernel"]
 test = ["pytest", "faker"]
-sciops = ["ipykernel", "djsciops"]
 
 [project.scripts]
-{{cookiecutter.__pkg_import_name}}_entrypoint = "{{cookiecutter.__pkg_import_name}}.populate.entrypoint:cli"
 {{cookiecutter.__pkg_import_name}} = "{{cookiecutter.__pkg_import_name}}.__main__:cli"
 
 [project.urls]
@@ -116,6 +100,7 @@ exclude = [
     "**/.ipynb_checkpoints",
     "**/__pycache__",
     "src/experimental",
+    "src/scratch",
     "notebooks",
 ]
 ignore = ["**/*.ipynb", "notebooks"]

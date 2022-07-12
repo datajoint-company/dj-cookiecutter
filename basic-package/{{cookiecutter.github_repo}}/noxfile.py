@@ -108,7 +108,7 @@ def main_cli(session: nox.Session) -> None:
     nox -s main_cli
     """
 
-    install_dependencies(session, "dev", "test", "doc", "sciops")
+    install_dependencies(session, "dev", "test")
     session.run("{{cookiecutter.__pkg_import_name}}", "--version")
 
 
@@ -183,63 +183,5 @@ def pytest(session: nox.Session) -> None:
     """
 
     pytest_args = session.posargs or ["tests"]
-    install_dependencies(session, "test", "sciops")
+    install_dependencies(session, "test")
     session.run("pytest", *pytest_args)
-
-
-@nox.session(python=default_python_version, reuse_venv=True)
-def docs(session: nox.Session) -> None:
-    """Build the latest documentation w/ mkdocs and mike.
-
-    nox -s docs -- --version v0.0
-    """
-
-    args: argparse.Namespace = parse_session_posargs(session.posargs)
-    docs_version: str = args.version.pop()
-    docs_alias: str = "latest"
-    index_html: bool = args.index_html
-
-    ver_regex: re.Pattern = re.compile(
-        r"^(?P<tag>v?)"
-        r"(?P<major>[0-9]+)\."
-        r"(?P<minor>[0-9]+)\."
-        r"(?P<patch>[0-9]+.*)?"
-    )
-    ver_match = ver_regex.search(docs_version)
-    if ver_match is None:
-        docs_version = "unknown"
-        docs_alias = "unknown"
-    else:
-        ver_groups = ver_match.groupdict()
-        docs_version = f'{ver_groups["major"]}.{ver_groups["minor"]}'
-
-    session.log(f"docs version: '{docs_version}'")
-    install_dependencies(session, "doc")
-    git_action_bot(session)
-
-    session.run(
-        "mike",
-        "deploy",
-        "--push",
-        "--update-aliases",
-        "-m",
-        f"docs(gh-pages): build versioned documention {docs_version}:{docs_alias}",
-        "-t",
-        f"ver. {docs_version}",
-        docs_version,
-        docs_alias,
-    )
-
-    if index_html:
-        session.run("mike", "set-default", "--push", "latest")
-
-
-@nox.session(python=default_python_version, reuse_venv=True)
-def docs_no_ver(session: nox.Session) -> None:
-    """Build the documentation w/ mkdocs.
-
-    nox -s docs_no_ver
-    """
-
-    install_dependencies(session, "doc")
-    session.run("mkdocs", "build")
