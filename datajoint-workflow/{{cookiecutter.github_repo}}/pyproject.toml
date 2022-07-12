@@ -46,10 +46,8 @@ dependencies = [
     "scipy",                                                                              # {{cookiecutter.__pkg_import_name}}
     "seaborn",                                                                            # {{cookiecutter.__pkg_import_name}}
     "tomli",                                                                              # {{cookiecutter.__pkg_import_name}}
-    "faker",                                                                              # {{cookiecutter.__pkg_import_name}} @ pypi
+    "datajoint>=0.13.6",                                                                  # {{cookiecutter.__pkg_import_name}} @ pypi
     "datajoint-utilities @ git+https://github.com/datajoint-company/datajoint-utilities", # {{cookiecutter.__pkg_import_name}} @ pypi
-    "datajoint>=0.13.6",                                                                  # {{cookiecutter.__pkg_import_name}} @ pypi                                                                        # {{cookiecutter.__pkg_import_name}} @ pypi
-    "nixio",                                                                              # {{cookiecutter.__pkg_import_name}} @ pypi
     "plotnine",                                                                           # {{cookiecutter.__pkg_import_name}} @ pypi
     "polars",                                                                             # {{cookiecutter.__pkg_import_name}} @ pypi
 ]
@@ -67,7 +65,7 @@ doc = [
     "pymdown-extensions",
     "mike",
 ]
-test = ["pytest"]
+test = ["pytest", "faker"]
 sciops = ["ipykernel", "djsciops"]
 
 [project.scripts]
