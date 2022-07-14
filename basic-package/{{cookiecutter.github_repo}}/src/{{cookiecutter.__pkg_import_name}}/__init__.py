@@ -1,8 +1,10 @@
-"""`{{cookiecutter.__pkg_name}}`:
-_A {{cookiecutter.organization}} Workflow for {{cookiecutter.package_name}}_
-"""
+"""`{{cookiecutter.__pkg_name}}`: Base package for {{cookiecutter.__pkg_name}}."""
 
 import logging
+
+__version__: str
+__pkg_name__: str
+__pkg_import_name__: str
 
 
 def get_names() -> tuple[str, str]:
@@ -11,25 +13,29 @@ def get_names() -> tuple[str, str]:
     Returns:
         tuple[str, str]: The package name and import name, respectively.
     """
-    import_name: str = __package__ or "{{cookiecutter.__pkg_import_name}}"
-    package: str = import_name.replace("_", "-")
+    import_name = __package__ or "{{cookiecutter.__pkg_import_name}}"
+    package = import_name.replace("_", "-")
     return package, import_name
+
+
+__pkg_name__, __pkg_import_name__ = get_names()
+
+
+logging.getLogger(__pkg_import_name__).addHandler(logging.NullHandler())
 
 
 def get_version() -> str:
     """Get the version number for the current package.
 
     Returns:
-        str: Version number taken from the installed package version or `version.py`.
+        str: Version number taken from the installed package version found in
+            the file `pyproject.toml`.
     """
-    from importlib.metadata import PackageNotFoundError, version  # pragma: no cover
-
-    __version__: str = "unknown"
+    from importlib.metadata import PackageNotFoundError, version
 
     try:
-        # Replace `version(__name__)` if project does not equal the package name
         __version__ = version(__pkg_name__)
-    except PackageNotFoundError:  # pragma: no cover
+    except PackageNotFoundError:
         from .version import __version__
     finally:
         del version, PackageNotFoundError
@@ -37,15 +43,5 @@ def get_version() -> str:
     return __version__
 
 
-__pkg_name__: str
-__pkg_import_name__: str
-__pkg_name__, __pkg_import_name__ = get_names()
-
-
-__version__: str = get_version()
-version: str = __version__
-
-
-# fmt: off
-# Root level logger for the '{{cookiecutter.__pkg_import_name}}' namespace
-logging.getLogger(__pkg_import_name__).addHandler(logging.NullHandler())
+__version__ = get_version()
+VERSION = __version__

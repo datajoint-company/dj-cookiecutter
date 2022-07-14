@@ -21,16 +21,15 @@ import argparse
 import sys
 from typing import Any, Sequence
 
-from {{cookiecutter.__pkg_import_name}} import version
+from {{cookiecutter.__pkg_import_name}} import VERSION
 
 
 def parse_args(args: Sequence[str]) -> argparse.Namespace:
-    """_Parse command line parameters_
+    """Parse command line parameters
 
     Args:
-        args (list[str]):
-            Command line parameters as list of strings.
-            (example  `["--help"]`)
+        args (Sequence[str]):
+            Command line parameters as list of strings (example: `["--help"]`).
 
     Returns:
         A Namespace of command line parameters.
@@ -54,7 +53,7 @@ def parse_args(args: Sequence[str]) -> argparse.Namespace:
     parser.add_argument(
         "--version",
         action="version",
-        version=f"%(prog)s v{version}",
+        version=f"%(prog)s v{VERSION}",
     )
 
     parsed_args = parser.parse_args(args)
@@ -63,13 +62,13 @@ def parse_args(args: Sequence[str]) -> argparse.Namespace:
 
 
 def main(**kwargs: Any) -> None:
-    """_Operate on cli args_."""
+    """Operate on cli args."""
     print("main module operations here.")
 
 
 def cli() -> None:
-    """_Calls [`__main__.main`][{{cookiecutter.__pkg_import_name}}.__main__.main], passing the cli
-    arguments extracted from `sys.argv`_.
+    """Calls [`__main__.main`][{{cookiecutter.__pkg_import_name}}.__main__.main], passing the cli
+    arguments extracted from `sys.argv`.
 
     This function can be used as entry point to create console scripts on package
     install.

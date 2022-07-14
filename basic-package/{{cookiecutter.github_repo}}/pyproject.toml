@@ -4,6 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "{{cookiecutter.__pkg_name}}"
+version = "0.0.1"
 description = "A {{cookiecutter.organization}} template python package"
 readme = "README.md"
 requires-python = ">={{cookiecutter.python_version}}"
@@ -21,36 +22,44 @@ classifiers = [
     "License :: OSI Approved :: MIT License",
     "Programming Language :: Python :: 3",
 ]
-dynamic = ["version"]
 dependencies = [
-    "cryptography",                                                                       # datajoint
-    "ipython",                                                                            # datajoint
-    "matplotlib",                                                                         # datajoint
-    "minio",                                                                              # datajoint
-    "networkx<2.8.3",                                                                     # datajoint
-    "numpy",                                                                              # datajoint
-    "otumat",                                                                             # datajoint
-    "pandas",                                                                             # datajoint
-    "pydot",                                                                              # datajoint
-    "pymysql",                                                                            # datajoint
-    "pyparsing",                                                                          # datajoint
-    "tqdm",                                                                               # datajoint
-    "urllib3",                                                                            # datajoint
-    "click",                                                                              # {{cookiecutter.__pkg_import_name}}
-    "h5py",                                                                               # {{cookiecutter.__pkg_import_name}}
-    "plotly",                                                                             # {{cookiecutter.__pkg_import_name}}
-    "pyyaml",                                                                             # {{cookiecutter.__pkg_import_name}}
-    "scipy",                                                                              # {{cookiecutter.__pkg_import_name}}
-    "seaborn",                                                                            # {{cookiecutter.__pkg_import_name}}
-    "tomli",                                                                              # {{cookiecutter.__pkg_import_name}}
-    "datajoint>=0.13.6",                                                                  # {{cookiecutter.__pkg_import_name}} @ pypi
-    "datajoint-utilities @ git+https://github.com/datajoint-company/datajoint-utilities", # {{cookiecutter.__pkg_import_name}} @ pypi
-    "plotnine",                                                                           # {{cookiecutter.__pkg_import_name}} @ pypi
-    "polars",                                                                             # {{cookiecutter.__pkg_import_name}} @ pypi
+    "cryptography",      # datajoint
+    "ipython",           # datajoint
+    "matplotlib",        # datajoint
+    "minio",             # datajoint
+    "networkx<2.8.3",    # datajoint
+    "numpy",             # datajoint
+    "otumat",            # datajoint
+    "pandas",            # datajoint
+    "pydot",             # datajoint
+    "pymysql",           # datajoint
+    "pyparsing",         # datajoint
+    "tqdm",              # datajoint
+    "urllib3",           # datajoint
+    "click",             # {{cookiecutter.__pkg_import_name}}
+    "h5py",              # {{cookiecutter.__pkg_import_name}}
+    "plotly",            # {{cookiecutter.__pkg_import_name}}
+    "pyyaml",            # {{cookiecutter.__pkg_import_name}}
+    "scipy",             # {{cookiecutter.__pkg_import_name}}
+    "seaborn",           # {{cookiecutter.__pkg_import_name}}
+    "tomli",             # {{cookiecutter.__pkg_import_name}}
+    "datajoint>=0.13.6", # {{cookiecutter.__pkg_import_name}} @ pypi
+    # "datajoint-utilities @ git+https://github.com/datajoint-company/datajoint-utilities", # {{cookiecutter.__pkg_import_name}} @ pypi
+    "plotnine", # {{cookiecutter.__pkg_import_name}} @ pypi
+    "polars",   # {{cookiecutter.__pkg_import_name}} @ pypi
 ]
 
 [project.optional-dependencies]
-dev = ["black", "isort", "flake8", "pre-commit", "nox", "mypy", "notebook", "ipykernel"]
+dev = [
+    "black",
+    "isort",
+    "flake8",
+    "pre-commit",
+    "nox",
+    "mypy",
+    "notebook",
+    "ipykernel",
+]
 test = ["pytest", "faker"]
 
 [project.scripts]
@@ -62,8 +71,11 @@ Source = "https://github.com/{{cookiecutter.github_user}}/{{cookiecutter.github_
 Documentation = "https://github.com/{{cookiecutter.github_user}}/{{cookiecutter.github_repo}}"
 DataJoint = "https://docs.datajoint.org/"
 
-[tool.setuptools.dynamic]
-version = { attr = "{{cookiecutter.__pkg_import_name}}.__version__" }
+[tool.setuptools]
+package-data = { "*" = ["*.pyi", "py.typed"] }
+
+[tool.setuptools.packages.find]
+where = ["src"]
 
 [tool.pytest.ini_options]
 minversion = "6.0"
