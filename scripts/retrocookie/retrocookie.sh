@@ -162,10 +162,12 @@ create_commits() {
 		echo -e "\n# Added by retrocookie script ignore option" >>.gitignore
 		for _ex in "${ignores[@]}"; do
 			echo "Removing: '${_ex}'"
-			echo "${_ex}" >>.gitignore
+			# echo "${_ex}" >>.gitignore
+			git clean -f -q -- "${_ex}"
+			# git restore -q "${_ex}"
 		done
-		git add .gitignore
-		git commit -m "Added by retrocookie script ignore option" --no-verify
+		# git add .gitignore
+		# git commit -m "Added by retrocookie script ignore option" --no-verify
 	fi
 	if [[ ! $(git status --porcelain) ]]; then
 		echo -e "\nnothing to change"
