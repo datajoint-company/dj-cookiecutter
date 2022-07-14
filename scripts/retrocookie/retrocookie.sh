@@ -154,17 +154,17 @@ create_commits() {
 	mv -f "${tmp_proj_dir}"/.git "${tmp_proj_parent}"
 	rm -rf "${tmp_proj_dir:?}"
 	mkdir -p "${tmp_proj_dir}"
-	rsync -av --quiet "${project_folder}" "${tmp_proj_dir}"/.. --exclude .git --exclude .ipynb_checkpoints --exclude .nox --exclude .mypy_cache --exclude .pytest_cache
+	rsync -av --quiet "${project_folder}" "${tmp_proj_dir}"/.. --exclude .git --exclude .ipynb_checkpoints --exclude .nox --exclude .mypy_cache --exclude .pytest_cache --exclude .egg-info
 	mv -f "${tmp_proj_parent}/.git" "${tmp_proj_dir}"/
 	cd "${tmp_proj_dir}"
 	if [[ ${#ignores} -gt 0 ]]; then
-		echo -e "\n----------- Adding paths to .gitignore."
-		echo -e "\n# Added by retrocookie script ignore option" >>.gitignore
+		# echo -e "\n----------- Adding paths to .gitignore."
+		# echo -e "\n# Added by retrocookie script ignore option" >>.gitignore
 		for _ex in "${ignores[@]}"; do
 			echo "Removing: '${_ex}'"
 			# echo "${_ex}" >>.gitignore
-			git clean -f -q -- "${_ex}"
-			# git restore -q "${_ex}"
+			git clean -fdx -- "${_ex}"
+			git checkout -q -- "${_ex}"
 		done
 		# git add .gitignore
 		# git commit -m "Added by retrocookie script ignore option" --no-verify

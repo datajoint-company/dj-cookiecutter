@@ -56,9 +56,7 @@ def parse_args(args: Sequence[str]) -> argparse.Namespace:
         version=f"%(prog)s v{VERSION}",
     )
 
-    parsed_args = parser.parse_args(args)
-
-    return parsed_args
+    return parser.parse_args(args)
 
 
 def main(**kwargs: Any) -> None:

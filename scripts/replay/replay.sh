@@ -11,6 +11,7 @@ template_dir=
 repo_url=https://github.com/datajoint-company/dj-cookiecutter.git
 conda_env=cookies
 pos_args=()
+ignores=()
 
 err_exit() {
 	set -e
@@ -82,6 +83,11 @@ while [[ $# -gt 0 ]]; do
 		shift
 		shift
 		;;
+	"-i")
+		ignores+=("${2}")
+		shift
+		shift
+		;;
 	*)
 		pos_args+=("${1}")
 		shift
@@ -112,15 +118,15 @@ tmp_dir=${TMPDIR:-~/tmp/}cookie_replay/"${template_dir}"
 rm -rf "${tmp_dir}"
 mkdir -p "${tmp_dir}"
 replay_file=${tmp_dir}/.cookiecutterc.yml
-debug_file=${tmp_dir}/.cookiecutter.log
-output_dir=$(dirname "$output_dir")
 
 python "${script_pdir}"/../replay2config.py "${input_json}" "${replay_file}"
 
+output_dir=$(dirname "$output_dir")
 if [[ -d "${output_dir}" ]]; then
 	echo "Directory '${output_dir}' already exists. Overwriting existing content."
 fi
 
+debug_file=${tmp_dir}/.cookiecutter.log
 echo "command: cookiecutter --overwrite-if-exists --no-input --config-file='${replay_file}' --debug-file='${debug_file}' --output-dir='${output_dir}' --directory='${template_dir}' '${repo_url}'"
 
 cookiecutter \
@@ -128,6 +134,17 @@ cookiecutter \
 	--no-input \
 	--config-file="${replay_file}" \
 	--debug-file="${debug_file}" \
-	--output-dir="${output_dir}" \
+	--output-dir="${tmp_dir}" \
 	--directory="${template_dir}" \
 	"${repo_url}"
+
+tmp_proj_dir="$(cd "$(dirname "${tmp_dir}"/*/.cookiecutter.json)" &>/dev/null && pwd)"
+
+if [[ ${#ignores} -gt 0 ]]; then
+	for _ex in "${ignores[@]}"; do
+		echo "Ignoring: '${_ex}'"
+		rm -rf "${tmp_proj_dir:?}/${_ex}"
+	done
+fi
+
+rsync -av --quiet "${tmp_proj_dir}" "${output_dir}" --exclude .git

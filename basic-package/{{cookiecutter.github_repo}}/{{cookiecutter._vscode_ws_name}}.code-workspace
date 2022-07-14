@@ -369,6 +369,10 @@
 					"basic-package",
 					"-n",
 					"cookies",
+					"-i",
+					"'{{cookiecutter._vscode_ws_name}}.code-workspace'",
+					"-i",
+					"'{{cookiecutter._djconfig}}'",
 					"'${workspaceFolder}'"
 				],
 				"options": {
