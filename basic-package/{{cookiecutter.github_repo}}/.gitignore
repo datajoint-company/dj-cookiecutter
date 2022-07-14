@@ -70,4 +70,4 @@ dj_local_conf.json
 # Misc files/folders
 scratch/*
 src/{{cookiecutter.__pkg_import_name}}/experimental/*
-./.junk
+.junk/*

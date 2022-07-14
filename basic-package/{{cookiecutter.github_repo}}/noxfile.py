@@ -114,9 +114,9 @@ def write_version(session):
     nox -s write_version -- --version 0.0.1
     """
 
-    args: argparse.Namespace = parse_session_posargs(session.posargs)
-    version: str = args.version.pop()
-    prev_ver: str = args.prev_ver.pop()
+    args = parse_session_posargs(session.posargs)
+    version = args.version.pop()
+    prev_ver = args.prev_ver.pop()
 
     if version == prev_ver:
         session.log(f"Skipping overwriting 'version.py' to '{version}'")
@@ -137,9 +137,9 @@ def pre_commit(session):
     nox -s pre_commit -- --pre-commit-hooks=black,isort --fail
     """
 
-    args: argparse.Namespace = parse_session_posargs(session.posargs)
-    hooks: list[str] = args.pre_commit_hooks
-    raise_exception: bool = args.fail
+    args = parse_session_posargs(session.posargs)
+    hooks = args.pre_commit_hooks
+    raise_exception = args.fail
 
     install_dependencies(session, "dev")
     session.run("pre-commit", "install")
