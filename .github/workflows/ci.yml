@@ -82,7 +82,7 @@ jobs:
       always() &&
       (needs.get_tag.result == 'success') &&
       (needs.generate_datajoint-workflow.result == 'success') &&
-      (needs.generate_basic-package.result == 'success') &&
+      (needs.generate_basic-package.result == 'success')
 
     steps:
       - name: Checkout Repository
