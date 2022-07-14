@@ -1,1 +1,1 @@
-__version__ = "{{cookiecutter._pkg_version}}"
+__version__ = "unknown"
