@@ -1,6 +1,6 @@
 // For format details, see https://aka.ms/devcontainer.json
 {
-	"name": "{{cookiecutter.__project_name}} (devcontainer)",
+	"name": "{{cookiecutter.__pkg_name}} (devcontainer)",
 	"dockerComposeFile": [
 		"./docker-compose.yml"
 	],

@@ -2,7 +2,7 @@
 
 # Contributing and Developer Guide
 
-Welcome to the `{{cookiecutter.__project_name}}` contributor's guide.
+Welcome to the `{{cookiecutter.__pkg_name}}` contributor's guide.
 
 This document focuses on getting any potential contributor familiarized with the DataJoint workflow development process, but [other general kinds of contributions](https://opensource.guide/how-to-contribute) are also appreciated. See the DataJoint [community contributions](https://docs.datajoint.org/python/community/02-Contribute.html) page for information.
 
@@ -13,7 +13,7 @@ If you are new to using [git](https://git-scm.com) or have never collaborated on
 
 ## Issue Reports
 
-If you experience bugs or general issues with `{{cookiecutter.__project_name}}`, please have a look at the [issue tracker](https://github.com/{{cookiecutter.github_user}}/{{cookiecutter.github_repo}}/issues). If you don't see anything useful there, please feel free to fill out a new issue report.
+If you experience bugs or general issues with `{{cookiecutter.__pkg_name}}`, please have a look at the [issue tracker](https://github.com/{{cookiecutter.github_user}}/{{cookiecutter.github_repo}}/issues). If you don't see anything useful there, please feel free to fill out a new issue report.
 
 New issue reports should include information about your programming environment (e.g., operating system, Python version) and steps to reproduce the problem. Please also try to simplify the reproduction steps to a very minimal example that still illustrates the problem you're facing. By removing other factors, you help us to identify the root cause of the issue.
 
@@ -23,12 +23,12 @@ New issue reports should include information about your programming environment 
 
 ## Documentation Improvements
 
-You can help improve the `{{cookiecutter.__project_name}}` docs by making them more readable and coherent, or by adding missing information and correcting mistakes.
+You can help improve the `{{cookiecutter.__pkg_name}}` docs by making them more readable and coherent, or by adding missing information and correcting mistakes.
 
 !!! tip "Quick Documentation Changes"
-    Please notice that the [GitHub web interface](https://docs.github.com/en/github/managing-files-in-a-repository/managing-files-on-github/editing-files-in-your-repository) provides a quick way of propose changes in `{{cookiecutter.__project_name}}`'s files. While this mechanism can be tricky for normal code contributions, it works perfectly fine for contributing to the docs, and can be quite handy.
+    Please notice that the [GitHub web interface](https://docs.github.com/en/github/managing-files-in-a-repository/managing-files-on-github/editing-files-in-your-repository) provides a quick way of propose changes in `{{cookiecutter.__pkg_name}}`'s files. While this mechanism can be tricky for normal code contributions, it works perfectly fine for contributing to the docs, and can be quite handy.
 
-`{{cookiecutter.__project_name}}` documentation uses [MkDocs](https://www.mkdocs.org/) as its main documentation compiler. This means that the docs are kept in the same repository as the project code, and that any documentation update is done in the same way as a code contribution.
+`{{cookiecutter.__pkg_name}}` documentation uses [MkDocs](https://www.mkdocs.org/) as its main documentation compiler. This means that the docs are kept in the same repository as the project code, and that any documentation update is done in the same way as a code contribution.
 
 All documentation is written in [Markdown](https://docs.github.com/en/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax), specifically the [`python-markdown`](https://python-markdown.github.io/#differences) implementation with additional [extensions](https://docutils.sourceforge.io/docs/ref/rst/directives.html#specific-admonitions) to use features from reStructuredText.
 
@@ -97,13 +97,13 @@ See the [_Installation_](./README.md#installation) section from the introductory
 Install the extra packages needed for local development, tests, and documentation:
 
 ```bash
-cd "{{cookiecutter.__project_name}}"
+cd "{{cookiecutter.__pkg_name}}"
 conda activate {{cookiecutter.__pkg_import_name}}
 pip install -e ".[dev,doc,test,sciops]"
 ```
 
 !!! note "Develop Mode Installs"
-    The command `conda list` will show `{{cookiecutter.__project_name}}`, but it will be installed in _editable/develop mode_ due to using the `-e` option during installation. This means that changes will be immediately reflected when the module is reloaded.
+    The command `conda list` will show `{{cookiecutter.__pkg_name}}`, but it will be installed in _editable/develop mode_ due to using the `-e` option during installation. This means that changes will be immediately reflected when the module is reloaded.
 
 ### Extra `dev` packages
 
@@ -121,7 +121,7 @@ You can also use `nox` to run several other pre-configured tasks for this projec
 
 #### `pre-commit`
 
-The [`pre-commit`](https://pre-commit.com/) package is used to detect or fix common issues before code is submitted to the remote repository. You first have to set and install the hooks after cloning the repository from GitHub. The `{{cookiecutter.__project_name}}` package comes with a lot of hooks configured to automatically help you check the code after being written. View the configuration in the file `.pre-commit-config.yaml`. Installing `pre-commit` and the specificed hooks is required only once:
+The [`pre-commit`](https://pre-commit.com/) package is used to detect or fix common issues before code is submitted to the remote repository. You first have to set and install the hooks after cloning the repository from GitHub. The `{{cookiecutter.__pkg_name}}` package comes with a lot of hooks configured to automatically help you check the code after being written. View the configuration in the file `.pre-commit-config.yaml`. Installing `pre-commit` and the specificed hooks is required only once:
 
 ```bash
 pre-commit install --install-hooks
@@ -245,7 +245,7 @@ The GitHub actions and workflows are located under the `.github` folder and auto
 
 ### Visual Studio Code
 
-The file `{{cookiecutter.__project_name}}.code-workspace` contains many of the `vscode` specific settings for working with this project. Of most importance are `"settings":` specific to this project and `"tasks":` to run common operations.
+The file `{{cookiecutter.__pkg_name}}.code-workspace` contains many of the `vscode` specific settings for working with this project. Of most importance are `"settings":` specific to this project and `"tasks":` to run common operations.
 
 1. _extensions_
 

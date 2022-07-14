@@ -1,4 +1,4 @@
-"""`{{cookiecutter.__project_name}}`:
+"""`{{cookiecutter.__pkg_name}}`:
 _A {{cookiecutter.organization}} Workflow for {{cookiecutter.workflow}}_
 """
 

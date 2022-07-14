@@ -2,7 +2,7 @@ _View the latest documentation site here:_ [{{cookiecutter.docs_url}}]({{cookiec
 
 <!--intro-start-->
 
-# `{{cookiecutter.__project_name}}`
+# `{{cookiecutter.__pkg_name}}`
 
 _A {{cookiecutter.organization}} Workflow for {{cookiecutter.workflow}}_
 
@@ -201,7 +201,7 @@ First, clone a local copy of the [project repository](https://github.com/{{cooki
 
 ```bash
 git clone https://github.com/{{cookiecutter.github_user}}/{{cookiecutter.github_repo}}.git
-cd "{{cookiecutter.__project_name}}"
+cd "{{cookiecutter.__pkg_name}}"
 ```
 
 ### 2. Create a new python environment
@@ -220,7 +220,7 @@ mamba env create -f environment.yml --force
 conda activate {{cookiecutter.__pkg_import_name}}
 ```
 
-### 3. Install the package `{{cookiecutter.__project_name}}`
+### 3. Install the package `{{cookiecutter.__pkg_name}}`
 
 After the new virtual environment has been created and activated, install this python package using `pip>=62.0` (`pip` is already in the list of requirements from the `environment.yml` file).
 
@@ -233,7 +233,7 @@ pip install .
 If you need to uninstall the package, do so with `pip`:
 
 ```bash
-pip uninstall {{cookiecutter.__project_name}}
+pip uninstall {{cookiecutter.__pkg_name}}
 ```
 
 #### Additional setup for local development and testing

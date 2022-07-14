@@ -69,10 +69,10 @@ services:
 
 networks:
   {{cookiecutter.__pkg_import_name}}:
-    name: {{cookiecutter.__project_name}}-network
+    name: {{cookiecutter.__pkg_name}}-network
 
 volumes:
   sciops-sqldata:
-    name: {{cookiecutter.__project_name}}-vol-sciops-sqldata
+    name: {{cookiecutter.__pkg_name}}-vol-sciops-sqldata
   vscode:
-    name: {{cookiecutter.__project_name}}-vol-vscode
+    name: {{cookiecutter.__pkg_name}}-vol-vscode

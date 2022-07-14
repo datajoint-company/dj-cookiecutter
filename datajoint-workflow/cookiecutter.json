@@ -21,7 +21,7 @@
     "_pkg_version": "0.0.0",
     "homepage_url": "https://github.com/{{cookiecutter.github_user}}",
     "docs_url": "https://{{cookiecutter.github_user}}.github.io/{{cookiecutter.github_repo}}",
-    "__project_name": "{{cookiecutter.workflow|slugify}}",
+    "__pkg_name": "{{cookiecutter.workflow|slugify}}",
     "__pkg_import_name": "{{cookiecutter.workflow|slugify(separator='_')}}",
     "_djconfig": "dj_local_conf.json",
     "_copy_without_render": [
@@ -30,6 +30,7 @@
         "docs/css/*",
         "docs/overrides/*"
     ],
+    "_vscode_ws_name": "pyproject",
     "_extensions": [
         "extensions.words"
     ],

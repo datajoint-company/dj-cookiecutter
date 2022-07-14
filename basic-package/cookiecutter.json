@@ -20,6 +20,7 @@
         "3.11",
         "3.9"
     ],
+    "_vscode_ws_name": "pyproject",
     "_pkg_version": "0.0.0",
     "_extensions": [
         "extensions.words"

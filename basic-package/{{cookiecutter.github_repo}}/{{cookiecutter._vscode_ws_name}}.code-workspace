@@ -32,7 +32,7 @@
 	},
 	"folders": [
 		{
-			"name": "{{cookiecutter.__project_name}}",
+			"name": "{{cookiecutter.__pkg_name}}",
 			"path": "."
 		}
 	],
@@ -122,18 +122,10 @@
 				"request": "launch"
 			},
 			{
-				"name": "Python: Debug entrypoint.py",
+				"name": "Python: Debug __main__.py",
 				"type": "python",
-				"program": "${workspaceFolder}/src/{{cookiecutter.__pkg_import_name}}/populate/entrypoint.py",
-				"args": [
-					"task1",
-					"-d",
-					"1.5",
-					"-s",
-					"1",
-					"-b",
-					"30"
-				],
+				"program": "${workspaceFolder}/src/{{cookiecutter.__pkg_import_name}}/__main__.py",
+				"args": [],
 				"console": "integratedTerminal",
 				"request": "launch"
 			}
@@ -264,7 +256,7 @@
 					"pip",
 					"install",
 					"-e",
-					"'.[dev,doc,test,sciops]'"
+					"'.[dev,test]'"
 				]
 			},
 			{
@@ -279,7 +271,7 @@
 					"pip",
 					"uninstall",
 					"-y",
-					"{{cookiecutter.__project_name}}"
+					"{{cookiecutter.__pkg_name}}"
 				]
 			},
 			{
@@ -367,37 +359,6 @@
 				]
 			},
 			{
-				"label": "docker-compose up codebook",
-				"type": "shell",
-				"command": "docker-compose",
-				"args": [
-					"-f",
-					"docker-compose-codebook_env.yaml",
-					"up",
-					"--build",
-					"--remove-orphans",
-					"-d"
-				],
-				"options": {
-					"cwd": "${workspaceFolder}/docker"
-				}
-			},
-			{
-				"label": "docker-compose down codebook",
-				"type": "shell",
-				"command": "docker-compose",
-				"args": [
-					"-f",
-					"docker-compose-codebook_env.yaml",
-					"down",
-					"--volumes",
-					"--remove-orphans"
-				],
-				"options": {
-					"cwd": "${workspaceFolder}/docker"
-				}
-			},
-			{
 				"label": "cookiecutter: replay",
 				"type": "shell",
 				"command": "scripts/replay/replay.sh",
@@ -405,7 +366,7 @@
 					"-r",
 					".",
 					"-d",
-					"datajoint-workflow",
+					"basic-package",
 					"-n",
 					"cookies",
 					"'${workspaceFolder}'"
@@ -423,45 +384,24 @@
 					"&&",
 					"scripts/retrocookie/retrocookie.sh",
 					"-d",
-					"datajoint-workflow",
+					"basic-package",
 					"-n",
 					"cookies",
 					"-i",
 					"'typings'",
 					"-i",
-					"'docs/assets/*'",
-					"-i",
-					"'docker/{{cookiecutter.__pkg_import_name}}_local/.devcontainer/build/requirements'",
+					"'environment.yml'",
 					"-i",
 					"'src/{{cookiecutter.__pkg_import_name}}/*'",
 					"-i",
 					"'!src/{{cookiecutter.__pkg_import_name}}/__init__.py'",
 					"-i",
 					"'!src/{{cookiecutter.__pkg_import_name}}/__main__.py'",
-					"-i",
-					"'!src/{{cookiecutter.__pkg_import_name}}/populate/entrypoint.py'",
-					"-i",
-					"'!src/{{cookiecutter.__pkg_import_name}}/pipeline/.gitignore'",
-					"-i",
-					"'!src/{{cookiecutter.__pkg_import_name}}/support/.gitignore'",
-					"-i",
-					"'!src/{{cookiecutter.__pkg_import_name}}/tables/.gitignore'",
-					"-i",
-					"'!src/{{cookiecutter.__pkg_import_name}}/utils/.gitignore'",
 					"${workspaceFolder}"
 				],
 				"options": {
 					"cwd": "${config:djcookiecutter.localPath}"
 				}
-			},
-			{
-				"label": "devcontainer open",
-				"type": "shell",
-				"command": "devcontainer",
-				"args": [
-					"open",
-					"${workspaceFolder}/docker"
-				]
 			},
 			{
 				"label": "initial setup",
