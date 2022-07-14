@@ -46,7 +46,7 @@ dependencies = [
     "scipy",                                                                              # {{cookiecutter.__pkg_import_name}}
     "seaborn",                                                                            # {{cookiecutter.__pkg_import_name}}
     "tomli",                                                                              # {{cookiecutter.__pkg_import_name}}
-    "datajoint>=0.13.6",                                                                  # {{cookiecutter.__pkg_import_name}} @ pypi
+    "datajoint>=0.13.7",                                                                  # {{cookiecutter.__pkg_import_name}} @ pypi
     "datajoint-utilities @ git+https://github.com/datajoint-company/datajoint-utilities", # {{cookiecutter.__pkg_import_name}} @ pypi
     "plotnine",                                                                           # {{cookiecutter.__pkg_import_name}} @ pypi
     "polars",                                                                             # {{cookiecutter.__pkg_import_name}} @ pypi

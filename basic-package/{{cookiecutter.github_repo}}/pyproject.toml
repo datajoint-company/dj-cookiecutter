@@ -23,30 +23,30 @@ classifiers = [
     "Programming Language :: Python :: 3",
 ]
 dependencies = [
-    "cryptography",      # datajoint
-    "ipython",           # datajoint
-    "matplotlib",        # datajoint
-    "minio",             # datajoint
-    "networkx<2.8.3",    # datajoint
-    "numpy",             # datajoint
-    "otumat",            # datajoint
-    "pandas",            # datajoint
-    "pydot",             # datajoint
-    "pymysql",           # datajoint
-    "pyparsing",         # datajoint
-    "tqdm",              # datajoint
-    "urllib3",           # datajoint
-    "click",             # {{cookiecutter.__pkg_import_name}}
-    "h5py",              # {{cookiecutter.__pkg_import_name}}
-    "plotly",            # {{cookiecutter.__pkg_import_name}}
-    "pyyaml",            # {{cookiecutter.__pkg_import_name}}
-    "scipy",             # {{cookiecutter.__pkg_import_name}}
-    "seaborn",           # {{cookiecutter.__pkg_import_name}}
-    "tomli",             # {{cookiecutter.__pkg_import_name}}
-    "datajoint>=0.13.6", # {{cookiecutter.__pkg_import_name}} @ pypi
-    # "datajoint-utilities @ git+https://github.com/datajoint-company/datajoint-utilities", # {{cookiecutter.__pkg_import_name}} @ pypi
-    "plotnine", # {{cookiecutter.__pkg_import_name}} @ pypi
-    "polars",   # {{cookiecutter.__pkg_import_name}} @ pypi
+    "cryptography",                                                                       # datajoint
+    "ipython",                                                                            # datajoint
+    "matplotlib",                                                                         # datajoint
+    "minio",                                                                              # datajoint
+    "networkx<2.8.3",                                                                     # datajoint
+    "numpy",                                                                              # datajoint
+    "otumat",                                                                             # datajoint
+    "pandas",                                                                             # datajoint
+    "pydot",                                                                              # datajoint
+    "pymysql",                                                                            # datajoint
+    "pyparsing",                                                                          # datajoint
+    "tqdm",                                                                               # datajoint
+    "urllib3",                                                                            # datajoint
+    "click",                                                                              # {{cookiecutter.__pkg_import_name}}
+    "h5py",                                                                               # {{cookiecutter.__pkg_import_name}}
+    "plotly",                                                                             # {{cookiecutter.__pkg_import_name}}
+    "pyyaml",                                                                             # {{cookiecutter.__pkg_import_name}}
+    "scipy",                                                                              # {{cookiecutter.__pkg_import_name}}
+    "seaborn",                                                                            # {{cookiecutter.__pkg_import_name}}
+    "tomli",                                                                              # {{cookiecutter.__pkg_import_name}}
+    "datajoint>=0.13.7",                                                                  # {{cookiecutter.__pkg_import_name}} @ pypi
+    "datajoint-utilities @ git+https://github.com/datajoint-company/datajoint-utilities", # {{cookiecutter.__pkg_import_name}} @ pypi
+    "plotnine",                                                                           # {{cookiecutter.__pkg_import_name}} @ pypi
+    "polars",                                                                             # {{cookiecutter.__pkg_import_name}} @ pypi
 ]
 
 [project.optional-dependencies]
