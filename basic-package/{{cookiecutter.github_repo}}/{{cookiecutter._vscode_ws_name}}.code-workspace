@@ -371,8 +371,6 @@
 					"cookies",
 					"-i",
 					"'{{cookiecutter._vscode_ws_name}}.code-workspace'",
-					"-i",
-					"'{{cookiecutter._djconfig}}'",
 					"'${workspaceFolder}'"
 				],
 				"options": {
@@ -397,10 +395,6 @@
 					"'environment.yml'",
 					"-i",
 					"'src/{{cookiecutter.__pkg_import_name}}/*'",
-					"-i",
-					"'!src/{{cookiecutter.__pkg_import_name}}/__init__.py'",
-					"-i",
-					"'!src/{{cookiecutter.__pkg_import_name}}/__main__.py'",
 					"${workspaceFolder}"
 				],
 				"options": {
