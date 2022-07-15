@@ -21,7 +21,7 @@ import argparse
 import sys
 from typing import Any, Sequence
 
-from {{cookiecutter.__pkg_import_name}} import version
+from {{cookiecutter.__pkg_import_name}} import VERSION
 
 
 def parse_args(args: Sequence[str]) -> argparse.Namespace:
@@ -54,7 +54,7 @@ def parse_args(args: Sequence[str]) -> argparse.Namespace:
     parser.add_argument(
         "--version",
         action="version",
-        version=f"%(prog)s v{version}",
+        version=f"%(prog)s v{VERSION}",
     )
 
     parsed_args = parser.parse_args(args)
