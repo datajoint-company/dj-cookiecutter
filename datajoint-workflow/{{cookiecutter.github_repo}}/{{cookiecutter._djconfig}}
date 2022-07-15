@@ -13,5 +13,8 @@
     "enable_python_native_blobs": true,
     "fetch_format": "array",
     "loglevel": "WARNING",
-    "safemode": true
+    "safemode": true,
+    "custom": {
+        "database.prefix": "{{cookiecutter.github_repo}}"
+    }
 }
