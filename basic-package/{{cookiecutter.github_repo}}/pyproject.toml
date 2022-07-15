@@ -79,7 +79,7 @@ where = ["src"]
 
 [tool.pytest.ini_options]
 minversion = "6.0"
-addopts = "-ra -q"
+addopts = "-rA"
 testpaths = ["tests"]
 
 [tool.black]
@@ -114,6 +114,7 @@ exclude = [
     "src/experimental",
     "src/scratch",
     "notebooks",
+    "tests"
 ]
 ignore = ["**/*.ipynb", "notebooks"]
 stubPath = "typings"

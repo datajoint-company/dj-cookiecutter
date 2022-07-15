@@ -367,6 +367,22 @@
 				]
 			},
 			{
+				"label": "mypy: generate file stub",
+				"type": "shell",
+				"command": "conda",
+				"args": [
+					"run",
+					"--no-capture-output",
+					"-n",
+					"{{cookiecutter.__pkg_import_name}}",
+					"stubgen",
+					"${fileDirname}/${fileBasenameNoExtension}.py",
+					"-o",
+					"typings",
+					"--include-private"
+				]
+			},
+			{
 				"label": "docker-compose up codebook",
 				"type": "shell",
 				"command": "docker-compose",

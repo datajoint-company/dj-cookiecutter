@@ -12,8 +12,8 @@ import nox
 
 default_python_version = "{{cookiecutter.python_version}}"
 nox.options.error_on_missing_interpreters = True
-nox.options.reuse_existing_virtualenvs = False
-nox.options.sessions = ["write_version", "docs", "pytest"]
+nox.options.reuse_existing_virtualenvs = True
+nox.options.sessions = ["main_cli", "pre_commit", "pytest"]
 nox.options.pythons = [default_python_version]
 
 
@@ -31,33 +31,11 @@ def parse_session_posargs(args):
 
     parser = argparse.ArgumentParser(description="Parse position args sent to nox.")
     parser.add_argument(
-        "--version",
-        dest="version",
-        default=["unknown"],
-        type=str,
-        nargs=1,
-        help="The major.minor version string.",
-    )
-    parser.add_argument(
-        "--pversion",
-        dest="prev_ver",
-        default=["unknown"],
-        type=str,
-        nargs=1,
-        help="The previous major.minor version string.",
-    )
-    parser.add_argument(
         "--pre-commit-hooks",
         dest="pre_commit_hooks",
         default=["black", "isort"],
         action=SplitCSA,
         help="Comma-separated names of pre-commit hooks to run.",
-    )
-    parser.add_argument(
-        "--index_html",
-        dest="index_html",
-        help="Add index.html to gh-page branch using mike.",
-        action="store_true",
     )
     parser.add_argument(
         "--fail",
@@ -69,33 +47,6 @@ def parse_session_posargs(args):
     return parsed_args
 
 
-def git_action_bot(session, add=None, commit=None, push=None):
-    session.log("Configuring git user and email.")
-    session.run(
-        "git", "config", "--local", "user.name", "github-actions[bot]", external=True
-    )
-    session.run(
-        "git",
-        "config",
-        "--local",
-        "user.email",
-        "github-actions[bot]@users.noreply.github.com",
-        external=True,
-    )
-
-    if add:
-        session.log("Adding files to commit.")
-        session.run("git", "add", *add, external=True)
-
-    if commit:
-        session.log("Committing changes to remote.")
-        session.run("git", "commit", *commit, external=True)
-
-    if push:
-        session.log("Pushing the new changes.")
-        session.run("git", "push", *push, external=True)
-
-
 @nox.session(python=default_python_version, reuse_venv=True)
 def main_cli(session):
     """Install all dependencies then run package main cli with arg '--version'.
@@ -105,29 +56,6 @@ def main_cli(session):
 
     install_dependencies(session, "dev", "test")
     session.run("{{cookiecutter.__pkg_import_name}}", "--version")
-
-
-@nox.session(python=default_python_version, reuse_venv=True)
-def write_version(session):
-    """Bump version.py to the latest version.
-
-    nox -s write_version -- --version 0.0.1
-    """
-
-    args = parse_session_posargs(session.posargs)
-    version = args.version.pop()
-    prev_ver = args.prev_ver.pop()
-
-    if version == prev_ver:
-        session.log(f"Skipping overwriting 'version.py' to '{version}'")
-        return
-
-    session.log(f"Overwriting 'version.py' to '{version}'")
-
-    with open("src/{{cookiecutter.__pkg_import_name}}/version.py", "w") as out:
-        session.run("echo", f'__version__ = "{version}"', stdout=out, external=True)
-
-    git_action_bot(session, add=["--force", "src/{{cookiecutter.__pkg_import_name}}/version.py"])
 
 
 @nox.session(python=default_python_version, reuse_venv=True)

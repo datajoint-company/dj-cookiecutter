@@ -8,14 +8,14 @@ __pkg_import_name__: str
 
 
 def get_names() -> tuple[str, str]:
-    """Get the package name and import name for the current package.
+    """Get the distribution and import name for the top-level package.
 
     Returns:
-        tuple[str, str]: The package name and import name, respectively.
+        tuple[str, str]: The distribution name and import name, respectively.
     """
     import_name = __package__ or "{{cookiecutter.__pkg_import_name}}"
-    package = import_name.replace("_", "-")
-    return package, import_name
+    distribution = import_name.replace("_", "-")
+    return distribution, import_name
 
 
 __pkg_name__, __pkg_import_name__ = get_names()
