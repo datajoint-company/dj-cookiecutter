@@ -1,0 +1,33 @@
+channels:
+- conda-forge
+- defaults
+dependencies:
+- click
+- cryptography
+- h5py
+- ipython
+- mamba>0.21
+- matplotlib
+- minio
+- networkx<2.8.3
+- numpy
+- otumat
+- pandas
+- pip>=22.0
+- plotly
+- plotnine
+- polars
+- pydot
+- pymysql
+- pyparsing
+- python==3.10.*
+- pyyaml
+- scipy
+- seaborn
+- tomli
+- tqdm
+- urllib3
+- pip:
+  - datajoint-utilities @ git+https://github.com/datajoint-company/datajoint-utilities
+  - datajoint>=0.13.7
+name: basic_package

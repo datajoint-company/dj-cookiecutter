@@ -1,0 +1,47 @@
+# Run various tests using pytest
+name: run-tests
+
+on:
+  workflow_run:
+    workflows:
+      - pre-commit
+    types:
+      - completed
+    branches:
+      - main
+
+jobs:
+  run_tests:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+        python-version: ["3.10"]
+        exclude:
+          - os: macos-latest
+            python-version: "3.8"
+          - os: windows-latest
+            python-version: "3.8"
+
+    defaults:
+      run:
+        shell: bash
+
+    # begin multiplatform tests
+    steps:
+      - name: 🛎️  Checkout repository
+        id: check-repo
+        uses: actions/checkout@v3
+
+      - name: 🐍  Install python and nox
+        uses: ./.github/actions/nox-python
+        with:
+          py_ver: ${{ matrix.python-version }}
+          key_append: test-${{ matrix.python-version }}
+
+      - name: 🐍  Build all package dependencies and run main cli
+        run: nox --force-python ${{ matrix.python-version }} -s main_cli -v --non-interactive
+
+      - name: 🐍  Run pytest
+        run: nox --force-python ${{ matrix.python-version }} -s pytest -v --non-interactive
+#

@@ -1,0 +1,122 @@
+[build-system]
+requires = ["setuptools>=62.0", "wheel>=0.37"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "basic-package"
+version = "0.0.1"
+description = "A DataJoint template python package"
+readme = "README.md"
+requires-python = ">=3.10"
+license = { file = "LICENSE" }
+authors = [
+    { name = "DataJoint", email = "info@datajoint.com" },
+    { name = "FirstName LastName", email = "firstname@datajoint.com" },
+]
+keywords = ["datajoint"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "Operating System :: OS Independent",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+]
+dependencies = [
+    "cryptography",                                                                       # datajoint
+    "ipython",                                                                            # datajoint
+    "matplotlib",                                                                         # datajoint
+    "minio",                                                                              # datajoint
+    "networkx<2.8.3",                                                                     # datajoint
+    "numpy",                                                                              # datajoint
+    "otumat",                                                                             # datajoint
+    "pandas",                                                                             # datajoint
+    "pydot",                                                                              # datajoint
+    "pymysql",                                                                            # datajoint
+    "pyparsing",                                                                          # datajoint
+    "tqdm",                                                                               # datajoint
+    "urllib3",                                                                            # datajoint
+    "click",                                                                              # basic_package
+    "h5py",                                                                               # basic_package
+    "plotly",                                                                             # basic_package
+    "pyyaml",                                                                             # basic_package
+    "scipy",                                                                              # basic_package
+    "seaborn",                                                                            # basic_package
+    "tomli",                                                                              # basic_package
+    "datajoint>=0.13.7",                                                                  # basic_package @ pypi
+    "datajoint-utilities @ git+https://github.com/datajoint-company/datajoint-utilities", # basic_package @ pypi
+    "plotnine",                                                                           # basic_package @ pypi
+    "polars",                                                                             # basic_package @ pypi
+]
+
+[project.optional-dependencies]
+dev = [
+    "black",
+    "isort",
+    "flake8",
+    "pre-commit",
+    "nox",
+    "mypy",
+    "notebook",
+    "ipykernel",
+]
+test = ["pytest", "faker"]
+
+[project.scripts]
+basic_package = "basic_package.__main__:cli"
+
+[project.urls]
+Homepage = "https://github.com/datajoint-company/datajoint_basic-package"
+Source = "https://github.com/datajoint-company/datajoint_basic-package"
+Documentation = "https://github.com/datajoint-company/datajoint_basic-package"
+DataJoint = "https://docs.datajoint.org/"
+
+[tool.setuptools]
+package-data = { "*" = ["*.pyi", "py.typed"] }
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+minversion = "6.0"
+addopts = "-rA"
+testpaths = ["tests"]
+
+[tool.black]
+line-length = 88
+target-version = ["py310"]
+color = false
+exclude = '''
+/(
+    \.git
+    | \.mypy_cache
+    | \.nox
+    | \.venv
+    | _build
+    | build
+    | dist
+    | env
+    | venv
+)/
+'''
+
+[tool.isort]
+profile = "black"
+
+[tool.pyright]
+include = ["src"]
+exclude = [
+    ".git",
+    ".mypy_cache",
+    ".nox",
+    "**/.ipynb_checkpoints",
+    "**/__pycache__",
+    "src/experimental",
+    "src/scratch",
+    "notebooks",
+    "tests"
+]
+ignore = ["**/*.ipynb", "notebooks"]
+stubPath = "typings"
+reportMissingImports = true
+reportMissingTypeStubs = false
