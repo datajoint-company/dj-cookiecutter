@@ -1,0 +1,494 @@
+{
+	"extensions": {
+		"recommendations": [
+			"aaron-bond.better-comments",
+			"analytic-signal.snippets-plotly",
+			"bierner.github-markdown-preview",
+			"christian-kohler.path-intellisense",
+			"eamodio.gitlens",
+			"foxundermoon.shell-format",
+			"GitHub.vscode-pull-request-github",
+			"Gruntfuggly.todo-tree",
+			"johnpapa.vscode-peacock",
+			"kevinrose.vsc-python-indent",
+			"mechatroner.rainbow-csv",
+			"mikestead.dotenv",
+			"ms-azuretools.vscode-docker",
+			"ms-python.python",
+			"ms-python.vscode-pylance",
+			"ms-toolsai.jupyter",
+			"ms-vscode-remote.remote-ssh-edit",
+			"ms-vscode-remote.vscode-remote-extensionpack",
+			"ms-vscode.live-server",
+			"njpwerner.autodocstring",
+			"redhat.vscode-yaml",
+			"tamasfe.even-better-toml",
+			"timonwong.shellcheck",
+			"VisualStudioExptTeam.intellicode-api-usage-examples",
+			"VisualStudioExptTeam.vscodeintellicode",
+			"vivaxy.vscode-conventional-commits",
+			"yzhang.markdown-all-in-one"
+		]
+	},
+	"folders": [
+		{
+			"name": "{{cookiecutter.__pkg_name}}",
+			"path": "."
+		}
+	],
+	"settings": {
+		"[python]": {
+			"editor.formatOnSave": true
+		},
+		"autoDocstring.customTemplatePath": "configs/docstrings.mustache",
+		"autoDocstring.docstringFormat": "google",
+		"autoDocstring.generateDocstringOnEnter": true,
+		"autoDocstring.guessTypes": true,
+		"autoDocstring.startOnNewLine": false,
+		"conventionalCommits.scopes": [
+			"pipeline",
+			"actions",
+			"loaders",
+			"package",
+			"module",
+			"docker",
+			"vscode"
+		],
+		"djcookiecutter.condaExec": "mamba",
+		"djcookiecutter.localPath": "${env:HOME}/Documents/datajoint/dj-cookiecutter",
+		"files.exclude": {
+			"**/*.egg-info": true,
+			"**/.DS_Store": true,
+			"**/.git": true,
+			"**/.hg": true,
+			"**/.ipynb_checkpoints": true,
+			"**/.svn": true,
+			"**/CVS": true,
+			"**/Thumbs.db": true,
+			"**/__pycache__": true,
+			"*.command": true,
+			".mypy_cache": true,
+			".nox": true,
+			".pytest_cache": true,
+			"build": true
+		},
+		"interactiveWindow.alwaysScrollOnNewCell": true,
+		"jupyter.generateSVGPlots": true,
+		"jupyter.interactiveWindowMode": "single",
+		"jupyter.notebookFileRoot": "${workspaceFolder}",
+		"jupyter.sendSelectionToInteractiveWindow": true,
+		"jupyter.themeMatplotlibPlots": true,
+		"python.analysis.completeFunctionParens": true,
+		"python.analysis.diagnosticMode": "openFilesOnly",
+		"python.analysis.diagnosticSeverityOverrides": {
+			"reportGeneralTypeIssues": "none",
+			"reportMissingTypeStubs": "none"
+		},
+		"python.analysis.logLevel": "Information",
+		"python.analysis.typeCheckingMode": "off",
+		"python.analysis.useLibraryCodeForTypes": true,
+		"python.defaultInterpreterPath": "${env:CONDA_ENV_ROOT}/{{cookiecutter.__pkg_import_name}}",
+		"python.formatting.blackArgs": [
+			"--line-length=88"
+		],
+		"python.formatting.provider": "black",
+		"python.languageServer": "Pylance",
+		"python.linting.enabled": true,
+		"python.linting.flake8Args": [
+			"--max-line-length=88",
+			"--extend-ignore=E203,E501,E402"
+		],
+		"python.linting.flake8Enabled": true,
+		"python.linting.mypyEnabled": false,
+		"python.sortImports.args": [
+			"--profile=black"
+		],
+		"python.terminal.activateEnvInCurrentTerminal": true,
+		"python.testing.pytestEnabled": true
+	},
+	"launch": {
+		"version": "0.2.0",
+		"configurations": [
+			{
+				"name": "Python: Current File",
+				"type": "python",
+				"program": "${file}",
+				"console": "integratedTerminal",
+				"cwd": "${fileDirname}",
+				"env": {
+					"PYTHONPATH": "${workspaceFolder}/src"
+				},
+				"justMyCode": false,
+				"request": "launch"
+			},
+			{
+				"name": "Python: Debug entrypoint.py",
+				"type": "python",
+				"program": "${workspaceFolder}/src/{{cookiecutter.__pkg_import_name}}/populate/entrypoint.py",
+				"args": [
+					"task1",
+					"-d",
+					"1.5",
+					"-s",
+					"1",
+					"-b",
+					"30"
+				],
+				"console": "integratedTerminal",
+				"request": "launch"
+			}
+		]
+	},
+	"tasks": {
+		// See https://go.microsoft.com/fwlink/?LinkId=733558
+		// for the documentation about the tasks.json format
+		"version": "2.0.0",
+		"inputs": [
+			{
+				"type": "promptString",
+				"default": "~/path/to/dj-cookiecutter",
+				"description": "Path to root of local cookiecutter repo.",
+				"id": "cookiepath"
+			}
+		],
+		"options": {
+			"cwd": "${workspaceFolder}"
+		},
+		"presentation": {
+			"group": "workflow",
+			"clear": false,
+			"echo": true,
+			"focus": true,
+			"panel": "shared",
+			"reveal": "always",
+			"showReuseMessage": true
+		},
+		"tasks": [
+			{
+				"label": "show recommended extensions",
+				"command": "${command:workbench.extensions.action.showRecommendedExtensions}"
+			},
+			{
+				"label": "clean junk files",
+				"type": "shell",
+				"command": "find . -name '*.DS_Store' -type f -delete && find . -name '.ipynb_checkpoints' -type d -exec rm -rf {} + && find . -name '__pycache__' -type d -exec rm -rf {} +"
+			},
+			{
+				"label": "conda install: environment.yml",
+				"type": "shell",
+				"command": "conda",
+				"args": [
+					"run",
+					"--no-capture-output",
+					"-n",
+					"base",
+					"${config:djcookiecutter.condaExec}",
+					"env",
+					"create",
+					"-vq",
+					"--file",
+					"environment.yml",
+					"--force",
+					"--no-default-packages"
+				]
+			},
+			{
+				"label": "conda prune: environment.yml",
+				"type": "shell",
+				"command": "${config:djcookiecutter.condaExec}",
+				"args": [
+					"env",
+					"update",
+					"-vq",
+					"--file",
+					"environment.yml",
+					"--prune"
+				]
+			},
+			{
+				"label": "conda update: all packages",
+				"type": "shell",
+				"command": "conda",
+				"args": [
+					"run",
+					"--no-capture-output",
+					"-n",
+					"{{cookiecutter.__pkg_import_name}}",
+					"${config:djcookiecutter.condaExec}",
+					"update",
+					"-qy",
+					"--all"
+				]
+			},
+			{
+				"label": "conda remove: env",
+				"type": "shell",
+				"command": "conda",
+				"args": [
+					"run",
+					"--no-capture-output",
+					"-n",
+					"base",
+					"${config:djcookiecutter.condaExec}",
+					"env",
+					"remove",
+					"-n",
+					"{{cookiecutter.__pkg_import_name}}"
+				]
+			},
+			{
+				"label": "conda list",
+				"type": "shell",
+				"command": "conda",
+				"args": [
+					"run",
+					"--no-capture-output",
+					"-n",
+					"{{cookiecutter.__pkg_import_name}}",
+					"${config:djcookiecutter.condaExec}",
+					"list"
+				],
+				"presentation": {
+					"group": "conda"
+				}
+			},
+			{
+				"label": "pip install: dev package",
+				"type": "shell",
+				"command": "conda",
+				"args": [
+					"run",
+					"--no-capture-output",
+					"-n",
+					"{{cookiecutter.__pkg_import_name}}",
+					"pip",
+					"install",
+					"-e",
+					"'.[dev,doc,test,sciops]'"
+				]
+			},
+			{
+				"label": "pip uninstall: dev package",
+				"type": "shell",
+				"command": "conda",
+				"args": [
+					"run",
+					"--no-capture-output",
+					"-n",
+					"{{cookiecutter.__pkg_import_name}}",
+					"pip",
+					"uninstall",
+					"-y",
+					"{{cookiecutter.__pkg_name}}"
+				]
+			},
+			{
+				"label": "pip uninstall: dev package and egg",
+				"type": "shell",
+				"command": "find . -name '*.egg-info' -type d -exec rm -rf {} +",
+				"dependsOn": [
+					"pip uninstall: dev package"
+				],
+				"dependsOrder": "sequence",
+				"options": {
+					"cwd": "${workspaceFolder}"
+				}
+			},
+			{
+				"label": "pre-commit: install",
+				"type": "shell",
+				"command": "conda",
+				"args": [
+					"run",
+					"--no-capture-output",
+					"-n",
+					"{{cookiecutter.__pkg_import_name}}",
+					"pre-commit",
+					"install",
+					"--install-hooks"
+				]
+			},
+			{
+				"label": "pre-commit: autoupdate",
+				"type": "shell",
+				"command": "conda",
+				"args": [
+					"run",
+					"--no-capture-output",
+					"-n",
+					"{{cookiecutter.__pkg_import_name}}",
+					"pre-commit",
+					"autoupdate"
+				]
+			},
+			{
+				"label": "pre-commit: run all",
+				"type": "shell",
+				"command": "conda",
+				"args": [
+					"run",
+					"--no-capture-output",
+					"-n",
+					"{{cookiecutter.__pkg_import_name}}",
+					"pre-commit",
+					"run",
+					"--verbose",
+					"--all-files"
+				]
+			},
+			{
+				"label": "nox: run main_cli",
+				"type": "shell",
+				"command": "conda",
+				"args": [
+					"run",
+					"--no-capture-output",
+					"-n",
+					"{{cookiecutter.__pkg_import_name}}",
+					"nox",
+					"-s",
+					"main_cli"
+				]
+			},
+			{
+				"label": "mypy: generate stubs",
+				"type": "shell",
+				"command": "conda",
+				"args": [
+					"run",
+					"--no-capture-output",
+					"-n",
+					"{{cookiecutter.__pkg_import_name}}",
+					"stubgen",
+					"src",
+					"-o",
+					"typings",
+					"--include-private"
+				]
+			},
+			{
+				"label": "mypy: generate file stub",
+				"type": "shell",
+				"command": "conda",
+				"args": [
+					"run",
+					"--no-capture-output",
+					"-n",
+					"{{cookiecutter.__pkg_import_name}}",
+					"stubgen",
+					"${fileDirname}/${fileBasenameNoExtension}.py",
+					"-o",
+					"typings",
+					"--include-private"
+				]
+			},
+			{
+				"label": "docker-compose up codebook",
+				"type": "shell",
+				"command": "docker-compose",
+				"args": [
+					"-f",
+					"docker-compose-codebook_env.yaml",
+					"up",
+					"--build",
+					"--remove-orphans",
+					"-d"
+				],
+				"options": {
+					"cwd": "${workspaceFolder}/docker"
+				}
+			},
+			{
+				"label": "docker-compose down codebook",
+				"type": "shell",
+				"command": "docker-compose",
+				"args": [
+					"-f",
+					"docker-compose-codebook_env.yaml",
+					"down",
+					"--volumes",
+					"--remove-orphans"
+				],
+				"options": {
+					"cwd": "${workspaceFolder}/docker"
+				}
+			},
+			{
+				"label": "cookiecutter: replay",
+				"type": "shell",
+				"command": "scripts/replay/replay.sh",
+				"args": [
+					"-r",
+					".",
+					"-d",
+					"datajoint-workflow",
+					"-n",
+					"cookies",
+					"-i",
+					"'{{cookiecutter._vscode_ws_name}}.code-workspace'",
+					"-i",
+					"'{{cookiecutter._djconfig}}'",
+					"'${workspaceFolder}'"
+				],
+				"options": {
+					"cwd": "${config:djcookiecutter.localPath}"
+				}
+			},
+			{
+				"label": "cookiecutter: retrocookie",
+				"type": "shell",
+				"command": "code",
+				"args": [
+					"*.code-workspace",
+					"&&",
+					"scripts/retrocookie/retrocookie.sh",
+					"-d",
+					"datajoint-workflow",
+					"-n",
+					"cookies",
+					"-i",
+					"'typings'",
+					"-i",
+					"'docs/assets/*'",
+					"-i",
+					"'environment.yml'",
+					"-i",
+					"'docker/{{cookiecutter.__pkg_import_name}}_local/.devcontainer/build/requirements'",
+					"-i",
+					"'src/{{cookiecutter.__pkg_import_name}}/*'",
+					"${workspaceFolder}"
+				],
+				"options": {
+					"cwd": "${config:djcookiecutter.localPath}"
+				}
+			},
+			{
+				"label": "devcontainer open",
+				"type": "shell",
+				"command": "devcontainer",
+				"args": [
+					"open",
+					"${workspaceFolder}/docker"
+				]
+			},
+			{
+				"label": "initial setup",
+				"command": "${command:workbench.action.reloadWindow}",
+				"dependsOn": [
+					"show recommended extensions",
+					"conda install: environment.yml",
+					"pip install: dev package",
+					"pre-commit: install",
+					"pre-commit: autoupdate",
+					"nox: run main_cli",
+					"clean junk files"
+				],
+				"dependsOrder": "sequence",
+				"options": {
+					"cwd": "${workspaceFolder}"
+				},
+				"problemMatcher": []
+			}
+		]
+	}
+}

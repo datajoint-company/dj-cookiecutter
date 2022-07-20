@@ -1,0 +1,87 @@
+// For format details, see https://aka.ms/devcontainer.json
+{
+	"name": "{{cookiecutter.__pkg_name}} (devcontainer)",
+	"dockerComposeFile": [
+		"./docker-compose.yml"
+	],
+	// Add the IDs of extensions you want installed when the container is created.
+	"extensions": [
+		"analytic-signal.snippets-plotly",
+		"eamodio.gitlens",
+		"ms-python.python",
+		"njpwerner.autodocstring",
+		"redhat.vscode-yaml",
+		"tamasfe.even-better-toml",
+		"vivaxy.vscode-conventional-commits",
+		"yzhang.markdown-all-in-one"
+	],
+	// "initializeCommand": "test -f \"${localWorkspaceFolder}/.devcontainer/.env\" || exit 7",
+	"service": "devcontainer_env",
+	// Set *default* container specific settings.json values on container create.
+	"settings": {
+		"[python]": {
+			"editor.formatOnSave": true
+		},
+		"autoDocstring.customTemplatePath": "configs/docstrings.mustache",
+		"autoDocstring.docstringFormat": "google",
+		"autoDocstring.generateDocstringOnEnter": true,
+		"autoDocstring.guessTypes": true,
+		"autoDocstring.startOnNewLine": false,
+		"conventionalCommits.scopes": [
+			"pipeline",
+			"actions",
+			"loaders",
+			"package",
+			"module",
+			"docker"
+		],
+		"files.exclude": {
+			"**/.DS_Store": true,
+			"**/.git": true,
+			"**/.hg": true,
+			"**/.ipynb_checkpoints": true,
+			"**/.svn": true,
+			"**/CVS": true,
+			"**/Thumbs.db": true,
+			"**/__pycache__": true,
+			"*.command": true,
+			".mypy_cache": true,
+			".nox": true,
+			".pytest_cache": true,
+			"build": true,
+			"src/*.egg-info": true
+		},
+		"interactiveWindow.alwaysScrollOnNewCell": true,
+		"jupyter.generateSVGPlots": true,
+		"jupyter.interactiveWindowMode": "single",
+		"jupyter.notebookFileRoot": "${workspaceFolder}",
+		"jupyter.sendSelectionToInteractiveWindow": true,
+		"jupyter.themeMatplotlibPlots": true,
+		"python.analysis.completeFunctionParens": true,
+		"python.analysis.diagnosticMode": "workspace",
+		"python.analysis.diagnosticSeverityOverrides": {
+			"reportGeneralTypeIssues": "information"
+		},
+		"python.analysis.typeCheckingMode": "basic",
+		"python.defaultInterpreterPath": "/opt/local/conda/bin/python",
+		"python.formatting.blackArgs": [
+			"--line-length=88"
+		],
+		"python.formatting.provider": "black",
+		"python.languageServer": "Pylance",
+		"python.linting.flake8Args": [
+			"--max-line-length=88",
+			"--extend-ignore=E203"
+		],
+		"python.linting.flake8Enabled": true,
+		"python.linting.mypyCategorySeverity.error": "Hint",
+		"python.linting.mypyEnabled": true,
+		"python.sortImports.args": [
+			"--profile=black"
+		],
+		"python.terminal.activateEnvInCurrentTerminal": true,
+		"python.testing.pytestEnabled": true
+	},
+	"shutdownAction": "none",
+	"workspaceFolder": "/home/djuser/{{cookiecutter.github_repo}}"
+}

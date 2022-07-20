@@ -77,8 +77,9 @@ cookiecutter --directory another-template gh:datajoint-company/dj-cookiecutter
 
 - [`datajoint-workflow`](datajoint-workflow/README.md) by @Yambottle, @iamamutt
 - [`element-example`](element-example/README.md) created as initial examples for science-team, welcome changes or new templates for your own requirements
-
-> Note: the [`datajoint-workflow`](datajoint-workflow/README.md) template requires _cookiecutter>=2.0.0_
+- [`basic-package`](basic-package/README.md) by @iamamutt
+- 
+> Note: the [`datajoint-workflow`](datajoint-workflow/README.md) and [`basic-package`](basic-package/README.md) templates require _cookiecutter>=2.0.0_
 
 --- 
 

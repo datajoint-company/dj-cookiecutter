@@ -10,7 +10,8 @@
 			"workflow",
 			"template",
 			"folders",
-			"docker"
+			"docker",
+			"basic-package"
 		],
 		"files.exclude": {
 			"**/.DS_Store": true,
@@ -55,6 +56,18 @@
 			"reveal": "always",
 			"showReuseMessage": true
 		},
+		"inputs": [
+			{
+				"type": "pickString",
+				"id": "templateDirectory",
+				"description": "Which template directory to use?",
+				"options": [
+					"datajoint-workflow",
+					"basic-package"
+				],
+				"default": "basic-package"
+			}
+		],
 		"tasks": [
 			{
 				"label": "Cookiecutter replay",
@@ -87,7 +100,7 @@
 					"-o",
 					"build",
 					"--directory",
-					"datajoint-workflow",
+					"${input:templateDirectory}",
 					"."
 				],
 				"options": {
@@ -109,7 +122,7 @@
 					"build",
 					"--no-input",
 					"--directory",
-					"datajoint-workflow",
+					"${input:templateDirectory}",
 					"."
 				],
 				"options": {

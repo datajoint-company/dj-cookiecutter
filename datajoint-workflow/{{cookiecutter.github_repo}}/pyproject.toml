@@ -3,7 +3,8 @@ requires = ["setuptools>=62.0", "wheel>=0.37"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "{{cookiecutter.__project_name}}"
+name = "{{cookiecutter.__pkg_name}}"
+dynamic = ["version"]
 description = "A {{cookiecutter.organization}} Workflow for {{cookiecutter.workflow}}"
 readme = "README.md"
 requires-python = ">={{cookiecutter.python_version}}"
@@ -21,35 +22,47 @@ classifiers = [
     "License :: OSI Approved :: MIT License",
     "Programming Language :: Python :: 3",
 ]
-dynamic = ["version"]
 dependencies = [
-    "cryptography", # datajoint
-    "ipython",      # datajoint
-    "matplotlib",   # datajoint
-    "minio",        # datajoint
-    "networkx",     # datajoint
-    "numpy",        # datajoint
-    "otumat",       # datajoint
-    "pandas",       # datajoint
-    "pydot",        # datajoint
-    "pymysql",      # datajoint
-    "pyparsing",    # datajoint
-    "tqdm",         # datajoint
-    "urllib3",      # datajoint
-    "appdirs",      # djsciops-axon
-    "boto3",        # djsciops-axon
-    "flask",        # djsciops-axon
-    "click",        # {{cookiecutter.__pkg_import_name}}
-    "h5py",         # {{cookiecutter.__pkg_import_name}}
-    "plotly",       # {{cookiecutter.__pkg_import_name}}
-    "pyyaml",       # {{cookiecutter.__pkg_import_name}}
-    "scipy",        # {{cookiecutter.__pkg_import_name}}
-    "seaborn",      # {{cookiecutter.__pkg_import_name}}
-    "tomli",        # {{cookiecutter.__pkg_import_name}}
+    "cryptography",                                                                       # datajoint
+    "ipython",                                                                            # datajoint
+    "matplotlib",                                                                         # datajoint
+    "minio",                                                                              # datajoint
+    "networkx<2.8.3",                                                                     # datajoint
+    "numpy",                                                                              # datajoint
+    "otumat",                                                                             # datajoint
+    "pandas",                                                                             # datajoint
+    "pydot",                                                                              # datajoint
+    "pymysql",                                                                            # datajoint
+    "pyparsing",                                                                          # datajoint
+    "tqdm",                                                                               # datajoint
+    "urllib3",                                                                            # datajoint
+    "appdirs",                                                                            # djsciops-axon
+    "boto3",                                                                              # djsciops-axon
+    "flask",                                                                              # djsciops-axon
+    "click",                                                                              # {{cookiecutter.__pkg_import_name}}
+    "h5py",                                                                               # {{cookiecutter.__pkg_import_name}}
+    "plotly",                                                                             # {{cookiecutter.__pkg_import_name}}
+    "pyyaml",                                                                             # {{cookiecutter.__pkg_import_name}}
+    "scipy",                                                                              # {{cookiecutter.__pkg_import_name}}
+    "seaborn",                                                                            # {{cookiecutter.__pkg_import_name}}
+    "tomli",                                                                              # {{cookiecutter.__pkg_import_name}}
+    "datajoint>=0.13.7",                                                                  # {{cookiecutter.__pkg_import_name}} @ pypi
+    "datajoint-utilities @ git+https://github.com/datajoint-company/datajoint-utilities", # {{cookiecutter.__pkg_import_name}} @ pypi
+    "plotnine",                                                                           # {{cookiecutter.__pkg_import_name}} @ pypi
+    "polars",                                                                             # {{cookiecutter.__pkg_import_name}} @ pypi
 ]
 
 [project.optional-dependencies]
-dev = ["black", "isort", "flake8", "pre-commit", "nox", "mypy"]
+dev = [
+    "black",
+    "isort",
+    "flake8",
+    "pre-commit",
+    "nox",
+    "mypy",
+    "notebook",
+    "ipykernel",
+]
 doc = [
     "mkdocs",
     "mkdocstrings-python",
@@ -61,8 +74,11 @@ doc = [
     "pymdown-extensions",
     "mike",
 ]
-test = ["pytest"]
-sciops = ["ipykernel", "djsciops", "datajoint>=0.13.4"]
+test = ["pytest", "faker"]
+sciops = [
+    "dj-wft-cim @ git+https://github.com/{{cookiecutter.github_user}}/wt-causality-in-motion",
+    "djsciops",
+]
 
 [project.scripts]
 {{cookiecutter.__pkg_import_name}}_entrypoint = "{{cookiecutter.__pkg_import_name}}.populate.entrypoint:cli"
@@ -77,9 +93,15 @@ DataJoint = "https://docs.datajoint.org/"
 [tool.setuptools.dynamic]
 version = { attr = "{{cookiecutter.__pkg_import_name}}.__version__" }
 
+[tool.setuptools]
+package-data = { "*" = ["*.pyi", "py.typed"] }
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
 [tool.pytest.ini_options]
 minversion = "6.0"
-addopts = "-ra -q"
+addopts = "-rA"
 testpaths = ["tests"]
 
 [tool.black]
@@ -112,7 +134,11 @@ exclude = [
     "**/.ipynb_checkpoints",
     "**/__pycache__",
     "src/experimental",
+    "src/scratch",
+    "notebooks",
+    "tests"
 ]
+ignore = ["**/*.ipynb", "notebooks"]
 stubPath = "typings"
 reportMissingImports = true
 reportMissingTypeStubs = false

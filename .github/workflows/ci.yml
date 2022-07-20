@@ -23,7 +23,7 @@ jobs:
           create_annotated_tag: false
           fetch_all_tags: true
 
-  generate_datajoint_workflow_content:
+  generate_datajoint-workflow:
     runs-on: ubuntu-latest
     needs: [get_tag]
     if: |
@@ -31,6 +31,9 @@ jobs:
       (needs.get_tag.result == 'success') &&
       (github.ref_name == 'main') &&
       (github.ref_type == 'branch')
+    outputs:
+      artifact: ${{ steps.bake-cookies.outputs.artifact }}
+
     steps:
       - name: Checkout Repository for Local Action
         uses: actions/checkout@v3
@@ -44,16 +47,43 @@ jobs:
           folder: science-institute_brain-lab
           cookiecutter_pkg: git+https://github.com/cookiecutter/cookiecutter tomli pyyaml
           new_tag: ${{ needs.get_tag.outputs.new_tag }}
-    outputs:
-      artifact: ${{ steps.bake-cookies.outputs.artifact }}
 
-  make_release:
+  generate_basic-package:
     runs-on: ubuntu-latest
-    needs: [get_tag, generate_datajoint_workflow_content]
+    needs: [get_tag]
     if: |
       always() &&
       (needs.get_tag.result == 'success') &&
-      (needs.generate_datajoint_workflow_content.result == 'success')
+      (github.ref_name == 'main') &&
+      (github.ref_type == 'branch')
+    outputs:
+      artifact: ${{ steps.bake-cookies.outputs.artifact }}
+
+    steps:
+      - name: Checkout Repository for Local Action
+        uses: actions/checkout@v3
+
+      - name: Generate Content from 'basic-package' Template
+        id: bake-cookies
+        uses: ./.github/actions/bake-cookies
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          directory: basic-package
+          folder: datajoint_basic-package
+          cookiecutter_pkg: git+https://github.com/cookiecutter/cookiecutter tomli pyyaml
+          new_tag: ${{ needs.get_tag.outputs.new_tag }}
+
+
+
+  make_release:
+    runs-on: ubuntu-latest
+    needs: [get_tag, generate_datajoint-workflow, generate_basic-package]
+    if: |
+      always() &&
+      (needs.get_tag.result == 'success') &&
+      (needs.generate_datajoint-workflow.result == 'success') &&
+      (needs.generate_basic-package.result == 'success')
+
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v3
@@ -61,11 +91,18 @@ jobs:
       - name: Downloading 'datajoint-workflow' Artifact Content
         uses: actions/download-artifact@v3
         with:
-          name: ${{ needs.generate_datajoint_workflow_content.outputs.artifact }}
-          path: ${{ needs.generate_datajoint_workflow_content.outputs.artifact }}
+          name: ${{ needs.generate_datajoint-workflow.outputs.artifact }}
+          path: ${{ needs.generate_datajoint-workflow.outputs.artifact }}
+
+      - name: Downloading 'basic-package' Artifact Content
+        uses: actions/download-artifact@v3
+        with:
+          name: ${{ needs.generate_basic-package.outputs.artifact }}
+          path: ${{ needs.generate_basic-package.outputs.artifact }}
 
       - run: |
-          tar -zcf ${{ needs.generate_datajoint_workflow_content.outputs.artifact }}.tar.gz ${{ needs.generate_datajoint_workflow_content.outputs.artifact }}
+          tar -zcf ${{ needs.generate_datajoint-workflow.outputs.artifact }}.tar.gz ${{ needs.generate_datajoint-workflow.outputs.artifact }}
+          tar -zcf ${{ needs.generate_basic-package.outputs.artifact }}.tar.gz ${{ needs.generate_basic-package.outputs.artifact }}
 
       - name: Create a Release
         uses: ncipollo/release-action@v1
@@ -77,4 +114,5 @@ jobs:
           allowUpdates: true
           generateReleaseNotes: true
           artifacts: |
-            ${{ needs.generate_datajoint_workflow_content.outputs.artifact }}.tar.gz
+            ${{ needs.generate_datajoint-workflow.outputs.artifact }}.tar.gz
+            ${{ needs.generate_basic-package.artifact }}.tar.gz

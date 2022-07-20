@@ -1,79 +1,57 @@
 # Docker Containers
 
-TODO: docker things
-- test image builds for resuable workflows
-- labhub multi conda envs 
-- actions checkout 
+See [djsciops-cicd](https://github.com/dj-sciops/djsciops-cicd) for more info.
 
-Create a `.env` file and the change any variables as necessary, then source those variables for later use.
+## Pushing an image to the datajoint container repository
+
+- check your remote
 
 ```bash
-cat <<-EOF > ./docker/.env
-COMPOSE_PROJECT_NAME={{cookiecutter.__project_name}}
-JHUB_VER=1.4.2
-PY_VER={{cookiecutter.python_version}}
-DIST=debian
-DEPLOY_KEY={{cookiecutter.github_repo}}-deploy.pem
-REPO_OWNER={{cookiecutter.github_user}}
-REPO_NAME={{cookiecutter.github_repo}}
-WORKFLOW_VERSION=v{{cookiecutter._pkg_version}}
-HOST_UID=1000
-HOST_GID=1000
-DJ_HOST=host.docker.internal
-DJ_USER=root
-DJ_PASS=simple
-EOF
-set +a
-source .env
-set -a
+git remote -v
+# origin  https://github.com/{{cookiecutter.github_user}}/{{cookiecutter.github_repo}} (fetch)
+# origin  https://github.com/{{cookiecutter.github_user}}/{{cookiecutter.github_repo}} (push)
 ```
 
-## CodeBook Environment
-
-### Docker Build and Run
-
-Change to the `docker` directory so that the docker build context is the current working directory.
+- add upstream remote
 
 ```bash
-cd docker
-docker build \
-  $(cat .env | while read li; do echo --build-arg ${li}; done | xargs) \
-  --file codebook.Dockerfile \
-  --tag registry.vathes.com/${REPO_OWNER}/codebook-${REPO_NAME}:jhub${JHUB_VER}-py${PY_VER}-${DIST}-${WORKFLOW_VERSION} \
-  .
+git remote add upstream https://github.com/dj-sciops/{{cookiecutter.github_repo}}
+# origin  https://github.com/{{cookiecutter.github_user}}/{{cookiecutter.github_repo}} (fetch)
+# origin  https://github.com/{{cookiecutter.github_user}}/{{cookiecutter.github_repo}} (push)
+# upstream  https://github.com/dj-sciops/{{cookiecutter.github_repo}} (fetch)
+# upstream  https://github.com/dj-sciops/{{cookiecutter.github_repo}} (push)
 ```
 
+- create a local branch from remote upstream/main and switch to it
+
 ```bash
-docker run -it \
-  --platform linux/amd64 \
-  --name {{cookiecutter.__project_name}} \
-  --user root \
-  registry.vathes.com/${REPO_OWNER}/codebook-${REPO_NAME}:jhub${JHUB_VER}-py${PY_VER}-${DIST}-${WORKFLOW_VERSION} \
-  bash
+git fetch upstream
+git switch -c upstream-main upstream/main
 ```
 
-### Docker Compose
-
-Will automatically load environment variables from `.env` file.
+- push a tag
 
 ```bash
-cd docker
-docker-compose -f docker-compose-codebook_env.yaml up --detach --force-recreate --remove-orphans --build
+git tag 0.1.1 # recreate local tag
+git push upstream 0.1.1 # recreate remote tag and trigger CICD
+```
+
+- if something went wrong, delete a tag
+
+```bash
+git push upstream --delete 0.1.1 # delete remote tag
+git tag -d 0.1.1 # delete local tag
+```
+
+- switch back to your local main branch
+
+```bash
+git switch main
 ```
 
 ## Standard Worker Environment
 
-TODO: add description 
-
-
-### Docker Compose
-
-Will automatically load environment variables from `.env` file.
-
-```bash
-cd docker
-docker-compose -f docker-compose-standard_worker.yaml up --detach --force-recreate --remove-orphans --build
-```
+TODO: add description
 
 ## Devcontainer Environment
 
@@ -81,7 +59,7 @@ docker-compose -f docker-compose-standard_worker.yaml up --detach --force-recrea
 
 ### VSCode
 
-You can either open to the docker folder directly from vscode and it'll prompt you to open the devcontainer, or use the supplied script below. 
+You can either open to the docker folder directly from vscode and it'll prompt you to open the devcontainer, or use the supplied script below.
 
 ```bash
 chmod +x docker/.devcontainer/vscode-open-dev-container
@@ -93,6 +71,36 @@ docker/.devcontainer/vscode-open-dev-container
 Will automatically load environment variables from `.env` file.
 
 ```bash
-cd docker
-docker-compose -f docker-compose-devcontainer_env.yaml up --detach --force-recreate --remove-orphans --build
+cd docker/.devcontainer
+docker-compose up --detach --force-recreate --remove-orphans --build
+```
+
+### Docker Build and Run
+
+Example building one of the stages from the Dockerfile
+
+**Stage**: `micromamba_debian`
+
+```bash
+cd docker/.devcontainer/build
+PLTARCH=$(uname -m)              # target architecture for platform
+MSTARG=micromamba_debian         # multi-stage build target name
+IMGTAG=devcontainer:v0.0.1       # image tag
+DCNAME=sciops-devcontainer       # container name
+DCUSER=djuser                    # container user
+```
+
+```bash
+# build
+docker build --platform=linux/${PLTARCH?} --target=$MSTARG --tag=$IMGTAG .
+
+# start container
+docker run --rm -itdu "$DCUSER:docker" --name $DCNAME $IMGTAG bash
+
+# execute a command to running container as root
+DCID=$(docker ps -aqf "name=$DCNAME")
+docker exec -u "root:docker" ${DCID?} chown $DCUSER:docker /usr/local/conda-meta/history
+
+# stop container
+docker stop $DCNAME
 ```

@@ -2,7 +2,7 @@ _View the latest documentation site here:_ [{{cookiecutter.docs_url}}]({{cookiec
 
 <!--intro-start-->
 
-# `{{cookiecutter.__project_name}}`
+# `{{cookiecutter.__pkg_name}}`
 
 _A {{cookiecutter.organization}} Workflow for {{cookiecutter.workflow}}_
 
@@ -84,9 +84,102 @@ DataJoint LabBook displays data from your database.
 
 ...
 
-### DataJoint Axon (Data Upload)
+### DataJoint Axon (Data Upload/Download)
 
-...
+
+#### Axon GUI 
+
+1. In the Axon app, on the lower left side, click the 'gear' icon (Config). Enter the following information in each field (See the `Misc` section below for what the generated `json` config file will look like once configured):
+
+- AWS Account ID: `123456789012`
+
+- DataJoint Account Client ID: `xxxxxxxxxxxxxxxxxxxxxx`
+
+- S3 Role: `{{cookiecutter.github_repo}}_researcher_prod`
+
+- S3 Bucket: `dj-sciops`
+
+2. At the top right of the Axon app, click the 'circle arrow' icon (Token). This will open a browser to be able to sign in with your DataJoint account and generate a temporary token.
+
+3. Select the 'S3 Bucket' tab on the left side of the Axon app. Enter the following information to view the current list of files uploaded, the press 'Load':
+
+- S3 Bucket Directory: `{{cookiecutter.github_repo}}/inbox/`
+
+4. To upload a folder to a subfolder within the 'S3 Bucket Directory', for example to upload the subject data folder 'SUBJ100' from your local machine, enter the following path on S3: `{{cookiecutter.github_repo}}/inbox/SUBJ100/`
+
+#### Axon CLI
+
+Environment variables for configuration (you can set these to bypass the prompts for user input): 
+
+```bash
+# AWS Account ID
+export DJSCIOPS_AWS_ACCOUNT_ID=
+
+# S3 Role
+export DJSCIOPS_S3_ROLE=
+
+# S3 Bucket
+export DJSCIOPS_S3_BUCKET=
+
+# DataJoint Account Client ID
+export DJSCIOPS_DJAUTH_CLIENT_ID=
+```
+
+##### `upload`
+
+- See help  
+
+```bash 
+./djsciops axon upload --help
+```
+
+```
+usage: djsciops axon upload [-h] source destination
+
+Copy objects by uploading to object store.
+
+options:
+  -h, --help   show this help message and exit
+
+required named arguments:
+  source       Source file or directory on client.
+  destination  Target directory in object store.
+```
+
+
+- Upload data from a folder: 
+
+```bash
+djsciops axon upload ./data/SUBJ100 {{cookiecutter.github_repo}}_researcher_prod/inbox/SUBJ100/
+```
+
+- Upload a file to an existing folder: 
+
+```bash
+djsciops axon upload ./data/meta.csv {{cookiecutter.github_repo}}_researcher_prod/inbox/SUBJ100/
+```
+
+
+#### Axon Misc
+
+##### Config file 
+
+```yml
+aws:
+  account_id: '123456789012'
+boto3:
+  max_concurrency: 10
+  multipart_chunksize: 25600
+  multipart_threshold: 25600
+  use_threads: true
+djauth:
+  client_id: xxxxxxxxxxxxxxxxxxxxxx
+s3:
+  bucket: {{cookiecutter.github_user}}
+  role: {{cookiecutter.github_repo}}_researcher_prod
+version: 1.2.0
+```
+
 
 ### DataJoint CodeBook (JupyterHub)
 
@@ -108,7 +201,7 @@ First, clone a local copy of the [project repository](https://github.com/{{cooki
 
 ```bash
 git clone https://github.com/{{cookiecutter.github_user}}/{{cookiecutter.github_repo}}.git
-cd "{{cookiecutter.__project_name}}"
+cd "{{cookiecutter.__pkg_name}}"
 ```
 
 ### 2. Create a new python environment
@@ -127,7 +220,7 @@ mamba env create -f environment.yml --force
 conda activate {{cookiecutter.__pkg_import_name}}
 ```
 
-### 3. Install the package `{{cookiecutter.__project_name}}`
+### 3. Install the package `{{cookiecutter.__pkg_name}}`
 
 After the new virtual environment has been created and activated, install this python package using `pip>=62.0` (`pip` is already in the list of requirements from the `environment.yml` file).
 
@@ -140,7 +233,7 @@ pip install .
 If you need to uninstall the package, do so with `pip`:
 
 ```bash
-pip uninstall {{cookiecutter.__project_name}}
+pip uninstall {{cookiecutter.__pkg_name}}
 ```
 
 #### Additional setup for local development and testing

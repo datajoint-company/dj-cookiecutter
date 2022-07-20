@@ -1,0 +1,29 @@
+{
+    "author_name": "FirstName LastName",
+    "author_email": "{{cookiecutter.author_name|words(1)|lower}}@datajoint.com",
+    "organization": "DataJoint",
+    "package_name": "basic-package",
+    "__pkg_name": "{{cookiecutter.package_name|slugify}}",
+    "__pkg_import_name": "{{cookiecutter.package_name|slugify(separator='_')}}",
+    "github_user": [
+        "datajoint-company",
+        "datajoint",
+        "dj-sciops",
+        "iamamutt",
+        "ttngu207",
+        "yambottle",
+        "other-gh-username"
+    ],
+    "github_repo": "{{cookiecutter.organization|slugify}}_{{cookiecutter.__pkg_name}}",
+    "python_version": [
+        "3.10",
+        "3.11",
+        "3.9"
+    ],
+    "_vscode_ws_name": "pyproject",
+    "_pkg_version": "0.0.0",
+    "_extensions": [
+        "extensions.words"
+    ],
+    "_new_lines": "\n"
+}

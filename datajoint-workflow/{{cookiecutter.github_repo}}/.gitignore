@@ -62,9 +62,11 @@ MANIFEST
 /.env
 
 # DataJoint files
-{{cookiecutter._djconfig}}
+dj_local_conf.json
 .datajoint_config.json
 
 # Misc files/folders
+pyproject.code-workspace
 scratch/*
-src/{{cookiecutter.__pkg_import_name}}/scratch/*
+src/{{cookiecutter.__pkg_import_name}}/experimental/*
+./.junk
