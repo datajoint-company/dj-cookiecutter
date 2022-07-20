@@ -1,3 +1,7 @@
 *.pem
-.env
-!.datajoint_config.json
+*.env
+codebook_env
+!build.env
+!run.example.env
+!**/.devcontainer/build
+!**/.devcontainer/build/settings/.datajoint_config.json

@@ -2,7 +2,7 @@
 {
 	"name": "brain-lab (devcontainer)",
 	"dockerComposeFile": [
-		"../docker-compose-devcontainer_env.yaml"
+		"./docker-compose.yml"
 	],
 	// Add the IDs of extensions you want installed when the container is created.
 	"extensions": [
@@ -15,7 +15,7 @@
 		"vivaxy.vscode-conventional-commits",
 		"yzhang.markdown-all-in-one"
 	],
-	"initializeCommand": "test -f \"${localWorkspaceFolder}/.env\" || exit 7",
+	// "initializeCommand": "test -f \"${localWorkspaceFolder}/.devcontainer/.env\" || exit 7",
 	"service": "devcontainer_env",
 	// Set *default* container specific settings.json values on container create.
 	"settings": {
@@ -35,8 +35,6 @@
 			"module",
 			"docker"
 		],
-		"djcookiecutter.condaExec": "mamba",
-		"djcookiecutter.localPath": "${env:HOME}/Documents/datajoint/dj-cookiecutter",
 		"files.exclude": {
 			"**/.DS_Store": true,
 			"**/.git": true,
@@ -53,7 +51,7 @@
 			"build": true,
 			"src/*.egg-info": true
 		},
-		"jupyter.alwaysScrollOnNewCell": true,
+		"interactiveWindow.alwaysScrollOnNewCell": true,
 		"jupyter.generateSVGPlots": true,
 		"jupyter.interactiveWindowMode": "single",
 		"jupyter.notebookFileRoot": "${workspaceFolder}",
@@ -65,7 +63,7 @@
 			"reportGeneralTypeIssues": "information"
 		},
 		"python.analysis.typeCheckingMode": "basic",
-		"python.defaultInterpreterPath": "/usr/local/bin/python",
+		"python.defaultInterpreterPath": "/opt/local/conda/bin/python",
 		"python.formatting.blackArgs": [
 			"--line-length=88"
 		],
@@ -85,5 +83,5 @@
 		"python.testing.pytestEnabled": true
 	},
 	"shutdownAction": "none",
-	"workspaceFolder": "/home/dj-sciops/science-institute_brain-lab"
+	"workspaceFolder": "/home/djuser/science-institute_brain-lab"
 }

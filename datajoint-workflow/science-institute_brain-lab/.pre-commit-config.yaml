@@ -12,7 +12,7 @@ repos:
 
   # out-of-the-box hooks
   - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v4.2.0
+    rev: v4.3.0
     hooks:
       - id: check-case-conflict
       - id: detect-private-key
@@ -31,7 +31,7 @@ repos:
 
   # run black code formatter on python files
   - repo: https://github.com/psf/black
-    rev: 22.3.0
+    rev: 22.6.0
     hooks:
       - id: black
         args:
@@ -65,11 +65,11 @@ repos:
     rev: 4.0.1
     hooks:
       - id: flake8
-        exclude: ^tests/(integration/fixtures|unit/data)/
+        exclude: (^tests/(integration/fixtures|unit/data)/)|(notebooks/)
         args:
           # making isort line length compatible with black
           # https://flake8.pycqa.org/en/latest/user/error-codes.html
           - "--max-line-length=88"
           - "--max-complexity=18"
           - "--select=B,C,E,F,W,T4,B9"
-          - "--ignore=E203,E266,E501,W503,F403,F401,E402"
+          - "--ignore=E203,E266,E501,W503,F403,F401,E402,E741"

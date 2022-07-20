@@ -1,3 +1,4 @@
+# type: ignore
 """Nox sessions.
 
 - https://nox.thea.codes/en/stable/tutorial.html
@@ -17,13 +18,13 @@ nox.options.sessions = ["write_version", "docs", "pytest"]
 nox.options.pythons = [default_python_version]
 
 
-def install_dependencies(session: nox.Session, *extras: str) -> None:
+def install_dependencies(session, *extras):
     session.install("setuptools>=62.0", "wheel>=0.37")
     extras = extras or ("test",)
     session.run("pip", "install", f".[{','.join(extras)}]")
 
 
-def parse_session_posargs(args: list[str]) -> argparse.Namespace:
+def parse_session_posargs(args):
     class SplitCSA(argparse.Action):
         def __call__(self, parser, namespace, values, option_string=None):
             if values:
@@ -65,16 +66,11 @@ def parse_session_posargs(args: list[str]) -> argparse.Namespace:
         help="Flag to force exception on failed session run.",
         action="store_true",
     )
-    parsed_args: argparse.Namespace = parser.parse_args(args)
+    parsed_args = parser.parse_args(args)
     return parsed_args
 
 
-def git_action_bot(
-    session: nox.Session,
-    add: list[str] = None,
-    commit: list[str] = None,
-    push: list[str] = None,
-) -> None:
+def git_action_bot(session, add=None, commit=None, push=None):
     session.log("Configuring git user and email.")
     session.run(
         "git", "config", "--local", "user.name", "github-actions[bot]", external=True
@@ -102,7 +98,7 @@ def git_action_bot(
 
 
 @nox.session(python=default_python_version, reuse_venv=True)
-def main_cli(session: nox.Session) -> None:
+def main_cli(session):
     """Install all dependencies then run package main cli with arg '--version'.
 
     nox -s main_cli
@@ -113,15 +109,15 @@ def main_cli(session: nox.Session) -> None:
 
 
 @nox.session(python=default_python_version, reuse_venv=True)
-def write_version(session: nox.Session) -> None:
+def write_version(session):
     """Bump version.py to the latest version.
 
     nox -s write_version -- --version 0.0.1
     """
 
-    args: argparse.Namespace = parse_session_posargs(session.posargs)
-    version: str = args.version.pop()
-    prev_ver: str = args.prev_ver.pop()
+    args = parse_session_posargs(session.posargs)
+    version = args.version.pop()
+    prev_ver = args.prev_ver.pop()
 
     if version == prev_ver:
         session.log(f"Skipping overwriting 'version.py' to '{version}'")
@@ -136,15 +132,15 @@ def write_version(session: nox.Session) -> None:
 
 
 @nox.session(python=default_python_version, reuse_venv=True)
-def pre_commit(session: nox.Session) -> None:
+def pre_commit(session):
     """Run pre-commit.
 
     nox -s pre_commit -- --pre-commit-hooks=black,isort --fail
     """
 
-    args: argparse.Namespace = parse_session_posargs(session.posargs)
-    hooks: list[str] = args.pre_commit_hooks
-    raise_exception: bool = args.fail
+    args = parse_session_posargs(session.posargs)
+    hooks = args.pre_commit_hooks
+    raise_exception = args.fail
 
     install_dependencies(session, "dev")
     session.run("pre-commit", "install")
@@ -165,10 +161,10 @@ def pre_commit(session: nox.Session) -> None:
             os.remove(log_file)
 
     if failed_hooks:
-        failed_str = "Failed pre-commit hooks:"
-        failed_str += "".join(
+        failed_str = "Failed pre-commit hooks:" + "".join(
             [f"\n::{hk}\n\n{txt}\n" for hk, txt in failed_hooks.items()]
         )
+
         if raise_exception:
             session.error(failed_str)
         else:
@@ -176,7 +172,7 @@ def pre_commit(session: nox.Session) -> None:
 
 
 @nox.session(python=nox.options.pythons)
-def pytest(session: nox.Session) -> None:
+def pytest(session):
     """Run tests using pytest.
 
     nox -s pytest
@@ -188,18 +184,18 @@ def pytest(session: nox.Session) -> None:
 
 
 @nox.session(python=default_python_version, reuse_venv=True)
-def docs(session: nox.Session) -> None:
+def docs(session):
     """Build the latest documentation w/ mkdocs and mike.
 
     nox -s docs -- --version v0.0
     """
 
-    args: argparse.Namespace = parse_session_posargs(session.posargs)
-    docs_version: str = args.version.pop()
-    docs_alias: str = "latest"
-    index_html: bool = args.index_html
+    args = parse_session_posargs(session.posargs)
+    docs_version = args.version.pop()
+    docs_alias = "latest"
+    index_html = args.index_html
 
-    ver_regex: re.Pattern = re.compile(
+    ver_regex = re.compile(
         r"^(?P<tag>v?)"
         r"(?P<major>[0-9]+)\."
         r"(?P<minor>[0-9]+)\."
@@ -235,7 +231,7 @@ def docs(session: nox.Session) -> None:
 
 
 @nox.session(python=default_python_version, reuse_venv=True)
-def docs_no_ver(session: nox.Session) -> None:
+def docs_no_ver(session):
     """Build the documentation w/ mkdocs.
 
     nox -s docs_no_ver

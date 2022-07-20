@@ -20,7 +20,6 @@
 			"ms-vscode-remote.remote-ssh-edit",
 			"ms-vscode-remote.vscode-remote-extensionpack",
 			"ms-vscode.live-server",
-			"ms-vscode.vscode-typescript-tslint-plugin",
 			"njpwerner.autodocstring",
 			"redhat.vscode-yaml",
 			"tamasfe.even-better-toml",
@@ -58,46 +57,49 @@
 		"djcookiecutter.condaExec": "mamba",
 		"djcookiecutter.localPath": "${env:HOME}/Documents/datajoint/dj-cookiecutter",
 		"files.exclude": {
-			".mypy_cache": true,
-			".nox": true,
-			".pytest_cache": true,
-			"*.command": true,
-			"**/__pycache__": true,
+			"**/*.egg-info": true,
 			"**/.DS_Store": true,
 			"**/.git": true,
 			"**/.hg": true,
 			"**/.ipynb_checkpoints": true,
 			"**/.svn": true,
-			"**/*.egg-info": true,
 			"**/CVS": true,
 			"**/Thumbs.db": true,
+			"**/__pycache__": true,
+			"*.command": true,
+			".mypy_cache": true,
+			".nox": true,
+			".pytest_cache": true,
 			"build": true
 		},
-		"jupyter.alwaysScrollOnNewCell": true,
+		"interactiveWindow.alwaysScrollOnNewCell": true,
 		"jupyter.generateSVGPlots": true,
 		"jupyter.interactiveWindowMode": "single",
 		"jupyter.notebookFileRoot": "${workspaceFolder}",
 		"jupyter.sendSelectionToInteractiveWindow": true,
 		"jupyter.themeMatplotlibPlots": true,
 		"python.analysis.completeFunctionParens": true,
-		"python.analysis.diagnosticMode": "workspace",
+		"python.analysis.diagnosticMode": "openFilesOnly",
 		"python.analysis.diagnosticSeverityOverrides": {
-			"reportGeneralTypeIssues": "none"
+			"reportGeneralTypeIssues": "none",
+			"reportMissingTypeStubs": "none"
 		},
-		"python.analysis.typeCheckingMode": "basic",
+		"python.analysis.logLevel": "Information",
+		"python.analysis.typeCheckingMode": "off",
+		"python.analysis.useLibraryCodeForTypes": true,
 		"python.defaultInterpreterPath": "${env:CONDA_ENV_ROOT}/brain_lab",
 		"python.formatting.blackArgs": [
 			"--line-length=88"
 		],
 		"python.formatting.provider": "black",
 		"python.languageServer": "Pylance",
+		"python.linting.enabled": true,
 		"python.linting.flake8Args": [
 			"--max-line-length=88",
-			"--extend-ignore=E203"
+			"--extend-ignore=E203,E501,E402"
 		],
 		"python.linting.flake8Enabled": true,
-		"python.linting.mypyCategorySeverity.error": "Hint",
-		"python.linting.mypyEnabled": true,
+		"python.linting.mypyEnabled": false,
 		"python.sortImports.args": [
 			"--profile=black"
 		],
@@ -116,6 +118,7 @@
 				"env": {
 					"PYTHONPATH": "${workspaceFolder}/src"
 				},
+				"justMyCode": false,
 				"request": "launch"
 			},
 			{
@@ -350,11 +353,33 @@
 			{
 				"label": "mypy: generate stubs",
 				"type": "shell",
-				"command": "stubgen",
+				"command": "conda",
 				"args": [
+					"run",
+					"--no-capture-output",
+					"-n",
+					"brain_lab",
+					"stubgen",
 					"src",
 					"-o",
-					"typings"
+					"typings",
+					"--include-private"
+				]
+			},
+			{
+				"label": "mypy: generate file stub",
+				"type": "shell",
+				"command": "conda",
+				"args": [
+					"run",
+					"--no-capture-output",
+					"-n",
+					"brain_lab",
+					"stubgen",
+					"${fileDirname}/${fileBasenameNoExtension}.py",
+					"-o",
+					"typings",
+					"--include-private"
 				]
 			},
 			{
@@ -391,7 +416,7 @@
 			{
 				"label": "cookiecutter: replay",
 				"type": "shell",
-				"command": "**/*/replay.sh",
+				"command": "scripts/replay/replay.sh",
 				"args": [
 					"-r",
 					".",
@@ -399,6 +424,10 @@
 					"datajoint-workflow",
 					"-n",
 					"cookies",
+					"-i",
+					"'pyproject.code-workspace'",
+					"-i",
+					"'dj_local_conf.json'",
 					"'${workspaceFolder}'"
 				],
 				"options": {
@@ -412,7 +441,7 @@
 				"args": [
 					"*.code-workspace",
 					"&&",
-					"**/*/retrocookie.sh",
+					"scripts/retrocookie/retrocookie.sh",
 					"-d",
 					"datajoint-workflow",
 					"-n",
@@ -422,21 +451,11 @@
 					"-i",
 					"'docs/assets/*'",
 					"-i",
+					"'environment.yml'",
+					"-i",
+					"'docker/brain_lab_local/.devcontainer/build/requirements'",
+					"-i",
 					"'src/brain_lab/*'",
-					"-i",
-					"'!src/brain_lab/__init__.py'",
-					"-i",
-					"'!src/brain_lab/__main__.py'",
-					"-i",
-					"'!src/brain_lab/populate/entrypoint.py'",
-					"-i",
-					"'!src/brain_lab/pipeline/.gitignore'",
-					"-i",
-					"'!src/brain_lab/support/.gitignore'",
-					"-i",
-					"'!src/brain_lab/tables/.gitignore'",
-					"-i",
-					"'!src/brain_lab/utils/.gitignore'",
 					"${workspaceFolder}"
 				],
 				"options": {

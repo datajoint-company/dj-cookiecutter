@@ -1,9 +1,0 @@
-# template for required information to use Axon.
-version: "0.2.1"
-aws:
-  account_id: ""
-s3:
-  role: ""
-  bucket: ""
-djauth:
-  client_id: ""

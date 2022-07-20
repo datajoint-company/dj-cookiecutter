@@ -4,6 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "brain-lab"
+dynamic = ["version"]
 description = "A Science Institute Workflow for Brain Lab"
 readme = "README.md"
 requires-python = ">=3.9"
@@ -21,35 +22,47 @@ classifiers = [
     "License :: OSI Approved :: MIT License",
     "Programming Language :: Python :: 3",
 ]
-dynamic = ["version"]
 dependencies = [
-    "cryptography", # datajoint
-    "ipython",      # datajoint
-    "matplotlib",   # datajoint
-    "minio",        # datajoint
-    "networkx",     # datajoint
-    "numpy",        # datajoint
-    "otumat",       # datajoint
-    "pandas",       # datajoint
-    "pydot",        # datajoint
-    "pymysql",      # datajoint
-    "pyparsing",    # datajoint
-    "tqdm",         # datajoint
-    "urllib3",      # datajoint
-    "appdirs",      # djsciops-axon
-    "boto3",        # djsciops-axon
-    "flask",        # djsciops-axon
-    "click",        # brain_lab
-    "h5py",         # brain_lab
-    "plotly",       # brain_lab
-    "pyyaml",       # brain_lab
-    "scipy",        # brain_lab
-    "seaborn",      # brain_lab
-    "tomli",        # brain_lab
+    "cryptography",                                                                       # datajoint
+    "ipython",                                                                            # datajoint
+    "matplotlib",                                                                         # datajoint
+    "minio",                                                                              # datajoint
+    "networkx<2.8.3",                                                                     # datajoint
+    "numpy",                                                                              # datajoint
+    "otumat",                                                                             # datajoint
+    "pandas",                                                                             # datajoint
+    "pydot",                                                                              # datajoint
+    "pymysql",                                                                            # datajoint
+    "pyparsing",                                                                          # datajoint
+    "tqdm",                                                                               # datajoint
+    "urllib3",                                                                            # datajoint
+    "appdirs",                                                                            # djsciops-axon
+    "boto3",                                                                              # djsciops-axon
+    "flask",                                                                              # djsciops-axon
+    "click",                                                                              # brain_lab
+    "h5py",                                                                               # brain_lab
+    "plotly",                                                                             # brain_lab
+    "pyyaml",                                                                             # brain_lab
+    "scipy",                                                                              # brain_lab
+    "seaborn",                                                                            # brain_lab
+    "tomli",                                                                              # brain_lab
+    "datajoint>=0.13.7",                                                                  # brain_lab @ pypi
+    "datajoint-utilities @ git+https://github.com/datajoint-company/datajoint-utilities", # brain_lab @ pypi
+    "plotnine",                                                                           # brain_lab @ pypi
+    "polars",                                                                             # brain_lab @ pypi
 ]
 
 [project.optional-dependencies]
-dev = ["black", "isort", "flake8", "pre-commit", "nox", "mypy"]
+dev = [
+    "black",
+    "isort",
+    "flake8",
+    "pre-commit",
+    "nox",
+    "mypy",
+    "notebook",
+    "ipykernel",
+]
 doc = [
     "mkdocs",
     "mkdocstrings-python",
@@ -61,8 +74,11 @@ doc = [
     "pymdown-extensions",
     "mike",
 ]
-test = ["pytest"]
-sciops = ["ipykernel", "djsciops", "datajoint>=0.13.4"]
+test = ["pytest", "faker"]
+sciops = [
+    "dj-wft-cim @ git+https://github.com/dj-sciops/wt-causality-in-motion",
+    "djsciops",
+]
 
 [project.scripts]
 brain_lab_entrypoint = "brain_lab.populate.entrypoint:cli"
@@ -77,9 +93,15 @@ DataJoint = "https://docs.datajoint.org/"
 [tool.setuptools.dynamic]
 version = { attr = "brain_lab.__version__" }
 
+[tool.setuptools]
+package-data = { "*" = ["*.pyi", "py.typed"] }
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
 [tool.pytest.ini_options]
 minversion = "6.0"
-addopts = "-ra -q"
+addopts = "-rA"
 testpaths = ["tests"]
 
 [tool.black]
@@ -112,7 +134,11 @@ exclude = [
     "**/.ipynb_checkpoints",
     "**/__pycache__",
     "src/experimental",
+    "src/scratch",
+    "notebooks",
+    "tests"
 ]
+ignore = ["**/*.ipynb", "notebooks"]
 stubPath = "typings"
 reportMissingImports = true
 reportMissingTypeStubs = false

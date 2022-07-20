@@ -1,6 +1,6 @@
 {
     "__pkg_import_name": "brain_lab",
-    "__project_name": "brain-lab",
+    "__pkg_name": "brain-lab",
     "_copy_without_render": [
         "docs/assets/*.svg",
         "docs/assets/setup/*.png",
@@ -9,6 +9,7 @@
     ],
     "_djconfig": "dj_local_conf.json",
     "_pkg_version": "0.0.0",
+    "_vscode_ws_name": "pyproject",
     "author_email": "firstname@datajoint.com",
     "author_name": "FirstName LastName",
     "docs_url": "https://dj-sciops.github.io/science-institute_brain-lab",

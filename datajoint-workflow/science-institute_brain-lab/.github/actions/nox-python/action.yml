@@ -11,7 +11,7 @@ inputs:
   hash_file:
     description: "Path to a file used to hash as a cache key not named 'requirements.txt'"
     required: false
-    default: "pyproject.toml"
+    default: "environment.yml"
 
   key_append:
     description: "String used to append to the cache key"
@@ -32,7 +32,7 @@ runs:
 
     - name: 🐍  Use python
       id: use-python
-      uses: actions/setup-python@v3
+      uses: actions/setup-python@v4
       with:
         python-version: ${{ inputs.py_ver }}
         cache: "pip"
@@ -53,8 +53,6 @@ runs:
           .nox
           ${{ inputs.extra_path }}
         key: ${{ runner.os }}-nox-${{ inputs.key_append }}${{ hashFiles('.requirements.txt') }}
-        restore-keys: |
-          ${{ runner.os }}-nox-
 
     - name: Delete requirements.txt
       run: rm -f .requirements.txt

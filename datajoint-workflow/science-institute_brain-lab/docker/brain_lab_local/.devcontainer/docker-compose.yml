@@ -1,0 +1,78 @@
+#  > docker-compose -f docker/brain_lab_local/.devcontainer/docker-compose.yml up -V --detach --force-recreate --remove-orphans --build
+#  > docker-compose -f docker/brain_lab_local/.devcontainer/docker-compose.yml down --volumes
+
+version: "3.9"
+services:
+  mysql_sciops:
+    environment:
+      MYSQL_ROOT_PASSWORD: ${DJ_PASS:-simple}
+      MYSQL_USER: djuser
+      MYSQL_PASSWORD: djuser
+    image: datajoint/mysql:5.7
+    networks:
+      brain_lab:
+    platform: linux/amd64
+    ports:
+      - 6603:3306
+    restart: always
+    volumes:
+      - sciops-sqldata:/var/lib/mysql
+    command: --default-authentication-plugin=mysql_native_password
+
+  devcontainer_env:
+    build:
+      context: ../../../.
+      dockerfile: docker/brain_lab_local/.devcontainer/build/Dockerfile
+      args:
+        REPO_NAME: science-institute_brain-lab
+        WORKFLOW_VERSION: v0.0.0
+    image: ghcr.io/iamamutt/science-institute_brain-lab:latest
+    depends_on:
+      mysql_sciops:
+        condition: service_healthy
+    environment:
+      DJ_HOST: mysql_sciops
+      DJ_PASS: ${DJ_PASS:-simple}
+      DJ_USER: ${DJ_USER:-root}
+    init: true
+    tty: true
+    networks:
+      brain_lab:
+    ports:
+      - 18888:8888
+    volumes:
+      - ../../..:/home/djuser/science-institute_brain-lab
+      - vscode:/home/djuser/.vscode-server/extensions
+      - /home/djuser/science-institute_brain-lab/.nox
+      - /home/djuser/science-institute_brain-lab/src/brain_lab.egg-info
+
+  # MySQL GUI --------------
+  # http://localhost:8087/
+  # System: PostgreSQL
+  # Server: mysql_sciops
+  # Username: root
+  # Password: simple
+  adminer:
+    environment:
+      ADMINER_DEFAULT_SERVER: mysql_sciops
+      ADMINER_DESIGN: nette
+    image: adminer
+    networks:
+      brain_lab:
+    ports:
+      - target: 8080
+        published: 8087
+    restart: always
+    depends_on:
+      mysql_sciops:
+        condition: service_started
+
+networks:
+  brain_lab:
+    name: brain-lab-network
+
+volumes:
+  sciops-sqldata:
+    name: brain-lab-vol-sciops-sqldata
+  vscode:
+    name: brain-lab-vol-vscode
